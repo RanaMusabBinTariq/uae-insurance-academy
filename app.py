@@ -732,7 +732,7 @@ elif nav == "🌍  UAE Insurance Landscape":
             <tr>
               <td><span class="badge badge-cyan">DOH / HAAD</span> Dept of Health Abu Dhabi</td>
               <td>Abu Dhabi, Al Ain, Al Gharbia</td>
-              <td>Mandatory coverage since 2006. Thiqa for UAE nationals (ADNOC/govt), DAMAN for expats. Sets SHCA standard plan.</td>
+              <td>Mandatory coverage since 2006. Thiqa and the Abu Dhabi Basic Product operate within the DOH framework. Always verify the current official product rules.</td>
               <td>Law No. 23 of 2005 (AUH)</td>
             </tr>
             <tr>
@@ -771,7 +771,7 @@ elif nav == "🌍  UAE Insurance Landscape":
               <td>Minimum DHA-mandated cover. Limited network. 6-month waiting period on pre-existing. No specialist without GP referral (except paeds/OB-GYN). Capped at AED 150,000/year.</td>
             </tr>
             <tr>
-              <td><span class="badge badge-amber">Silk Road / Watania Basic</span></td>
+              <td><span class="badge badge-amber">Near-EBP / Budget Basic</span></td>
               <td>Near-EBP plans</td>
               <td>Small employers, budget groups</td>
               <td>Similar to EBP. Restricted OP network. Hospital access only at night (10pm–8am) or emergency. Max 3 physio sessions per request.</td>
@@ -797,9 +797,9 @@ elif nav == "🌍  UAE Insurance Landscape":
           <div style="font-weight:700;font-size:1rem;margin-bottom:0.8rem;">Abu Dhabi (DOH/HAAD) Plan Types</div>
           <table class="styled-table">
             <tr><th>Plan</th><th>Population</th><th>Features</th></tr>
-            <tr><td><span class="badge badge-cyan">Thiqa</span></td><td>UAE Nationals in Abu Dhabi</td><td>ADNOC employees, government workers. Comprehensive cover. DAMAN administers. No co-pay for nationals.</td></tr>
-            <tr><td><span class="badge badge-blue">DAMAN Standard</span></td><td>Expat workers in Abu Dhabi</td><td>Mandatory minimum plan. AED 250,000 annual limit. SHCA basic benefits apply.</td></tr>
-            <tr><td><span class="badge badge-violet">DAMAN Enhanced</span></td><td>Higher-income expats / families</td><td>Extended network, dental, optical, maternity top-up. DOH exclusions still apply.</td></tr>
+            <tr><td><span class="badge badge-cyan">Thiqa</span></td><td>Eligible UAE nationals in Abu Dhabi</td><td>Government-supported programme. Always verify the current eligibility and benefit rules through the official Abu Dhabi framework.</td></tr>
+            <tr><td><span class="badge badge-blue">Basic Product</span></td><td>Eligible Abu Dhabi residents</td><td>Mandatory minimum product under the Abu Dhabi health insurance framework. Confirm the current benefit schedule and tariff rules.</td></tr>
+            <tr><td><span class="badge badge-violet">Enhanced Product</span></td><td>Members with upgraded benefits</td><td>May extend the Basic Product. Always adjudicate against the member-specific TOB and network.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
@@ -820,7 +820,7 @@ elif nav == "🌍  UAE Insurance Landscape":
             <tr>
               <td><strong>PIC</strong> (Primary Insurance Company)</td>
               <td>Sells the policy, holds the risk, sets the TOB. Final decision maker on exclusions and escalations.</td>
-              <td>Orient Insurance, Dubai Insurance, Watania, AIAW, Daman, Generali</td>
+              <td>Licensed UAE insurers and authorised health insurance companies</td>
             </tr>
             <tr>
               <td><strong>TPA</strong> (Third Party Administrator)</td>
@@ -851,7 +851,7 @@ elif nav == "🌍  UAE Insurance Landscape":
             <tr><td><strong>Parties</strong></td><td>PIC ↔ Employer/Member</td><td>PIC (cedant) ↔ Reinsurer</td></tr>
             <tr><td><strong>Claim trigger</strong></td><td>Member's medical event</td><td>PIC's aggregate/individual loss exceeds retention limit</td></tr>
             <tr><td><strong>Types</strong></td><td>Group health, individual health, maternity add-on</td><td>Proportional (quota share), Non-proportional (excess of loss, stop loss)</td></tr>
-            <tr><td><strong>UAE Example</strong></td><td>Orient Insurance selling a group health policy to a company of 200 employees</td><td>Orient cedes 60% of risk to Munich Re (which owns MedNet as its TPA arm)</td></tr>
+            <tr><td><strong>UAE Example</strong></td><td>A licensed insurer sells a group health policy to an employer.</td><td>The insurer may transfer part of its risk to a reinsurer under a separate contract. This does not alter the member's stated TOB.</td></tr>
             <tr><td><strong>Member awareness</strong></td><td>Member has a policy card, TOB, network list</td><td>Member is unaware of reinsurance arrangement — no impact on their benefits</td></tr>
           </table>
         </div>
@@ -864,7 +864,7 @@ elif nav == "🌍  UAE Insurance Landscape":
             <tr><td>Declaration Form</td><td>Lists pre-existing conditions declared by the member at enrollment</td></tr>
             <tr><td>Prior Authorization (PA)</td><td>Pre-approval required before a service is rendered — most elective procedures, specialist referrals, high-cost diagnostics</td></tr>
             <tr><td>Co-pay / Deductible</td><td>Member's share of cost. Co-pay = fixed amount per visit. Deductible = amount member pays before insurance kicks in.</td></tr>
-            <tr><td>Sub-limit</td><td>A cap within the annual limit for a specific category (e.g. dental AED 3,000 within overall AED 150,000 limit)</td></tr>
+            <tr><td>Sub-limit</td><td>A cap within the annual limit for a specific category. Dental, optical, maternity, rehabilitation, and pharmacy limits must be read from the member-specific TOB.</td></tr>
             <tr><td>Waiting Period</td><td>Period after enrollment during which certain conditions are not covered. Standard = 6 months for pre-existing/chronic in EBP.</td></tr>
             <tr><td>Direct Billing (DB)</td><td>Provider bills TPA/PIC directly. Member pays only co-pay. Available only for network providers.</td></tr>
             <tr><td>Reimbursement</td><td>Member pays out-of-pocket then submits claim to TPA/PIC for refund. Used for out-of-network or non-approved services.</td></tr>
@@ -1072,8 +1072,8 @@ elif nav == "🚫  Exclusions Reference":
             <tr><td><strong>Mental health</strong></td><td>Emergency psychiatric condition covered</td><td>Transient disorder or acute stress reaction covered only</td></tr>
             <tr><td><strong>Circumcision</strong></td><td>Covered for newborns (0–2 yrs) and medical necessity. Some policies cover ritual.</td><td>Excluded</td></tr>
             <tr><td><strong>Fertility treatment</strong></td><td>Infertility/IVF excluded but some enhanced plans add it</td><td>Fertility, varicocele, PCOS, hormonal disturbances all specifically excluded</td></tr>
-            <tr><td><strong>COVID testing</strong></td><td>Pre-operative COVID PCR covered (DHA circular). Symptomatic testing covered.</td><td>Covered by Activity-Based Funded Mandates/DAMAN — NOT through insurance</td></tr>
-            <tr><td><strong>HIV/AIDS</strong></td><td>Excluded in basic plan; may be covered in some enhanced TOBs. Check Integra Global — not excluded.</td><td>Explicitly excluded</td></tr>
+            <tr><td><strong>COVID testing</strong></td><td>Apply the current DHA circulars and the member-specific TOB.</td><td>Apply the current DOH circulars and funded-programme rules where relevant.</td></tr>
+            <tr><td><strong>HIV/AIDS</strong></td><td>Check the current Dubai basic-plan exclusions and the member-specific TOB.</td><td>Check the current Abu Dhabi Basic Product exclusions and any applicable enhanced-product extension.</td></tr>
             <tr><td><strong>Congenital diseases</strong></td><td>Covered if left untreated would become emergency</td><td>Excluded unless life-threatening for newborn</td></tr>
           </table>
         </div>
@@ -1215,7 +1215,7 @@ elif nav == "📋  Claims Processing":
             <tr><td>Colonoscopy</td><td><span class="badge badge-coral">No</span></td><td>Requires: chronic GI history, calprotectin/investigations, prior colonoscopy reports, or emergency (bleeding PR with Hb drop).</td></tr>
             <tr><td>Upper GIT Endoscopy</td><td><span class="badge badge-coral">No</span></td><td>Requires: 4–8 weeks of GERD treatment, H. pylori/urea breath test, prior endoscopy report, or emergency (haematemesis).</td></tr>
             <tr><td>Vitamin D test</td><td><span class="badge badge-coral">No</span></td><td>High-risk groups only. Must have prior test result + supplementation history. Annual repeat only if deficiency confirmed.</td></tr>
-            <tr><td>Allergy testing</td><td><span class="badge badge-coral">Excluded</span></td><td>Standard exclusion for all. Covered under Generali upon medical necessity. TPA/Futtaim: approve.</td></tr>
+            <tr><td>Allergy testing</td><td><span class="badge badge-amber">TOB-dependent</span></td><td>Check the regulator framework, member-specific TOB, medical necessity, and any applicable benefit extension. Do not apply a payer-specific rule from memory.</td></tr>
             <tr><td>DEXA scan</td><td><span class="badge badge-amber">Conditional</span></td><td>Osteoporosis: check if X-rays show osteopenia. Approve if osteopenia confirmed, deny otherwise.</td></tr>
             <tr><td>Liver elastography</td><td><span class="badge badge-coral">No</span></td><td>Not first-line. Requires: medical report with history, liver function profile, ultrasound, viral hepatic labs.</td></tr>
             <tr><td>Ureteroscopy</td><td><span class="badge badge-amber">Conditional</span></td><td>Stone &lt;0.5cm: conservative management. 0.5–1cm: ESWL or URS if hydronephrosis. &gt;1cm: URS + ESWL. Must have radiology confirmation + urine analysis.</td></tr>
@@ -1446,14 +1446,13 @@ elif nav == "🔍  Pre-existing Conditions":
           </div>
         </div>
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Payer-Specific UNPEC Rules</div>
+          <div style="font-weight:700;margin-bottom:0.8rem;">UNPEC Review — General Control Points</div>
           <table class="styled-table">
-            <tr><th>Payer Type</th><th>Denial Basis</th><th>Escalation Required?</th><th>Notes</th></tr>
-            <tr><td>Watania / AIAW / Orient</td><td>Signed & stamped medical reports with specific date of onset. Diagnosis-based (not S&S alone). Grey zone cases escalated.</td><td>Yes — mandatory PIC escalation</td><td>Cannot deny on symptoms alone. Must have documented diagnosis + date.</td></tr>
-            <tr><td>Dubai Insurance / DNIRC</td><td>Extremely strict. Even signs & symptoms sufficient. Slightest evidence of pre-existing = full support for denial.</td><td>No escalation needed</td><td>Most aggressive payer for UNPEC denials.</td></tr>
-            <tr><td>Generali / Integra Global (GGH)</td><td>Standard evidence required. All UNPEC must be escalated.</td><td>Yes — escalate to GGH</td><td>HIV, Hep B/C are not excluded under IG — don't deny those.</td></tr>
-            <tr><td>Salama / National Takaful (Watania)</td><td>Standard — escalate before denial.</td><td>Yes</td><td>Follow same protocol as Orient.</td></tr>
-            <tr><td>All other payers</td><td>Can deny based on S&S alone if signed & stamped report confirms pre-existing nature.</td><td>No escalation needed</td><td>Document thoroughly. Update medical file.</td></tr>
+            <tr><th>Control Point</th><th>What to Review</th><th>Escalation?</th><th>Notes</th></tr>
+            <tr><td>Evidence of onset</td><td>Signed clinical documentation, diagnosis date, treatment history, prior investigations, and medication history.</td><td>Escalate when the internal workflow requires PIC or senior-review input.</td><td>Do not rely on symptoms alone when the evidence is incomplete.</td></tr>
+            <tr><td>Declaration review</td><td>Compare the medical application form, declared conditions, policy effective date, and documented onset.</td><td>Escalate ambiguous cases.</td><td>Use the member-specific policy wording and current internal SOP.</td></tr>
+            <tr><td>Initial medically necessary care</td><td>Assess whether immediate investigation or stabilisation should proceed while the review is ongoing.</td><td>Use senior medical review for grey-zone cases.</td><td>Document the rationale and the evidence requested.</td></tr>
+            <tr><td>Final decision</td><td>Apply the regulator framework, TOB, evidence, and authorised payer workflow.</td><td>Escalate whenever required by the current payer matrix.</td><td>Avoid hard-coded payer names or legacy company rules in public training material.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
@@ -1671,9 +1670,9 @@ elif nav == "💊  Specialty Rules":
             <tr><th>Policy Type</th><th>Max Sessions / Request</th><th>Progress Report</th><th>Notes</th></tr>
             <tr><td>Standard/Enhanced plans</td><td>5 sessions</td><td>After every 5 sessions</td><td>Progress report with pain scale, functional improvement, treatment plan. Update medical file.</td></tr>
             <tr><td>EBP / Basic / Silk Road</td><td>3 sessions (from 6-session limit)</td><td>After every 3 sessions</td><td>Check TOB for session limit first. Most EBP plans have 6-session total limit.</td></tr>
-            <tr><td>Generali (sessions limit)</td><td>5 sessions</td><td>After every 5</td><td>If limit in AED not sessions — approve up to the AED limit.</td></tr>
-            <tr><td>Expacare</td><td>7 sessions per complaint/site</td><td>After 7, send Expacare template</td><td>After 7 sessions, fill Expacare template → email to provider → escalate to PIC for approval.</td></tr>
-            <tr><td>TPA / Futtaim (Al Futtaim)</td><td>5 sessions (no progress report needed)</td><td>Not required</td><td>Futtaim has flexible rules. Check network (HealthHub providers only).</td></tr>
+            <tr><td>Plans with session-based limits</td><td>Use the TOB session limit</td><td>Request progress notes at the interval defined in the workflow</td><td>Confirm the allowed number of sessions, site, complaint, policy year, and remaining balance.</td></tr>
+            <tr><td>Plans with monetary limits</td><td>Use the TOB monetary ceiling</td><td>Request clinical progress documentation before additional batches</td><td>Do not convert a monetary ceiling into a fixed session rule unless the payer workflow explicitly requires it.</td></tr>
+            <tr><td>Network-restricted plans</td><td>Use the contracted network and workflow</td><td>Follow the current TPA procedure</td><td>Check the member network, provider contract status, benefit balance, and the latest internal operating procedure.</td></tr>
           </table>
           <div class="warning-box" style="margin-top:0.8rem;"><strong>Rehab vs Treatment:</strong> Physiotherapy after surgery is NOT rehab — it's treatment and proceeds normally. Physiotherapy after stroke, amputation, or brain injury = rehab. Check TOB for rehab benefit separately.</div>
         </div>
@@ -1739,14 +1738,18 @@ elif nav == "💊  Specialty Rules":
     with tab4:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Dental Coverage Rules</div>
+          <div style="font-weight:700;margin-bottom:0.8rem;">Dental Coverage — General Adjudication Principles</div>
           <table class="styled-table">
             <tr><th>Check</th><th>What to Do</th></tr>
-            <tr><td>1. Dental benefit in TOB?</td><td>Check custom fields for dental coverage. Check dental network access. Dental is a standard exclusion unless explicitly added in TOB.</td></tr>
-            <tr><td>2. Requesting provider in dental network?</td><td>Verify against dental network list (not applicable for Generali, Integra Global, Expacare who have open dental networks).</td></tr>
-            <tr><td>3. Sub-limit remaining?</td><td>Dental sub-limits are typically separate from annual medical limit (e.g., AED 3,000 dental per year).</td></tr>
-            <tr><td>4. Scope of coverage</td><td>Basic dental typically covers: consultation, extraction, simple fillings. Cosmetic dentistry, implants, orthodontics, dental prostheses are almost universally excluded.</td></tr>
+            <tr><td>1. Confirm the applicable framework</td><td>Identify the emirate, policy type, network, and current TOB. Do not assume that a dental benefit exists merely because the medical policy is active.</td></tr>
+            <tr><td>2. Check the dental benefit wording</td><td>Read the TOB for covered categories, exclusions, annual or category limits, co-pay, waiting periods, frequency rules, age rules, and any pre-authorisation requirement.</td></tr>
+            <tr><td>3. Check network and provider eligibility</td><td>Verify that the requesting dental provider is eligible for the member's network and that the requested service is within the provider's licensed scope.</td></tr>
+            <tr><td>4. Review clinical documentation</td><td>Confirm tooth number, diagnosis, treatment plan, relevant radiographs or periodontal charting, service code, cost, and any previous treatment on the same tooth.</td></tr>
+            <tr><td>5. Apply only the member-specific benefit</td><td>Preventive, restorative, endodontic, periodontal, prosthodontic, orthodontic, implant, sedation, and emergency dental services must be assessed separately. Do not infer coverage for one category from another.</td></tr>
           </table>
+          <div class="info-box" style="margin-top:0.8rem;">
+            <strong>Important:</strong> The Abu Dhabi Basic Product lists dental treatment, dental prostheses, and orthodontic treatment among excluded healthcare services. Enhanced products may extend coverage. For Dubai and other emirates, always confirm the current regulator framework and the member-specific TOB before adjudication.
+          </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1808,7 +1811,7 @@ elif nav == "🎯  Case Studies":
 """,
             "options": ["✅ Approve — No waiting period on this plan", "❌ Deny — Pre-existing condition", "📋 Query — Request onset date, declaration form review, previous records", "📤 Escalate to PIC immediately"],
             "answer": 2,
-            "explanation": "Even with no waiting period, an UNDECLARED pre-existing condition can be denied (NCOV-002). The phrase 'on medications for several years' is a red flag. You must: (1) Check the MAF/declaration form for DM declaration. (2) Query onset: when was DM first diagnosed? Who prescribed the medications? Any prior hospitalisation? (3) If DM onset predates enrollment and was not declared, this is UNPEC. Check policy payer — if Orient/AIAW/Watania, escalate to PIC before denying. Approve initial investigations while investigating."
+            "explanation": "Even with no waiting period, an UNDECLARED pre-existing condition can be denied (NCOV-002). The phrase 'on medications for several years' is a red flag. You must: (1) Check the MAF/declaration form for DM declaration. (2) Query onset: when was DM first diagnosed? Who prescribed the medications? Any prior hospitalisation? (3) If DM onset predates enrollment and was not declared, this is UNPEC. Check the current payer escalation matrix and escalate to PIC before denying whenever the authorised workflow requires it. Approve initial investigations while investigating."
         },
         {
             "id": 5, "title": "Vitamin D Test — Annual Repeat",
@@ -1932,7 +1935,7 @@ elif nav == "📝  Knowledge Quiz":
         {"q": "What is the maximum number of physiotherapy sessions per request for a standard (non-EBP) plan?", "opts": ["3", "5", "7", "10"], "a": 1, "module": "Specialty"},
         {"q": "CPT codes 97001, 97110, and 97140 are all associated with:", "opts": ["Cardiology procedures", "Physiotherapy and rehabilitation", "Radiology imaging", "Laboratory tests"], "a": 1, "module": "Coding"},
         {"q": "A TPA (Third Party Administrator) in UAE health insurance:", "opts": ["Holds the insurance risk and sets the premium", "Processes claims on behalf of the PIC but does not hold the risk", "Is the same as the insurance company (PIC)", "Only handles dental and optical claims"], "a": 1, "module": "Foundations"},
-        {"q": "An UNPEC (Undeclared Pre-existing Condition) case for an Orient Insurance member should:", "opts": ["Be denied immediately with NCOV-002", "Be approved as there is a benefit of doubt", "Be escalated to Orient PIC before final denial", "Be escalated to MOH for regulatory review"], "a": 2, "module": "Pre-existing"},
+        {"q": "An UNPEC (Undeclared Pre-existing Condition) case that meets the escalation criteria in the current payer workflow should:", "opts": ["Be denied immediately without documentation", "Be approved automatically", "Be escalated to the authorised PIC or senior-review route before the final denial", "Be escalated to MOH for routine adjudication"], "a": 2, "module": "Pre-existing"},
         {"q": "The NT scan (Nuchal Translucency) is only covered between:", "opts": ["8–10 weeks gestation", "11–13 weeks gestation", "16–18 weeks gestation", "18–20 weeks gestation"], "a": 1, "module": "Specialty"},
         {"q": "Which of the following is a standard exclusion under BOTH DHA and HAAD?", "opts": ["Hepatitis C treatment", "Circumcision for newborns", "IVF and embryo transfer", "HPV infection treatment"], "a": 2, "module": "Exclusions"},
         {"q": "Upcoding in the context of DRG billing means:", "opts": ["Coding a less complex diagnosis to reduce payment", "Adding CC/MCC diagnosis codes without clinical documentation to increase DRG payment", "Failing to code secondary diagnoses", "Using outdated ICD-9 codes instead of ICD-10"], "a": 1, "module": "Audit"},
@@ -2041,7 +2044,10 @@ elif nav == "📚  Resources":
           <table class="styled-table">
             <tr><th>Source</th><th>Topic</th><th>Link</th></tr>
             <tr><td>DHA — Dubai Health Authority</td><td>DHA health insurance regulations, exclusions, circulars</td><td><a href="https://www.dha.gov.ae" target="_blank" style="color:#4f9cf9;">dha.gov.ae</a></td></tr>
-            <tr><td>DOH — Dept of Health Abu Dhabi</td><td>HAAD/DOH health insurance framework, SHCA, DAMAN</td><td><a href="https://www.doh.gov.ae" target="_blank" style="color:#4f9cf9;">doh.gov.ae</a></td></tr>
+            <tr><td>DHA Immunisation Guideline — Issue 4</td><td>Current Dubai / UAE NIP childhood schedule, school-age schedule, minimum intervals, catch-up guidance, RSV and PCV updates</td><td><a href="https://dha.gov.ae/uploads/102024/Clinical%20Guideline%20for%20Best%20Practice%20in%20Immunization20241028945.pdf" target="_blank" style="color:#4f9cf9;">DHA guideline PDF</a></td></tr>
+            <tr><td>DOH Circular 77/2026</td><td>Abu Dhabi childhood and school vaccination schedule update, effective from issuance</td><td><a href="https://www.doh.gov.ae/-/media/950546F00B64465CA91D7729996B3487.ashx" target="_blank" style="color:#4f9cf9;">DOH circular PDF</a></td></tr>
+            <tr><td>Abu Dhabi Health Insurance Law and Regulations</td><td>Basic Product benefits and exclusion schedule, including dental exclusions</td><td><a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank" style="color:#4f9cf9;">DOH regulations PDF</a></td></tr>
+            <tr><td>DOH — Dept of Health Abu Dhabi</td><td>HAAD/DOH health insurance framework, Basic Product, Enhanced Product</td><td><a href="https://www.doh.gov.ae" target="_blank" style="color:#4f9cf9;">doh.gov.ae</a></td></tr>
             <tr><td>MOH — Ministry of Health UAE</td><td>Federal health regulations, Northern Emirates framework</td><td><a href="https://www.mohap.gov.ae" target="_blank" style="color:#4f9cf9;">mohap.gov.ae</a></td></tr>
             <tr><td>CBUAE — Central Bank UAE</td><td>Insurance licensing, reinsurance, IA functions</td><td><a href="https://www.centralbank.ae" target="_blank" style="color:#4f9cf9;">centralbank.ae</a></td></tr>
             <tr><td>AMA — CPT Codes</td><td>CPT code lookup and coding guidelines</td><td><a href="https://www.ama-assn.org/practice-management/cpt" target="_blank" style="color:#4f9cf9;">ama-assn.org</a></td></tr>
@@ -2065,7 +2071,7 @@ elif nav == "📚  Resources":
             ("CBUAE", "Central Bank of the UAE — regulates insurance companies federally (absorbed IA in 2020)"),
             ("Co-pay", "Fixed amount paid by member per visit/service. E.g. AED 20 per GP visit."),
             ("DHA", "Dubai Health Authority — regulates health insurance in Dubai emirate"),
-            ("DMAN / DAMAN", "Abu Dhabi National Health Insurance Company — administers HAAD/DOH health plans"),
+            ("DOH Basic Product", "Mandatory minimum health insurance product under the Abu Dhabi framework"),
             ("DOH", "Department of Health Abu Dhabi — successor to HAAD"),
             ("DRG", "Diagnosis Related Group — inpatient payment grouping system"),
             ("EBP", "Essential Benefits Plan — minimum mandatory DHA health coverage plan"),
@@ -2346,7 +2352,7 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
             <tr><th>Test</th><th>Indication</th><th>Coverage Rule</th></tr>
             <tr><td>COVID-19 PCR  Pre-operative</td><td>Before any elective surgery</td><td><strong>DHA policies only:</strong> covered as mandatory pre-op screening per DHA circular. Not covered for HAAD or Northern Emirates policies through insurance.</td></tr>
             <tr><td>Hepatitis B, C / HIV  Pre-op (non-dialysis)</td><td>Before elective surgery</td><td>Coverage varies by payer and TOB. Some plans include, many exclude. Always check TOB. Hepatitis A is not an exclusion unless TOB states otherwise.</td></tr>
-            <tr><td>Hepatitis B, C / HIV  Pre-dialysis</td><td>Before starting haemodialysis</td><td>Generally covered for Mediclinic group. For other providers: check TOB. Hepatitis A not excluded.</td></tr>
+            <tr><td>Hepatitis B, C / HIV  Pre-dialysis</td><td>Before starting haemodialysis when clinically indicated</td><td>Confirm clinical indication, applicable regulator requirements, and the member-specific TOB. Do not infer coverage from provider name.</td></tr>
             <tr><td>Cryo / Electro sessions (dermatology)</td><td>Skin lesion treatment</td><td>Cryotherapy: typically up to 2 sessions. Electrocautery: up to 5 sessions. Beyond this, query for clinical justification and progress.</td></tr>
           </table>
         </div>
@@ -2385,72 +2391,64 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
     with t2:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Dental Coverage  Adjudication Steps</div>
+          <div class="card-title">Dental Coverage — General, TOB-Based Adjudication</div>
+          <div class="warning-box">
+            Dental coverage is not a single UAE-wide package. Use the regulator framework, the member-specific TOB, the contracted network, and the clinical documentation. Do not publish or apply legacy company-specific rules, fixed company limits, or named payer exceptions.
+          </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#4f9cf922;color:#4f9cf9;">1</div>
-            <div><strong>Check dental benefit exists</strong>  Dental is a standard exclusion unless explicitly added in the TOB. Check custom fields for dental coverage flag and access level.</div>
+            <div><strong>Identify the policy framework</strong> — Confirm emirate, Basic or Enhanced Product, member network, dental add-on status, and current TOB.</div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#22d3c522;color:#22d3c5;">2</div>
-            <div><strong>Check dental network</strong>  Verify the requesting provider is in the dental network list. This is often a separate list from the main medical network. Open networks (no network check needed): Generali, Integra Global, Expacare.</div>
+            <div><strong>Verify benefit categories</strong> — Read the TOB separately for preventive, restorative, endodontic, periodontal, prosthodontic, orthodontic, implant, sedation, and emergency dental services.</div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#a78bfa22;color:#a78bfa;">3</div>
-            <div><strong>Check dental sub-limit and balance</strong>  Dental has its own annual sub-limit (e.g. AED 3,000). Track separately from main medical limit. Some plans split into Class I / II / III sublimits (e.g. Integra Global).</div>
+            <div><strong>Verify limit, co-pay, and frequency</strong> — Use only the member's stated TOB. Limits may be annual, per category, per tooth, per visit, or frequency-based. Never hard-code a company-specific amount.</div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#fbbf2422;color:#fbbf24;">4</div>
-            <div><strong>Check tooth number</strong>  Tooth number must be documented and updated in the dental medical file for all dental approvals.</div>
+            <div><strong>Review clinical records</strong> — Confirm tooth number, diagnosis, treatment plan, service code, cost, radiographs where clinically relevant, periodontal charting where relevant, and previous treatment on the same tooth.</div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#34d39922;color:#34d399;">5</div>
-            <div><strong>Approve within scope, deny out-of-scope</strong>  Basic dental: check-up, extraction, simple filling, scaling. Major dental: crown, RCT, bridge. Orthodontics: separate benefit. Cosmetic: excluded.</div>
+            <div><strong>Apply the contract and escalate grey zones</strong> — Adjudicate only within the TOB and current workflow. Escalate unclear, high-cost, or clinically complex cases through the authorised route.</div>
           </div>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Dental Terms Explained  What Each Service Actually Is</div>
+          <div class="card-title">Dental Services — Neutral Reference Guide</div>
           <table class="styled-table">
-            <tr><th>Term</th><th>What It Is</th><th>Coverage Logic</th></tr>
-            <tr><td><strong>Scaling & Polishing</strong></td><td>Professional cleaning of teeth to remove tartar (calculus) and surface stains. Does not involve drilling or filling.</td><td>Usually covered under basic dental. Some TOBs limit to once or twice per year. Check session limit in TOB.</td></tr>
-            <tr><td><strong>Deep Scaling / Root Planing / Curettage</strong></td><td>Cleaning below the gumline to treat gum (periodontal) disease. More invasive than standard scaling.</td><td>Only covered if the TOB includes periodontal or gum treatment as a specific benefit. Standard scaling coverage does NOT automatically include deep scaling.</td></tr>
-            <tr><td><strong>Composite Filling</strong></td><td>Tooth-coloured resin used to fill a cavity. Matches tooth appearance.</td><td>Covered if fillings are in TOB. Check if TOB specifies types: composite, amalgam, or glass ionomer  only cover what is listed.</td></tr>
-            <tr><td><strong>Amalgam Filling</strong></td><td>Silver-coloured metal alloy filling. Durable, used in back teeth.</td><td>Same as composite  check TOB for which filling types are covered.</td></tr>
-            <tr><td><strong>Sealant</strong></td><td>A thin protective coating applied to the chewing surfaces of back teeth to prevent cavities. Does NOT restore a damaged tooth.</td><td>Classified as <strong>preventive</strong> dental treatment  not a restorative filling. Not covered as an alternative to fillings. Only covered if TOB explicitly includes preventive dental.</td></tr>
-            <tr><td><strong>Fluoride Treatment</strong></td><td>Application of fluoride to strengthen tooth enamel and prevent decay.</td><td>Generally not covered unless TOB specifies it. Some policies cover topical fluoride for children under a certain age (check TOB).</td></tr>
-            <tr><td><strong>Root Canal Treatment (RCT)</strong></td><td>Removal of infected pulp from inside the tooth, followed by cleaning and sealing. Saves a tooth from extraction.</td><td>Covered if major dental or endodontic treatment is in TOB. Often must precede crown placement for the same tooth.</td></tr>
-            <tr><td><strong>Crown</strong></td><td>A cap placed over a damaged tooth to restore shape, strength, and appearance.</td><td>Covered if TOB includes crown. If TOB says crown must be preceded by RCT, ask for X-ray confirming RCT was performed. If TOB does NOT specify this requirement, do not ask for RCT evidence.</td></tr>
-            <tr><td><strong>Post & Core</strong></td><td>A metal post and core material placed inside the root canal to support a crown when the tooth structure is insufficient.</td><td>Covered only alongside a crown. If crown is covered, post & core is covered. If the provider requests post & core separately but crown was already done previously on the same tooth, it can still be covered.</td></tr>
-            <tr><td><strong>Bridge</strong></td><td>A fixed dental prosthesis that replaces one or more missing teeth by anchoring to adjacent teeth (abutments).</td><td>Covered only if TOB explicitly includes bridgework or dental prosthesis. Crown coverage alone does NOT imply bridge coverage  these are separate benefits. No RCT prerequisite for bridges.</td></tr>
-            <tr><td><strong>Pontic</strong></td><td>The artificial tooth in the middle of a bridge that fills the gap where the natural tooth was missing.</td><td>Covered as part of bridgework. If bridge is covered, the pontic is covered as a component.</td></tr>
-            <tr><td><strong>Denture</strong></td><td>Removable replacement for missing teeth  full (complete) or partial.</td><td>Covered under dental prosthesis if TOB includes it. Check if partial vs full dentures are both included.</td></tr>
-            <tr><td><strong>Dental Implant</strong></td><td>A titanium post surgically inserted into the jawbone to replace a missing tooth root. A crown is then placed on top.</td><td>High-cost item. Only covered if TOB explicitly lists implants. Most basic and standard plans exclude implants.</td></tr>
-            <tr><td><strong>Orthodontic Treatment</strong></td><td>Braces, aligners, and related appliances to correct misaligned teeth and jaw positioning.</td><td>Separate benefit from general dental. Usually has its own age limit (e.g. under 17 or 18) and its own sub-limit. Request a treatment plan and itemised cost breakdown. CDT codes should be submitted per service.</td></tr>
-            <tr><td><strong>Space Maintainer</strong></td><td>A dental appliance that holds space for a permanent tooth after a baby tooth is lost early.</td><td>Classified under orthodontics  only covered if orthodontic benefit is in TOB.</td></tr>
-            <tr><td><strong>Retainer</strong></td><td>A removable or fixed appliance worn after braces are removed to keep teeth in their new position. Last stage of orthodontic treatment.</td><td>Covered under orthodontic benefit. It is part of the orthodontic treatment course, not a separate benefit.</td></tr>
-            <tr><td><strong>Simple Extraction</strong></td><td>Removal of a visible, erupted tooth using forceps under local anaesthesia.</td><td>Generally covered under basic dental. Some policies cover simple extractions only and exclude surgical extractions  check TOB wording carefully.</td></tr>
-            <tr><td><strong>Surgical Extraction</strong></td><td>Removal of a tooth that is impacted, broken, or requires cutting of gum/bone tissue (e.g. wisdom teeth).</td><td>More complex and expensive than simple extraction. Only covered if TOB includes surgical extractions. Do not approve if TOB specifies simple extractions only.</td></tr>
-            <tr><td><strong>Inhalational Sedation (Nitrous Oxide)</strong></td><td>Gas sedation (laughing gas) used to relax an anxious patient during dental treatment. Patient remains conscious.</td><td>Typically covered for children up to 8 years of age. For older age groups, check TOB and assess medical necessity (severe dental anxiety, special needs).</td></tr>
-            <tr><td><strong>General Anaesthesia (GA) for Dental</strong></td><td>Full general anaesthesia for dental procedures  typically for young children, complex cases, or severe dental phobia.</td><td>If TOB does not specify GA coverage: deny GA charges and approve only the dental services themselves. If TOB covers GA and the request includes room and board, it should be handled as an inpatient (IP) case by the IP team, not OP dental.</td></tr>
-            <tr><td><strong>TMJ Treatment</strong></td><td>Treatment of the temporomandibular joint (jaw joint)  may include splints, physiotherapy, medication, or surgery.</td><td>MRI and CT are first-line investigations for TMJ. Ultrasound is also first-line for TMJ. Treatment coverage depends on TOB.</td></tr>
-            <tr><td><strong>Incision & Drainage (I&D)</strong></td><td>Surgical drainage of a dental abscess.</td><td>Not routinely covered unless specifically listed in TOB. Check before approving.</td></tr>
-            <tr><td><strong>Panoramic X-ray (OPG)</strong></td><td>A wide X-ray showing all teeth, jaws, and surrounding structures in one image.</td><td>Generally covered as a diagnostic tool for dental treatment planning. Required for orthodontic treatment assessment.</td></tr>
-            <tr><td><strong>Temporary Filling / Temporary Crown</strong></td><td>Short-term restoration while a permanent solution is being prepared.</td><td>Covered if fillings or crowns are covered in the TOB. Temporary items are included under the same benefit as permanent ones.</td></tr>
-            <tr><td><strong>CDT Code D8040 / D8080</strong></td><td>Orthodontic banding codes for comprehensive treatment.</td><td>For large orthodontic packages, request itemised breakdown. Each service should be submitted using its specific CDT code rather than a single package code.</td></tr>
+            <tr><th>Service</th><th>What It Is</th><th>Adjudication Review</th></tr>
+            <tr><td><strong>Dental consultation</strong></td><td>Clinical assessment of oral symptoms and treatment needs.</td><td>Check dental benefit, network eligibility, diagnosis, and any consultation-frequency rule in the TOB.</td></tr>
+            <tr><td><strong>Dental radiography</strong></td><td>Targeted periapical, bitewing, panoramic, or other dental imaging used for diagnosis and treatment planning.</td><td>Confirm clinical indication and whether the requested imaging is proportionate to the treatment plan.</td></tr>
+            <tr><td><strong>Scaling and polishing</strong></td><td>Professional removal of plaque, calculus, and surface stains.</td><td>Check whether preventive dental is covered and whether the TOB applies a frequency limit.</td></tr>
+            <tr><td><strong>Periodontal treatment</strong></td><td>Treatment of gum disease, which may include deep scaling or root planing.</td><td>Check periodontal benefit wording, diagnosis, charting, and the requested quadrant or site.</td></tr>
+            <tr><td><strong>Filling / restoration</strong></td><td>Restoration of a tooth affected by caries or structural loss.</td><td>Check restorative benefit wording, tooth number, surfaces, material rule if specified, and previous restoration history.</td></tr>
+            <tr><td><strong>Root canal treatment</strong></td><td>Endodontic treatment of infected or inflamed pulp tissue.</td><td>Check endodontic coverage, tooth number, diagnosis, radiographic support where clinically relevant, and any crown-related plan wording.</td></tr>
+            <tr><td><strong>Crown</strong></td><td>A restoration placed over a damaged tooth to restore structure and function.</td><td>Check prosthodontic coverage, clinical justification, tooth number, prior restoration history, and any waiting-period or frequency rule.</td></tr>
+            <tr><td><strong>Bridge / denture</strong></td><td>Prosthetic replacement of missing teeth.</td><td>Check whether prostheses are expressly covered. Do not infer bridge or denture coverage from crown coverage.</td></tr>
+            <tr><td><strong>Simple extraction</strong></td><td>Removal of an erupted tooth without a complex surgical approach.</td><td>Check extraction benefit, tooth number, diagnosis, and clinical note.</td></tr>
+            <tr><td><strong>Surgical extraction</strong></td><td>Removal requiring a surgical approach, such as impacted or complex teeth.</td><td>Check surgical dental wording, imaging, clinical indication, and any pre-authorisation requirement.</td></tr>
+            <tr><td><strong>Orthodontics</strong></td><td>Correction of tooth or jaw alignment using appliances.</td><td>Do not assume coverage. Check for an explicit orthodontic benefit, age rule, waiting period, lifetime limit, and pre-authorisation requirement.</td></tr>
+            <tr><td><strong>Implant dentistry</strong></td><td>Surgical and prosthetic replacement of missing teeth using implants.</td><td>Do not assume coverage. Check explicit implant wording, clinical plan, imaging, licensed scope, and any high-value escalation rule.</td></tr>
+            <tr><td><strong>Dental sedation or GA</strong></td><td>Sedation or general anaesthesia used to support dental treatment in selected cases.</td><td>Check medical necessity, setting, licensed scope, TOB wording, and whether inpatient or day-case handling is required.</td></tr>
+            <tr><td><strong>Emergency dental care</strong></td><td>Urgent assessment and treatment for acute pain, trauma, bleeding, or infection.</td><td>Check the emergency definition, immediate treatment need, TOB, and any post-treatment notification workflow.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="info-box">
-          <strong>UAE Dental Regulatory Context:</strong> There is no single UAE-wide standard for dental insurance coverage.
-          DHA and HAAD regulations cover medical insurance  dental is treated as an add-on benefit.
-          The extent of dental coverage is entirely defined by the TOB. The only universal rule is that
-          <strong>dental prostheses and orthodontic treatment are excluded from the basic mandatory plan</strong>
-          under both DHA (GC 03/2024) and HAAD standard health insurance regulations.
-          Everything beyond the basic exclusion is a contractual matter between the insurer and the employer.
+          <strong>Regulatory context:</strong> Abu Dhabi's Basic Product exclusion schedule lists all expenses relating to dental treatment, dental prostheses, and orthodontic treatment as excluded healthcare services. The regulations allow authorised insurers to extend cover for excluded services under an enhanced product. For Dubai, use the member's current TOB and the current Dubai Health Insurance Corporation framework. This page is a training summary, not a substitute for the live contract or regulator circular.
+        </div>
+        <div class="source-note">
+          Official references: <a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank">Abu Dhabi Health Insurance Law and Regulations</a> ·
+          <a href="https://www.dha.gov.ae/en/dubai-health-insurance-corporation" target="_blank">Dubai Health Insurance Corporation</a> ·
+          <a href="https://www.dha.gov.ae/en/licensing-regulations-dental" target="_blank">DHA Dental Policies and Regulations</a>
         </div>
         """, unsafe_allow_html=True)
 
@@ -2458,70 +2456,88 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
     with t3:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Vaccination Coverage  UAE Health Insurance Framework</div>
+          <div class="card-title">Vaccination Coverage and Public-Health Schedule — Keep These Separate</div>
           <div class="warning-box">
-            <strong>Default position:</strong> Vaccinations are a <strong>standard exclusion</strong> under the basic mandatory plans
-            of both DHA and HAAD, and under Northern Emirates standard policies.
-            They are classified as preventive services, which are excluded from the minimum benefit package.
-            Coverage is only available if the TOB <strong>explicitly</strong> adds a vaccination benefit.
+            <strong>Do not mix two different questions:</strong><br/>
+            1) Which vaccines are included in the current public-health immunisation schedule?<br/>
+            2) Is a particular vaccine payable under this member's insurance policy?<br/><br/>
+            Use the current DHA or DOH immunisation schedule for timing. Use the member-specific TOB, regulator framework, network, and live payer workflow for insurance coverage. Do not apply a blanket rule from an old company SOP.
           </div>
           <table class="styled-table">
-            <tr><th>Regulatory Framework</th><th>Vaccination Coverage Rule</th></tr>
-            <tr>
-              <td><strong>DHA  Dubai Basic / EBP</strong></td>
-              <td>Vaccinations excluded as preventive services. Not part of the Essential Benefits Plan (EBP) minimum standard per DHA GC 03/2024. Enhanced plans may add vaccination benefit  check TOB.</td>
-            </tr>
-            <tr>
-              <td><strong>HAAD / DOH  Abu Dhabi</strong></td>
-              <td>Vaccinations excluded under Clause 23 of HAAD standard exclusions: "Preventive services, including vaccinations, immunizations, allergy testing and desensitization." Enhanced corporate plans may add it  always check TOB.</td>
-            </tr>
-            <tr>
-              <td><strong>Northern Emirates (MOH)</strong></td>
-              <td>Vaccinations excluded as preventive treatment under standard policy wording. "Vaccinations or inoculations" are listed explicitly in standard Northern Emirates exclusion clauses.</td>
-            </tr>
-            <tr>
-              <td><strong>UAE National Immunisation Programme (NIP)</strong></td>
-              <td>Mandatory childhood vaccinations (BCG, Hepatitis B, DTP, Polio, MMR, Varicella, etc.) are provided FREE at government primary healthcare centres (PHCs) for all UAE residents  regardless of insurance status. This is a government-funded programme, not an insurance benefit.</td>
-            </tr>
-            <tr>
-              <td><strong>Employer / Corporate Plans (Enhanced)</strong></td>
-              <td>Many corporate group plans (Standard and above) add a vaccination benefit in the TOB. Common inclusions: flu vaccine (annual), travel vaccines, Hepatitis A/B vaccine courses. Check TOB for specific vaccines covered and any age limits.</td>
-            </tr>
-            <tr>
-              <td><strong>COVID-19 Vaccine</strong></td>
-              <td>COVID-19 vaccination is excluded from health insurance under all regulatory frameworks  it was provided as a national programme. Complications arising directly from the COVID-19 vaccine are also not covered as a standard position (the vaccine is excluded, so complications follow). Check any updated TOB or specific PIC position on this.</td>
-            </tr>
-            <tr>
-              <td><strong>Travel Vaccines</strong></td>
-              <td>Not covered under any standard plan. Classified as preventive/travel-related care. Some premium/international plans add travel vaccination as a specific benefit  rare and always TOB-dependent.</td>
-            </tr>
+            <tr><th>Framework</th><th>Training Rule</th></tr>
+            <tr><td><strong>Dubai</strong></td><td>Use the current DHA immunisation guideline and the current Dubai Health Insurance Corporation framework. Confirm whether the requested vaccine is delivered through the public programme, a funded pathway, or an insurance benefit.</td></tr>
+            <tr><td><strong>Abu Dhabi</strong></td><td>Use current DOH / ADPHC circulars and the member-specific product. DOH Circular 77/2026 updated the childhood and school vaccination schedule and is effective from its date of issuance.</td></tr>
+            <tr><td><strong>Insurance adjudication</strong></td><td>Check the TOB for preventive care, vaccination, occupational-health, travel, school, age, network, and pre-authorisation wording. Do not infer coverage solely from the vaccine name.</td></tr>
+            <tr><td><strong>Catch-up or special-risk schedule</strong></td><td>Refer to the current official schedule and clinical guideline. High-risk, delayed, preterm, immunocompromised, travel, pregnancy, and adult schedules require the applicable official guidance.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">When Vaccinations May Be Covered  Common Scenarios</div>
+          <div class="card-title">Dubai / UAE NIP — Routine Childhood Schedule (DHA Guideline, effective 27 Jan 2026)</div>
           <table class="styled-table">
-            <tr><th>Scenario</th><th>Coverage Position</th><th>What to Check</th></tr>
-            <tr><td>Annual influenza vaccine requested via network clinic</td><td>Covered only if TOB includes vaccination benefit. Many enhanced corporate plans do include flu vaccine.</td><td>Check TOB for "vaccination benefit" or "preventive care" section. Check if specific vaccine is listed.</td></tr>
-            <tr><td>Hepatitis B vaccine course (3 doses)</td><td>Excluded under standard plans. Some enhanced plans cover Hep B vaccine course as occupational health requirement (healthcare workers).</td><td>Check TOB. If healthcare worker, some PICs may make an exception  escalate to PIC if in doubt.</td></tr>
-            <tr><td>HPV vaccine</td><td>Not covered under standard plans as a vaccination. Under DHA, HPV as an <em>infection requiring treatment</em> may be covered  but the preventive vaccine itself is not.</td><td>Distinguish between HPV vaccine (preventive = excluded) and treatment of active HPV infection (clinical = may be covered under DHA).</td></tr>
-            <tr><td>Futtaim / Mediclinic group members requesting vaccination</td><td>Al Futtaim group employees can access HealthHub providers for vaccination requests. Mediclinic group members access Mediclinic providers. Network access rules still apply.</td><td>Verify network access. Check if vaccination benefit is in TOB for these specific groups.</td></tr>
-            <tr><td>Child vaccination at clinic  standard EBP member</td><td>Not covered through insurance. Direct member to nearest government PHC for NIP vaccinations, which are free of charge.</td><td>No insurance claim needed. Government PHCs provide NIP vaccines free to all UAE residents regardless of nationality.</td></tr>
+            <tr><th>Timing</th><th>Routine schedule summary</th></tr>
+            <tr><td><strong>Birth — within 24 hours</strong></td><td>BCG; Hepatitis B dose 1; long-acting RSV monoclonal antibody at birth only for newborns in the defined RSV-season pathway, unless the maternal-vaccination exception applies.</td></tr>
+            <tr><td><strong>2 months</strong></td><td>Hexavalent vaccine: DTaP, Hib, IPV dose 1, Hepatitis B dose 2; PCV dose 1; rotavirus dose 1.</td></tr>
+            <tr><td><strong>4 months</strong></td><td>Hexavalent vaccine: DTaP, Hib, IPV dose 2, Hepatitis B dose 3; PCV dose 2; rotavirus dose 2.</td></tr>
+            <tr><td><strong>6 months</strong></td><td>Pentavalent vaccine: DTP, Hib dose 3, Hepatitis B dose 4; OPV; seasonal influenza vaccine.</td></tr>
+            <tr><td><strong>12 months</strong></td><td>MMR dose 1; varicella dose 1; meningococcal ACWY conjugate vaccine.</td></tr>
+            <tr><td><strong>18 months</strong></td><td>Combined DTaP, Hib, IPV; OPV booster; PCV dose 3; MMR dose 2.</td></tr>
+            <tr><td><strong>5–6 years</strong></td><td>Combined DTaP, IPV; OPV booster; varicella dose 2.</td></tr>
+          </table>
+          <div class="source-note">Use the live guideline for exceptions, minimum ages, minimum intervals, catch-up schedules, and special-risk pathways.</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Dubai — School-Age Routine Schedule Summary</div>
+          <table class="styled-table">
+            <tr><th>Age / school stage</th><th>Routine schedule summary</th></tr>
+            <tr><td><strong>5–6 years</strong></td><td>OPV booster; varicella second dose; combined DTaP-IPV booster.</td></tr>
+            <tr><td><strong>10–11 years</strong></td><td>HPV first dose for girls and boys, with second dose after 6–12 months; meningococcal ACWY dose.</td></tr>
+            <tr><td><strong>15–18 years</strong></td><td>Tdap booster; meningococcal ACWY dose.</td></tr>
+            <tr><td><strong>From 6 months onward</strong></td><td>Seasonal influenza: one annual dose at the beginning of each influenza season, typically September–October. Children receiving influenza vaccine for the first time may require the schedule specified in the guideline.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
-        <div class="info-box">
-          <strong>UAE National Immunisation Programme (NIP)  Quick Reference:</strong><br/>
-          The UAE Ministry of Health and Prevention operates a comprehensive free vaccination programme at all government PHCs.
-          This covers: BCG, Hepatitis B (birth + course), DTP (Diphtheria/Tetanus/Pertussis), IPV (Polio), Hib,
-          Pneumococcal, Rotavirus, MMR (Measles/Mumps/Rubella), Varicella, and meningococcal vaccines for children.
-          Annual influenza vaccine is available free at PHCs during flu season.
-          <strong>Insurance is not required and not used for NIP vaccinations.</strong>
-          Source: MOHAP UAE National Immunisation Schedule.
+        <div class="glass-card">
+          <div class="card-title">Abu Dhabi — Childhood and School Schedule (DOH Circular 77/2026)</div>
+          <table class="styled-table">
+            <tr><th>Timing</th><th>Routine schedule summary</th></tr>
+            <tr><td><strong>Birth</strong></td><td>BCG; Hepatitis B; RSV long-acting monoclonal antibodies for the defined newborn pathway.</td></tr>
+            <tr><td><strong>End of month 2</strong></td><td>Hexavalent vaccine: diphtheria, tetanus, acellular pertussis, Hib, Hepatitis B, IPV; PCV20; RV1.</td></tr>
+            <tr><td><strong>End of month 4</strong></td><td>Hexavalent vaccine; PCV20; RV1.</td></tr>
+            <tr><td><strong>End of month 6</strong></td><td>Hexavalent vaccine; bOPV.</td></tr>
+            <tr><td><strong>End of month 12</strong></td><td>MMR; varicella; MCV4 meningococcal ACYW135 conjugate vaccine.</td></tr>
+            <tr><td><strong>End of month 18</strong></td><td>DTaP-Hib-IPV; bOPV; MMR; PCV20.</td></tr>
+            <tr><td><strong>Grade 1</strong></td><td>DTaP-IPV; bOPV; varicella.</td></tr>
+            <tr><td><strong>Grade 5</strong></td><td>MCV4 meningococcal ACYW135 conjugate vaccine, starting from the 2026–2027 academic year.</td></tr>
+            <tr><td><strong>Grade 8</strong></td><td>HPV9 for females and males — two doses. The circular includes age-dependent HPV catch-up instructions.</td></tr>
+            <tr><td><strong>Grade 11</strong></td><td>Tdap; MCV4 meningococcal ACYW135 conjugate vaccine.</td></tr>
+          </table>
+          <div class="source-note">DOH Circular 77/2026 also updates pneumococcal products and catch-up rules. Use the circular appendix for delayed schedules, high-risk children, and product-specific details.</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Vaccination Adjudication Checklist</div>
+          <table class="styled-table">
+            <tr><th>Question</th><th>What to Check</th></tr>
+            <tr><td>Is this a routine public-health dose?</td><td>Use the current emirate schedule and confirm where the dose should be delivered.</td></tr>
+            <tr><td>Is the request an insurance claim?</td><td>Read the TOB for vaccination or preventive-care benefits, exclusions, funded pathways, age rules, network restrictions, and pre-authorisation requirements.</td></tr>
+            <tr><td>Is this a catch-up dose?</td><td>Use the current official catch-up schedule and minimum-interval guidance. Do not create a schedule manually.</td></tr>
+            <tr><td>Is this a special-risk case?</td><td>Check the applicable official guidance for preterm children, immunocompromised patients, RSV season, travel, occupational health, pregnancy, or adult vaccination.</td></tr>
+            <tr><td>Is the information current?</td><td>Check the latest DHA and DOH circulars before applying the training summary in practice.</td></tr>
+          </table>
+        </div>
+        <div class="source-note">
+          Official references: <a href="https://dha.gov.ae/uploads/102024/Clinical%20Guideline%20for%20Best%20Practice%20in%20Immunization20241028945.pdf" target="_blank">DHA Clinical Guideline for Best Practice in Immunization — Issue 4, effective 27 Jan 2026</a> ·
+          <a href="https://www.doh.gov.ae/-/media/950546F00B64465CA91D7729996B3487.ashx" target="_blank">DOH Circular 77/2026 — Updates to the Immunization Program</a>
         </div>
         """, unsafe_allow_html=True)
 
@@ -2552,7 +2568,7 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
             <tr>
               <td><strong>Undeclared Pre-existing Condition (UNPEC) suspected</strong></td>
               <td>PIC (for designated payers) or MIU</td>
-              <td>Certain PICs (e.g. Orient, AIAW, Watania, Generali/GGH, Salama) require the TPA to obtain their written authorisation before issuing a denial for UNPEC. Denying without escalation for these payers = process violation.</td>
+              <td>Some payer workflows require written PIC authorisation before a final UNPEC denial. Check the current payer escalation matrix and document the approval trail. Do not rely on a legacy company list.</td>
             </tr>
             <tr>
               <td><strong>File Audit required</strong></td>
