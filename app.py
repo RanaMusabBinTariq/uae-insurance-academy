@@ -419,7 +419,7 @@ if "progress" not in st.session_state:
         "foundations": False, "exclusions": False, "claims": False,
         "coding": False, "preex": False, "inpatient": False,
         "audit": False, "specialty": False, "cases": False,
-        "quiz": False
+        "quiz": False, "resources": False, "procedures": False
     }
 if "quiz_scores" not in st.session_state:
     st.session_state.quiz_scores = {}
@@ -580,7 +580,7 @@ if not st.session_state.disclaimer_accepted:
 - All content is provided for learning purposes and does not constitute medical, legal, or insurance advice.
 - Clinical and coverage decisions must always be based on the treating physician's medical judgment, the patient's complete medical file, and the applicable policy terms and conditions (TOB).
 - DHA, HAAD/DOH, MOH, and other regulatory rules referenced are generalised summaries. Always verify with the current official circulars before applying in practice.
-- No insurance company names or proprietary internal documents are disclosed or reproduced. Content derived from professional experience and publicly available regulatory frameworks.
+- The material focuses on general learning principles. Where policy wording or local rules differ, the current official source and the member-specific TOB take precedence.
 - The creator assumes no liability for decisions made based on content presented in this app.
 
 **By continuing, you acknowledge this is a training tool and not a clinical or legal decision-making system.**
@@ -666,9 +666,9 @@ if nav == "🏠  Home & Dashboard":
     modules = [
         ("🌍", "UAE Insurance Landscape", "Regulators, TPA, DHA, DOH/HAAD, reinsurance", "foundations", "landscape"),
         ("🚫", "Exclusions Reference", "DHA, DOH/HAAD and MOH exclusion summaries", "exclusions", "exclusions"),
-        ("📋", "Claims Processing", "OP/IP workflow, denial codes, prior authorisation", "claims", "claims"),
+        ("📋", "Claims Processing", "OP/IP workflow, review outcomes and prior authorisation", "claims", "claims"),
         ("🔢", "Medical Coding", "CPT, ICD-10, HCPCS, DRG and HCC concepts", "coding", "coding"),
-        ("🔍", "Pre-existing Conditions", "UNPEC, underwriting and file-audit learning", "preex", "preex"),
+        ("🔍", "Pre-existing Conditions", "Declarations, evidence review and policy wording", "preex", "preex"),
         ("🏥", "Inpatient & Emergency", "IP rules, notification, LoS and DRG grouping", "inpatient", "inpatient"),
         ("🔎", "Internal Audit", "Risk-based audit, FWA and documentation", "audit", "audit"),
         ("💊", "Specialty Rules", "Physiotherapy, dental, maternity and pharmacy", "specialty", "specialty"),
@@ -774,13 +774,13 @@ elif nav == "🌍  UAE Insurance Landscape":
               <td><span class="badge badge-amber">Near-EBP / Budget Basic</span></td>
               <td>Near-EBP plans</td>
               <td>Small employers, budget groups</td>
-              <td>Similar to EBP. Restricted OP network. Hospital access only at night (10pm–8am) or emergency. Max 3 physio sessions per request.</td>
+              <td>Restricted-network products may have narrower provider access and additional referral or authorisation requirements. Always check the member-specific TOB, network and current product rules.</td>
             </tr>
             <tr>
               <td><span class="badge badge-blue">Standard / Enhanced</span></td>
               <td>Corporate group plans</td>
               <td>Mid-size companies, professionals</td>
-              <td>Broader network. May include dental, optical, maternity package. No GP referral requirement. Standard 5 physio sessions per request.</td>
+              <td>Broader-network products may add dental, optical, maternity or rehabilitation benefits. Referral, authorisation and physiotherapy limits remain member-specific and must be checked in the TOB.</td>
             </tr>
             <tr>
               <td><span class="badge badge-cyan">Gold / Premium / International</span></td>
@@ -860,7 +860,7 @@ elif nav == "🌍  UAE Insurance Landscape":
           <table class="styled-table">
             <tr><th>Term</th><th>Meaning</th></tr>
             <tr><td>TOB</td><td>Table of Benefits — the master document listing covered and excluded services, limits, co-pays, networks</td></tr>
-            <tr><td>MAF</td><td>Medical Application Form — completed at policy inception for individual/small-group underwriting</td></tr>
+            <tr><td>MAF</td><td>Medical Application Form — used where applicable for underwriting and declarations</td></tr>
             <tr><td>Declaration Form</td><td>Lists pre-existing conditions declared by the member at enrollment</td></tr>
             <tr><td>Prior Authorization (PA)</td><td>Pre-approval required before a service is rendered — most elective procedures, specialist referrals, high-cost diagnostics</td></tr>
             <tr><td>Co-pay / Deductible</td><td>Member's share of cost. Co-pay = fixed amount per visit. Deductible = amount member pays before insurance kicks in.</td></tr>
@@ -1085,140 +1085,97 @@ elif nav == "🚫  Exclusions Reference":
 elif nav == "📋  Claims Processing":
     st.session_state.progress["claims"] = True
     st.markdown('<div class="section-title">Claims Processing</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">Prior authorisation, adjudication workflow, denial codes, and procedure decision trees</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">Prior authorisation, eligibility checks, medical-necessity review, and clear decision documentation</div>', unsafe_allow_html=True)
 
-    tab1, tab2, tab3, tab4 = st.tabs(["🔄 Workflow", "🚫 Denial Codes", "🌳 Decision Trees", "📋 Procedure Rules"])
+    tab1, tab2, tab3, tab4 = st.tabs(["🔄 Workflow", "🧾 Review Outcomes", "🧠 Imaging Review", "📋 Procedure Review"])
 
     with tab1:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:1rem;">Prior Authorisation (PA) Process Flow</div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(79,156,249,0.2);color:#4f9cf9;">1</div>
-            <div><strong>Provider submits PA request</strong> — via TPA portal with CPT code, ICD-10 diagnosis, member card number, clinical notes. Cost must be included in service line.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(34,211,197,0.2);color:#22d3c5;">2</div>
-            <div><strong>TPA receives & checks eligibility</strong> — Is member active? Is provider in-network? Is service in TOB? Waiting period? Sub-limit remaining? Annual limit remaining?</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(167,139,250,0.2);color:#a78bfa;">3</div>
-            <div><strong>Medical adjudication</strong> — Is service medically necessary? First-line or requires prior conservative management? Any exclusion clause? Documentation adequate?</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(251,191,36,0.2);color:#fbbf24;">4</div>
-            <div><strong>Decision</strong> — Approve (with reference code) / Deny (with denial code + template) / Query (Request for Information) / Escalate to PIC (high-value or UNPEC)</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(52,211,153,0.2);color:#34d399;">5</div>
-            <div><strong>Provider notified</strong> — Approval reference sent. Service rendered. Claim submitted post-service for payment settlement.</div>
-          </div>
+          <div style="font-weight:700;margin-bottom:1rem;">Prior Authorisation (PA) — Practical Review Flow</div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(79,156,249,0.2);color:#4f9cf9;">1</div><div><strong>Confirm the request</strong> — Member identifier, provider, diagnosis, requested service, code, clinical notes, date and cost estimate.</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(34,211,197,0.2);color:#22d3c5;">2</div><div><strong>Check eligibility and benefit</strong> — Active membership, network, TOB wording, limits, exclusions, waiting periods and any referral requirement.</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(167,139,250,0.2);color:#a78bfa;">3</div><div><strong>Review medical necessity</strong> — Clinical indication, red flags, prior assessment, relevant results, treatment plan and whether the requested setting is appropriate.</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(251,191,36,0.2);color:#fbbf24;">4</div><div><strong>Choose a clear outcome</strong> — Approve, request specific missing information, redirect to the applicable benefit route, or decline with a documented reason linked to the TOB or evidence reviewed.</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(52,211,153,0.2);color:#34d399;">5</div><div><strong>Record the decision trail</strong> — Evidence reviewed, rationale, reference number, approved scope where applicable, and any follow-up requirement.</div></div>
         </div>
-
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">What Always Requires Prior Authorisation</div>
+          <div style="font-weight:700;margin-bottom:.8rem;">Services Commonly Checked for Prior Authorisation</div>
           <table class="styled-table">
-            <tr><th>Service Category</th><th>PA Required?</th><th>Notes</th></tr>
-            <tr><td>All inpatient admissions (elective)</td><td><span class="badge badge-coral">Always</span></td><td>Must be approved before admission. No PA = denial (except emergency notified within 24hrs)</td></tr>
-            <tr><td>Surgical procedures (OP and IP)</td><td><span class="badge badge-coral">Always</span></td><td>PA must be obtained before surgery regardless of setting</td></tr>
-            <tr><td>MRI / CT / PET scans</td><td><span class="badge badge-coral">Always</span></td><td>High-value imaging. Clinical justification required. First-line tests must precede in most cases.</td></tr>
-            <tr><td>Specialist referral (EBP)</td><td><span class="badge badge-amber">Usually</span></td><td>EBP members need GP referral to see specialist (except paeds/OB-GYN)</td></tr>
-            <tr><td>Physiotherapy sessions</td><td><span class="badge badge-amber">Yes</span></td><td>Max 5 sessions per request (3 for EBP). Progress report after each batch.</td></tr>
-            <tr><td>Outpatient procedures (colonoscopy, endoscopy)</td><td><span class="badge badge-coral">Yes</span></td><td>Requires clinical criteria to be met before approval</td></tr>
-            <tr><td>OP GP consultation</td><td><span class="badge badge-green">No PA</span></td><td>Generally direct access for standard plans</td></tr>
-            <tr><td>Emergency (life-threatening)</td><td><span class="badge badge-green">Treat first</span></td><td>Approve until stabilisation. Notify insurer within 24 hours post-admission.</td></tr>
+            <tr><th>Category</th><th>General Review Approach</th><th>Key Checks</th></tr>
+            <tr><td>Elective inpatient admission</td><td>Usually reviewed before admission.</td><td>Admission necessity, setting, diagnosis, proposed treatment, expected length of stay, network and benefit.</td></tr>
+            <tr><td>Day surgery and elective procedures</td><td>Often require benefit and medical-necessity review.</td><td>Procedure code, indication, relevant results, alternatives, provider eligibility and TOB.</td></tr>
+            <tr><td>Advanced imaging</td><td>Review is indication-specific; avoid blanket rules.</td><td>Clinical question, red flags, prior assessment, relevant first-line tests and guideline context.</td></tr>
+            <tr><td>Physiotherapy and rehabilitation</td><td>Requirements vary by product and regulator framework.</td><td>Assessment, functional goals, treatment plan, milestones, progress documentation, referral route and benefit balance.</td></tr>
+            <tr><td>Emergency care</td><td>Treat immediate clinical risk first; administrative review follows the applicable framework.</td><td>Emergency presentation, stabilisation needs, network status, notification requirements and ongoing-care plan.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
 
     with tab2:
-        denial_codes = [
-            ("Auth-001", "Prior approval not obtained", "badge-coral", "Service rendered without prior authorisation. Standard rejection unless verbal approval exists in medical file (emergency ER only)."),
-            ("AUTH-011", "Waiting period on pre-existing / chronic conditions", "badge-amber", "6-month standard waiting period for chronic/pre-existing. Check both group AND individual custom fields before applying."),
-            ("AUTH-012", "Request for Information (RFI)", "badge-blue", "Incomplete documentation. Specify exactly what is needed: onset date, conservative management history, investigations, physiotherapy progress notes."),
-            ("BENX-005", "Annual limit / sub-limit exceeded", "badge-amber", "Member has exhausted their benefit for the current policy year. State which benefit and the amount."),
-            ("CLAI-007", "Work-related injury", "badge-coral", "Condition related to workplace injury. Covered by Workmen's Compensation, not health insurance. For EBP: cover only to point of emergency stabilisation."),
-            ("CLAI-012", "Provider not in member's network", "badge-coral", "Requesting provider is not contracted in the member's specific network tier. Direct billing not available — reimbursement only."),
-            ("CLAI-017", "Service only on reimbursement", "badge-amber", "Service is covered but only through reimbursement (not direct billing). Advise member to pay and submit claim."),
-            ("DUPL-001", "Duplicate claim / approval", "badge-amber", "Service was already approved or claimed. Cite the previous approval reference code."),
-            ("ELIG-007", "Non-network provider", "badge-coral", "Provider not in network. Member may proceed on reimbursement basis if covered under TOB."),
-            ("MNEC-003", "Not clinically indicated", "badge-coral", "Service not medically necessary per clinical guidelines. Must cite specific reason (e.g., normal radiology findings, insufficient conservative management, too short duration of symptoms)."),
-            ("MNEC-005", "Service too frequent", "badge-amber", "Service was already recently approved and repeating within a short interval is not medically justified. Cite previous approval date."),
-            ("NCOV-001", "Diagnosis not covered", "badge-coral", "The ICD-10 diagnosis code submitted is an excluded condition. State the applicable exclusion clause number."),
-            ("NCOV-002", "Pre-existing condition not covered", "badge-coral", "Undeclared pre-existing condition. The onset predates policy effective date and was not declared. State onset vs enrollment date."),
-            ("NCOV-003", "Service not covered", "badge-coral", "Specific service/CPT is a standard exclusion. State the exclusion clause number."),
-            ("WRNG-001", "Wrong submission / system issue", "badge-amber", "Miscellaneous technical rejections: request not in system, wrong CPT submitted, missing cost, wrong network. Use specific template for each case."),
+        outcomes = [
+            ("Approve", "badge-green", "The request is eligible, covered and supported by the documentation reviewed.", "Record the approved scope and reference."),
+            ("Request information", "badge-blue", "The request may be appropriate but the evidence is incomplete.", "Ask only for the missing items: symptom duration, examination findings, results, prior treatment, operative plan or progress note."),
+            ("Benefit or network clarification", "badge-amber", "The service route depends on the member-specific plan.", "Confirm TOB, network, referral pathway, reimbursement route, limits and co-pay."),
+            ("Duplicate or frequency review", "badge-amber", "A recent similar service or claim needs comparison.", "Check dates, provider, code, clinical change and previous authorisation."),
+            ("Medical-necessity concern", "badge-coral", "The submitted evidence does not currently support the requested service or setting.", "State the clinical gap clearly and identify what evidence was reviewed."),
+            ("Coverage exclusion", "badge-coral", "The service or condition appears excluded under the applicable wording.", "Quote the relevant TOB or regulatory source and check whether an enhanced benefit applies."),
+            ("Coding or submission correction", "badge-violet", "The request cannot be processed accurately as submitted.", "Identify the incorrect or missing field, code, cost, date or document."),
         ]
-        denial_rows = "".join(
-            '<tr><td><span class="badge ' + d[2] + '" style="font-family:monospace;">' + d[0] + '</span></td>'
-            + '<td><strong>' + d[1] + '</strong></td>'
-            + '<td style="font-size:0.8rem;color:#9aa3b8;">' + d[3] + '</td></tr>'
-            for d in denial_codes
+        rows = "".join(
+            '<tr><td><span class="badge ' + badge + '">' + label + '</span></td><td>' + meaning + '</td><td>' + action + '</td></tr>'
+            for label, badge, meaning, action in outcomes
         )
         st.markdown(
-            '<div class="glass-card"><div style="font-weight:700;margin-bottom:0.8rem;">Standard Denial &amp; Response Codes</div>'
-            + '<table class="styled-table"><tr><th>Code</th><th>Reason</th><th>Key Action</th></tr>'
-            + denial_rows + '</table></div>',
+            '<div class="glass-card"><div style="font-weight:700;margin-bottom:.8rem;">Common Review Outcomes</div>'
+            '<p style="font-size:.86rem;color:#9aa3b8;">Use the terminology configured in the live claims platform. The categories below are learning concepts; labels may differ between systems.</p>'
+            '<table class="styled-table"><tr><th>Outcome</th><th>When It Fits</th><th>Documentation Focus</th></tr>' + rows + '</table></div>',
             unsafe_allow_html=True
         )
 
     with tab3:
-        st.markdown('<div style="font-weight:700;margin-bottom:1rem;">🌳 MRI Authorisation Decision Tree</div>', unsafe_allow_html=True)
-        body_part = st.selectbox("Select body part/indication:", ["Brain", "Spine/Orthopaedic", "Breast", "Abdomen/Pelvis"])
-        if body_part == "Spine/Orthopaedic":
-            st.markdown("""<div class="glass-card">
-              <div style="font-weight:600;margin-bottom:0.8rem;">MRI Spine / Orthopaedic Decision</div>
-              <div class="timeline-item"><div class="timeline-dot" style="background:rgba(251,191,36,0.2);color:#fbbf24;">Q1</div><div>Is there an X-ray attached?</div></div>
-              <div style="padding-left:42px;margin-bottom:1rem;">
-                <div class="success-box"><strong>X-ray shows abnormality + no prior physio:</strong> ✅ Approve MRI</div>
-                <div class="success-box"><strong>X-ray shows abnormality + prior physio:</strong> Ask for physiotherapy progress notes first, then approve if PT inadequate</div>
-                <div class="warning-box"><strong>X-ray normal + no conservative management:</strong> ❌ Deny. Request conservative management first (physio, analgesics).</div>
-                <div class="info-box"><strong>No X-ray attached:</strong> Query (AUTH-012): Request X-ray, conservative management history, initial investigations.</div>
-              </div>
-            </div>""", unsafe_allow_html=True)
-        elif body_part == "Brain":
-            st.markdown("""<div class="glass-card">
-              <div style="font-weight:600;margin-bottom:0.8rem;">MRI Brain Decision</div>
-              <div class="info-box">MRI brain is generally case-by-case based on neurological indication. Standard criteria:</div>
-              <div class="success-box">✅ Approve if: Seizures (EEG done first), MS evaluation, neurological deficit, head trauma with clinical finding, ophthalmologist/neurologist/ENT opinion provided</div>
-              <div class="warning-box">⚠️ Query if: First presentation of headache only — ask for conservative management history, neurological signs/symptoms, ENT and ophthalmology opinions, preliminary investigations</div>
-              <div class="warning-box">❌ Deny if: Purely headache without clinical neurological signs and no conservative management attempted</div>
-            </div>""", unsafe_allow_html=True)
+        st.markdown('<div style="font-weight:700;margin-bottom:1rem;">🧠 Imaging Review Prompts</div>', unsafe_allow_html=True)
+        body_part = st.selectbox("Select review area:", ["Spine / musculoskeletal", "Brain / neurological", "Breast", "Abdomen / pelvis"])
+        if body_part == "Spine / musculoskeletal":
+            st.markdown("""<div class="glass-card"><div class="card-title">Spine and Musculoskeletal Imaging</div>
+            <div class="info-box">The imaging pathway depends on the clinical scenario. Do not require the same prerequisite for every request.</div>
+            <table class="styled-table"><tr><th>Question</th><th>What to Review</th></tr>
+            <tr><td>Are red flags present?</td><td>Trauma, progressive neurological deficit, suspected infection, malignancy, cauda-equina symptoms or another urgent concern.</td></tr>
+            <tr><td>What is the clinical question?</td><td>Clarify whether imaging is intended to assess fracture, neurological compression, inflammatory disease, structural pathology or persistent symptoms.</td></tr>
+            <tr><td>What has already been assessed?</td><td>Examination findings, duration, relevant prior imaging, treatment tried and response where appropriate.</td></tr>
+            <tr><td>Does the requested modality fit?</td><td>Use current appropriateness guidance and the treating clinician's documented rationale.</td></tr></table></div>""", unsafe_allow_html=True)
+        elif body_part == "Brain / neurological":
+            st.markdown("""<div class="glass-card"><div class="card-title">Brain and Neurological Imaging</div>
+            <table class="styled-table"><tr><th>Question</th><th>What to Review</th></tr>
+            <tr><td>Is this an emergency presentation?</td><td>Acute trauma, altered consciousness, focal deficit, sudden severe headache or other red flags may change the preferred modality and urgency.</td></tr>
+            <tr><td>What condition is being assessed?</td><td>Seizure, demyelinating disease, stroke, tumour, infection, headache syndrome or another documented clinical concern.</td></tr>
+            <tr><td>What evidence is available?</td><td>Neurological examination, symptom chronology, relevant specialist note and prior results where applicable.</td></tr></table></div>""", unsafe_allow_html=True)
         elif body_part == "Breast":
-            st.markdown("""<div class="glass-card">
-              <div style="font-weight:600;margin-bottom:0.8rem;">Breast Imaging — Age-Based Decision</div>
-              <table class="styled-table">
-                <tr><th>Age</th><th>First-Line Modality</th><th>Second Modality</th></tr>
-                <tr><td>&lt; 40 years</td><td><span class="badge badge-cyan">Ultrasound</span></td><td>Mammogram if ultrasound shows finding</td></tr>
-                <tr><td>≥ 40 years</td><td><span class="badge badge-blue">Mammography</span></td><td>Ultrasound if mammogram shows abnormality</td></tr>
-              </table>
-              <div class="info-box" style="margin-top:0.8rem;">Note: Ultrasound cannot detect microcalcifications. Mammography cannot adequately evaluate superficial lumps in dense breast tissue. They are complementary, not interchangeable.</div>
-            </div>""", unsafe_allow_html=True)
+            st.markdown("""<div class="glass-card"><div class="card-title">Breast Imaging</div>
+            <table class="styled-table"><tr><th>Review Area</th><th>What to Check</th></tr>
+            <tr><td>Clinical context</td><td>Screening versus diagnostic request, age, symptoms, examination findings, personal risk and previous imaging.</td></tr>
+            <tr><td>Modality selection</td><td>Mammography, ultrasound and MRI have different roles. Confirm the documented indication and use current breast-imaging guidance.</td></tr>
+            <tr><td>Prior findings</td><td>Review prior mammography, ultrasound, pathology or specialist recommendation where relevant.</td></tr></table></div>""", unsafe_allow_html=True)
         else:
-            st.markdown("""<div class="glass-card">
-              <div class="info-box">MRI abdomen/pelvis: Evaluate based on clinical diagnosis, prior ultrasound findings, and specific indication. Ultrasound is first-line for most abdominal indications.</div>
-            </div>""", unsafe_allow_html=True)
+            st.markdown("""<div class="glass-card"><div class="card-title">Abdominal and Pelvic Imaging</div>
+            <table class="styled-table"><tr><th>Question</th><th>What to Review</th></tr>
+            <tr><td>What organ system is involved?</td><td>Hepatobiliary, renal, gastrointestinal, pelvic, vascular or another documented concern.</td></tr>
+            <tr><td>What has already been done?</td><td>Clinical assessment, laboratory tests and any relevant ultrasound, CT or prior specialist review.</td></tr>
+            <tr><td>Why this modality now?</td><td>Confirm how the requested scan is expected to answer the clinical question or change management.</td></tr></table></div>""", unsafe_allow_html=True)
+        st.markdown('<div class="source-note">For imaging decisions, use the current clinical guideline applicable to the scenario. The <a href="https://www.acr.org/Clinical-Resources/ACR-Appropriateness-Criteria" target="_blank">ACR Appropriateness Criteria</a> are a useful reference library.</div>', unsafe_allow_html=True)
 
     with tab4:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Procedure-Specific Coverage Rules</div>
+          <div class="card-title">Procedure Review Checklist</div>
           <table class="styled-table">
-            <tr><th>Procedure</th><th>First-Line?</th><th>Conditions for Approval</th></tr>
-            <tr><td>Physiotherapy</td><td><span class="badge badge-green">Yes</span></td><td>Referral required. No preliminary reports needed (unless individual policy). Max 5 sessions per request.</td></tr>
-            <tr><td>Ultrasound</td><td><span class="badge badge-green">Yes</span></td><td>First-line for most indications. Not first-line for UTI (urine test first). First-line for varicose veins, TMJ.</td></tr>
-            <tr><td>EEG</td><td><span class="badge badge-green">Yes</span></td><td>First-line for epilepsy/seizure evaluation.</td></tr>
-            <tr><td>NCS/Nerve Conduction</td><td><span class="badge badge-green">Yes</span></td><td>First-line for carpal tunnel syndrome, neuropathy.</td></tr>
-            <tr><td>X-Ray</td><td><span class="badge badge-green">Yes</span></td><td>First-line for most orthopaedic, chest, and structural assessments.</td></tr>
-            <tr><td>ECG</td><td><span class="badge badge-green">Yes</span></td><td>First-line. No prerequisites.</td></tr>
-            <tr><td>Echocardiogram</td><td><span class="badge badge-amber">Not always</span></td><td>Not indicated for chest pain without structural cardiac signs (ECG changes, cardiac murmur). Require ECG, TMT, and cardiac enzymes first.</td></tr>
-            <tr><td>Colonoscopy</td><td><span class="badge badge-coral">No</span></td><td>Requires: chronic GI history, calprotectin/investigations, prior colonoscopy reports, or emergency (bleeding PR with Hb drop).</td></tr>
-            <tr><td>Upper GIT Endoscopy</td><td><span class="badge badge-coral">No</span></td><td>Requires: 4–8 weeks of GERD treatment, H. pylori/urea breath test, prior endoscopy report, or emergency (haematemesis).</td></tr>
-            <tr><td>Vitamin D test</td><td><span class="badge badge-coral">No</span></td><td>High-risk groups only. Must have prior test result + supplementation history. Annual repeat only if deficiency confirmed.</td></tr>
-            <tr><td>Allergy testing</td><td><span class="badge badge-amber">TOB-dependent</span></td><td>Check the regulator framework, member-specific TOB, medical necessity, and any applicable benefit extension. Do not apply a payer-specific rule from memory.</td></tr>
-            <tr><td>DEXA scan</td><td><span class="badge badge-amber">Conditional</span></td><td>Osteoporosis: check if X-rays show osteopenia. Approve if osteopenia confirmed, deny otherwise.</td></tr>
-            <tr><td>Liver elastography</td><td><span class="badge badge-coral">No</span></td><td>Not first-line. Requires: medical report with history, liver function profile, ultrasound, viral hepatic labs.</td></tr>
-            <tr><td>Ureteroscopy</td><td><span class="badge badge-amber">Conditional</span></td><td>Stone &lt;0.5cm: conservative management. 0.5–1cm: ESWL or URS if hydronephrosis. &gt;1cm: URS + ESWL. Must have radiology confirmation + urine analysis.</td></tr>
+            <tr><th>Review Area</th><th>Questions to Ask</th></tr>
+            <tr><td>Eligibility and benefit</td><td>Is the member active? Is the service covered? Is a limit, co-pay, waiting period, network rule or referral pathway relevant?</td></tr>
+            <tr><td>Clinical indication</td><td>What diagnosis, symptoms, duration, examination findings and red flags support the request?</td></tr>
+            <tr><td>Evidence and prior care</td><td>Which relevant tests, treatment attempts, specialist opinions or progress notes are available?</td></tr>
+            <tr><td>Setting</td><td>Is the proposed outpatient, day-case or inpatient setting clinically appropriate?</td></tr>
+            <tr><td>Coding and documentation</td><td>Do the diagnosis, procedure code, units, dates, site and clinical note align?</td></tr>
+            <tr><td>Decision trail</td><td>Can another reviewer understand what was reviewed and why the outcome was reached?</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
@@ -1302,11 +1259,12 @@ elif nav == "🔢  Medical Coding":
           <div style="font-weight:700;margin-bottom:0.8rem;">Physiotherapy CPT Codes (High-Use in UAE Claims)</div>
           <table class="styled-table">
             <tr><th>CPT</th><th>Description</th><th>Unit</th><th>UAE Usage Note</th></tr>
-            <tr><td>97001</td><td>PT evaluation (initial assessment)</td><td>1 unit per session</td><td>Only on first session per condition. Not on follow-up sessions.</td></tr>
-            <tr><td>97110</td><td>Therapeutic exercises</td><td>Per 15 min</td><td>Standard physio exercise component. Often 1–3 units per session.</td></tr>
-            <tr><td>97140</td><td>Manual therapy techniques</td><td>Per 15 min</td><td>Increases to 2 units from 2nd–4th session in Mediclinic protocol.</td></tr>
-            <tr><td>97530</td><td>Therapeutic activities</td><td>Per 15 min</td><td>Used for functional activity-based rehab</td></tr>
-            <tr><td>97035</td><td>Ultrasound therapy</td><td>Per 15 min</td><td>Less common; requires specific indication</td></tr>
+            <tr><td>97161–97163</td><td>PT evaluation</td><td>Complexity-based</td><td>Use the evaluation level supported by the documented history, examination, clinical decision-making and applicable coding standard.</td></tr>
+            <tr><td>97164</td><td>PT re-evaluation</td><td>Per encounter</td><td>Use when a clinically supported reassessment is required; do not bill automatically at each follow-up.</td></tr>
+            <tr><td>97110</td><td>Therapeutic exercises</td><td>Per 15 min</td><td>Document the exercise-based intervention, duration and treatment goal.</td></tr>
+            <tr><td>97140</td><td>Manual therapy techniques</td><td>Per 15 min</td><td>Use only when clinically documented and supported by the applicable coding standard and tariff.</td></tr>
+            <tr><td>97530</td><td>Therapeutic activities</td><td>Per 15 min</td><td>Document the functional activity, duration and patient-specific goal.</td></tr>
+            <tr><td>97035</td><td>Ultrasound therapy</td><td>Per 15 min</td><td>Use only when supported by the treatment plan and applicable coding guidance.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
@@ -1383,39 +1341,30 @@ elif nav == "🔢  Medical Coding":
 elif nav == "🔍  Pre-existing Conditions":
     st.session_state.progress["preex"] = True
     st.markdown('<div class="section-title">Pre-existing Conditions & Underwriting</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">How to identify, investigate, and handle undeclared pre-existing conditions (UNPEC) — the most complex area in UAE health insurance</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">Declarations, evidence review, waiting periods, and careful documentation</div>', unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs(["📖 Concepts & Rules", "🔬 UNPEC Investigation", "📂 File Audit"])
+    tab1, tab2, tab3 = st.tabs(["📖 Core Concepts", "🔬 Evidence Review", "📂 Case Documentation"])
 
     with tab1:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Key Definitions</div>
+          <div class="card-title">Core Concepts</div>
           <table class="styled-table">
-            <tr><th>Term</th><th>Definition</th></tr>
-            <tr><td><strong>Pre-existing condition (PEC)</strong></td><td>Any illness, disease, or injury for which the member received medical advice, diagnosis, care, or treatment before the policy effective date.</td></tr>
-            <tr><td><strong>Declared PEC</strong></td><td>A pre-existing condition that was disclosed in the Medical Application Form (MAF) or declaration form at the time of enrollment. May be covered, excluded, or subject to loading.</td></tr>
-            <tr><td><strong>Undeclared PEC (UNPEC)</strong></td><td>A pre-existing condition that existed before the policy but was NOT disclosed at enrollment. Grounds for claim denial under NCOV-002.</td></tr>
-            <tr><td><strong>Waiting period</strong></td><td>A defined period (typically 6 months for EBP) after enrollment during which pre-existing or chronic conditions are not covered. After waiting period, declared PECs may become covered.</td></tr>
-            <tr><td><strong>MAF</strong></td><td>Medical Application Form — individual/small group health declaration. Lists known conditions, medications, hospitalisations. Basis for underwriting decisions.</td></tr>
+            <tr><th>Term</th><th>Learning Definition</th></tr>
+            <tr><td><strong>Pre-existing condition (PEC)</strong></td><td>A condition that may have existed before the relevant policy effective date. The exact contractual definition must be taken from the applicable policy wording.</td></tr>
+            <tr><td><strong>Declared condition</strong></td><td>A condition disclosed during enrolment or underwriting where a declaration process applies.</td></tr>
+            <tr><td><strong>Possible undeclared PEC</strong></td><td>A case where the records suggest earlier onset and the declaration history needs review. It is a review trigger, not an automatic conclusion.</td></tr>
+            <tr><td><strong>Waiting period</strong></td><td>A policy-defined period during which specified benefits may be restricted. Duration and applicability must be checked in the member-specific TOB and policy wording.</td></tr>
+            <tr><td><strong>Medical declaration</strong></td><td>The enrolment or underwriting record used to compare disclosed history with the documentation available for the current request.</td></tr>
           </table>
         </div>
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">DHA 5-Year Rule</div>
-          <div class="info-box">
-            <strong>DHA Regulation:</strong> A pre-existing condition CANNOT be established if the last complaint, treatment, or documented investigation related to that condition was more than 5 years before the current policy effective date — AND there are no captured reports or treatment within the past 5 years.
-            <br/><br/>This means: even if a patient had hypertension 8 years ago but has no records or treatment in the past 5 years, you cannot deny the current claim as UNPEC.
-          </div>
-        </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Waiting Period Rules</div>
+          <div class="card-title">Three Principles for Fair Review</div>
           <table class="styled-table">
-            <tr><th>Policy Type</th><th>Waiting Period</th><th>Notes</th></tr>
-            <tr><td>EBP / Basic (standard)</td><td>6 months — pre-existing and chronic</td><td>Applies from member enrollment date. Check BOTH group and individual custom fields.</td></tr>
-            <tr><td>EBP with zero waiting period flag</td><td>None</td><td>If member custom fields show zero waiting period and no MAF — pre-existing conditions are fully covered from day 1.</td></tr>
-            <tr><td>Standard/Enhanced group</td><td>Usually none for group plans (>10 members)</td><td>Large groups typically waive waiting periods as part of group underwriting. Check TOB.</td></tr>
-            <tr><td>Individual / small group (&lt;10)</td><td>Varies — check MAF and declaration</td><td>Individual policies always have underwriting. Second-year renewals: check if any new conditions arose during policy year.</td></tr>
-            <tr><td>Late addition members</td><td>Depends on policy notes</td><td>Members joining after inception may be subject to underwriting. Check if policy notes specify late additions + confirm if this specific member is flagged.</td></tr>
+            <tr><th>Principle</th><th>How to Apply It</th></tr>
+            <tr><td>Use the contract</td><td>Read the exact policy wording, effective date, TOB and any underwriting decision. Avoid relying on assumptions from another product.</td></tr>
+            <tr><td>Use evidence</td><td>Review documented onset, diagnosis date, prior treatment, medication history, investigations and declaration records. Do not infer a conclusion from the diagnosis name alone.</td></tr>
+            <tr><td>Document uncertainty</td><td>When evidence is incomplete, request the missing information and record the reason for the query.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
@@ -1423,60 +1372,28 @@ elif nav == "🔍  Pre-existing Conditions":
     with tab2:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">UNPEC Detection — Investigation Workflow</div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(255,107,107,0.2);color:#ff6b6b;">1</div>
-            <div><strong>Suspicion triggered</strong> — New member with chronic/complex condition shortly after enrollment. Provider reports long-standing condition. Patient history suggests onset before policy date.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(251,191,36,0.2);color:#fbbf24;">2</div>
-            <div><strong>Query onset</strong> — Send AUTH-012 requesting: exact date of onset, duration of condition, prior visits to any facility, previous investigations, current medications, history of treatment.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(167,139,250,0.2);color:#a78bfa;">3</div>
-            <div><strong>Evaluate response</strong> — Does onset predate policy effective date? Compare to enrollment date, check declaration form/MAF for this condition. Check custom fields.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(79,156,249,0.2);color:#4f9cf9;">4</div>
-            <div><strong>Payer-specific rules apply</strong> — Some PICs require escalation. Evidence thresholds differ (see table below).</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:rgba(52,211,153,0.2);color:#34d399;">5</div>
-            <div><strong>Document and act</strong> — Update medical file. Raise UNPEC sheet. Deny with NCOV-002 or approve if investigation clears. For ambiguous cases: give benefit of doubt for initial investigations.</div>
-          </div>
-        </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">UNPEC Review — General Control Points</div>
-          <table class="styled-table">
-            <tr><th>Control Point</th><th>What to Review</th><th>Escalation?</th><th>Notes</th></tr>
-            <tr><td>Evidence of onset</td><td>Signed clinical documentation, diagnosis date, treatment history, prior investigations, and medication history.</td><td>Escalate when the internal workflow requires PIC or senior-review input.</td><td>Do not rely on symptoms alone when the evidence is incomplete.</td></tr>
-            <tr><td>Declaration review</td><td>Compare the medical application form, declared conditions, policy effective date, and documented onset.</td><td>Escalate ambiguous cases.</td><td>Use the member-specific policy wording and current internal SOP.</td></tr>
-            <tr><td>Initial medically necessary care</td><td>Assess whether immediate investigation or stabilisation should proceed while the review is ongoing.</td><td>Use senior medical review for grey-zone cases.</td><td>Document the rationale and the evidence requested.</td></tr>
-            <tr><td>Final decision</td><td>Apply the regulator framework, TOB, evidence, and authorised payer workflow.</td><td>Escalate whenever required by the current payer matrix.</td><td>Avoid hard-coded payer names or legacy company rules in public training material.</td></tr>
-          </table>
+          <div class="card-title">Evidence Review Workflow</div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(255,107,107,.2);color:#ff6b6b;">1</div><div><strong>Identify the review question</strong> — What information suggests possible earlier onset or prior treatment?</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(251,191,36,.2);color:#fbbf24;">2</div><div><strong>Check the policy record</strong> — Effective date, TOB, waiting-period wording, declaration form where applicable, and any underwriting note.</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(167,139,250,.2);color:#a78bfa;">3</div><div><strong>Collect clinical evidence</strong> — Documented onset, diagnosis date, previous visits, medication history, relevant reports and treatment chronology.</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(79,156,249,.2);color:#4f9cf9;">4</div><div><strong>Compare evidence with wording</strong> — Decide whether the available records answer the contractual question or whether further clarification is needed.</div></div>
+          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(52,211,153,.2);color:#34d399;">5</div><div><strong>Record the outcome</strong> — Summarise the evidence reviewed, missing items, applicable policy language and final rationale.</div></div>
         </div>
         """, unsafe_allow_html=True)
 
     with tab3:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">File Audit Workflow</div>
-          <div class="info-box">File audits are triggered when a case is suspected to be UNPEC, when there is a discrepancy in onset history, or when the claim value warrants deeper review.</div>
+          <div class="card-title">Minimum Documentation for a PEC Review</div>
           <table class="styled-table">
-            <tr><th>Trigger</th><th>Threshold / Condition</th></tr>
-            <tr><td>High-value claim</td><td>Generally cases above AED 4,000–5,000. Confirm internal threshold with TPA policy.</td></tr>
-            <tr><td>UNPEC suspicion</td><td>When onset investigation reveals possible pre-existing condition and documentation supports it.</td></tr>
-            <tr><td>Onset discrepancy</td><td>Member and provider give conflicting accounts of onset date or treatment history.</td></tr>
-            <tr><td>Suspected fraud</td><td>Unusual billing patterns, duplicate requests, provider-member collusion signs.</td></tr>
-            <tr><td>Recently enrolled with complex chronic condition</td><td>New member presenting with long-standing condition (e.g., advanced DM with nephropathy on first visit).</td></tr>
+            <tr><th>Area</th><th>What to Capture</th></tr>
+            <tr><td>Policy context</td><td>Product, effective date, TOB, waiting-period wording and declaration process where applicable.</td></tr>
+            <tr><td>Clinical chronology</td><td>Symptoms, documented onset, diagnosis date, treatment dates, medication history and previous investigations.</td></tr>
+            <tr><td>Evidence source</td><td>Clinical note, report, prescription history, discharge summary, declaration form or other relevant record.</td></tr>
+            <tr><td>Open question</td><td>The precise missing item needed to reach a fair decision.</td></tr>
+            <tr><td>Outcome</td><td>Decision rationale linked to the member-specific policy wording and evidence reviewed.</td></tr>
           </table>
-          <div style="margin-top:1rem;font-weight:600;margin-bottom:0.6rem;">File Audit Process</div>
-          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(79,156,249,0.2);color:#4f9cf9;">1</div><div>Ensure provider has specified exact onset date before raising FA ticket. No FA ticket without onset information.</div></div>
-          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(167,139,250,0.2);color:#a78bfa;">2</div><div>Fill FA form. Attach all received medical reports. Raise ticket to Medical Investigation Unit (MIU).</div></div>
-          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(34,211,197,0.2);color:#22d3c5;">3</div><div>Email subject format: <code>FILE AUDIT FOR [Member Name] – [Card No.] – [Insurance Company]</code></div></div>
-          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(251,191,36,0.2);color:#fbbf24;">4</div><div>Pending FA: update medical file with "request pending provider for onset documentation." Approve initial diagnostic investigations while investigation is ongoing.</div></div>
-          <div class="timeline-item"><div class="timeline-dot" style="background:rgba(52,211,153,0.2);color:#34d399;">5</div><div>FA outcome: If UNPEC confirmed → update UNPEC sheet → deny related claims with NCOV-002. If cleared → approve ongoing treatment.</div></div>
-          <div class="warning-box" style="margin-top:0.8rem;">Avoid multiple denials asking for information. One query → case management → FA if needed. Do not raise FA for cases below AED 5,000 unless fraud suspicion or discrepancy exists.</div>
+          <div class="info-box" style="margin-top:.8rem;"><strong>Good practice:</strong> Distinguish a genuine evidence gap from an unsupported assumption. A diagnosis recorded soon after enrolment does not, by itself, prove non-disclosure.</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1485,59 +1402,36 @@ elif nav == "🔍  Pre-existing Conditions":
 # ══════════════════════════════════════════════════════════════════════════════
 elif nav == "🏥  Inpatient & Emergency":
     st.session_state.progress["inpatient"] = True
-    st.markdown('<div class="section-title">Inpatient & Emergency Rules</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">IP authorisation, the 24-hour rule, DRG grouping, length of stay, and emergency stabilisation requirements</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Inpatient & Emergency</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">Admission review, emergency stabilisation, length of stay, and DRG payment concepts</div>', unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs(["🏥 IP Authorisation", "🚨 Emergency Rules", "💰 DRG & Payment"])
+    tab1, tab2, tab3 = st.tabs(["🏥 Admission Review", "🚨 Emergency Review", "💰 DRG & Payment"])
 
     with tab1:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Inpatient (IP) Prior Authorisation Rules</div>
-          <div class="warning-box"><strong>Critical Rule:</strong> Inpatient treatment without prior authorisation will be denied — NCOV-003 / Auth-001. No exceptions except genuine emergency cases notified within 24 hours.</div>
-          <table class="styled-table" style="margin-top:0.8rem;">
-            <tr><th>Step</th><th>Action</th><th>Responsible</th></tr>
-            <tr><td>1</td><td>Provider submits IP PA request with admitting diagnosis (ICD-10), proposed procedure (CPT), estimated LoS, estimated cost, clinical notes</td><td>Hospital admissions/billing team</td></tr>
-            <tr><td>2</td><td>TPA checks: eligibility, network, IP coverage (not all plans have IP), annual limit remaining, waiting period, exclusions</td><td>TPA adjudicator</td></tr>
-            <tr><td>3</td><td>Medical review: Is admission medically necessary? Can treatment safely be done as OP? Is LoS appropriate?</td><td>TPA medical reviewer</td></tr>
-            <tr><td>4</td><td>High-value cases (above payer escalation matrix threshold): escalate to PIC for approval</td><td>TPA → PIC</td></tr>
-            <tr><td>5</td><td>Approval issued with reference code, authorised LoS, and any conditions (e.g., concurrent review at 48hrs)</td><td>TPA</td></tr>
-            <tr><td>6</td><td>Patient admitted. Any extension of stay requires re-authorisation. Discharge coding determines DRG.</td><td>Hospital + TPA</td></tr>
-          </table>
+          <div class="card-title">Elective Inpatient Review</div>
+          <table class="styled-table"><tr><th>Step</th><th>What to Review</th></tr>
+          <tr><td>1. Eligibility</td><td>Membership, network, inpatient benefit, TOB, limits and any referral or authorisation requirement.</td></tr>
+          <tr><td>2. Clinical need</td><td>Reason for admission, diagnosis, proposed treatment, comorbidities, monitoring needs and whether a lower-acuity setting is safe.</td></tr>
+          <tr><td>3. Expected course</td><td>Estimated length of stay, procedure plan, discharge criteria and any foreseeable complication risk.</td></tr>
+          <tr><td>4. Ongoing review</td><td>Progress notes, investigations, treatment response, continued-stay justification and discharge planning.</td></tr>
+          <tr><td>5. Discharge record</td><td>Discharge summary, final diagnoses, procedures, dates and documentation required for accurate grouping and payment.</td></tr></table>
         </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Length of Stay (LoS) Guidelines</div>
-          <p style="font-size:0.88rem;color:#9aa3b8;line-height:1.7;">
-            TPAs use clinical LoS benchmarks (Milliman, MCG, or internally defined) to assess whether a requested admission length is appropriate.
-            An LoS longer than the benchmark requires clinical justification (complications, comorbidities, post-op concerns).
-          </p>
-          <div class="info-box">Any treatment that can safely be done on an outpatient basis must NOT be admitted as inpatient. This is both a DHA/HAAD exclusion and a standard denial reason (CLAI-012 type). Example: minor procedures, simple injections, observations without active treatment.</div>
-        </div>
+        <div class="glass-card"><div class="card-title">Length-of-Stay Review</div>
+        <div class="info-box">Length of stay is a clinical-review question, not a fixed number copied from another case. Compare the expected course with the documented condition, complications, treatment response and discharge readiness.</div></div>
         """, unsafe_allow_html=True)
 
     with tab2:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Emergency Rules — UAE Standard</div>
-          <div class="success-box"><strong>Principle:</strong> Any genuine emergency must be stabilised regardless of network, coverage, or exclusions. Cost of emergency stabilisation is always covered to the point of stabilisation.</div>
-          <table class="styled-table" style="margin-top:0.8rem;">
-            <tr><th>Triage Level</th><th>Category</th><th>Insurance Action</th></tr>
-            <tr><td>Triage 1</td><td>Immediate — life-threatening</td><td>Cover until stabilisation. No PA required. Notify insurer within 24 hours.</td></tr>
-            <tr><td>Triage 2</td><td>Emergent — urgent</td><td>Cover until stabilisation. Notify within 24 hours. Reassess for ongoing coverage.</td></tr>
-            <tr><td>Triage 3</td><td>Urgent</td><td>Borderline — assess clinical notes. Generally considered emergency.</td></tr>
-            <tr><td>Triage 4–5</td><td>Less urgent / Non-urgent</td><td>Not emergency. Requires PA. EBP members should have visited clinic first.</td></tr>
-          </table>
-          <div class="warning-box" style="margin-top:0.8rem;"><strong>24-Hour Notification Rule:</strong> For emergency admissions, the hospital or member must notify the TPA/insurer within 24 hours of admission where possible. Failure to notify does not void emergency coverage but may complicate PA for ongoing stay.</div>
-        </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">EBP Emergency Access Rules</div>
-          <table class="styled-table">
-            <tr><th>Situation</th><th>EBP Rule</th></tr>
-            <tr><td>Consultation at hospital — night hours (10pm–8am)</td><td>Allowed if GP consultation and member has IP coverage at that facility</td></tr>
-            <tr><td>Life-threatening emergency (any hour)</td><td>Allowed — cover to point of stabilisation</td></tr>
-            <tr><td>Consultation with referral from EBP OP clinic</td><td>Allowed at IP facility if member has IP coverage there</td></tr>
-            <tr><td>Work-related injury (EBP)</td><td>Emergency only to stabilisation. Elective WRI: deny immediately.</td></tr>
-          </table>
+          <div class="card-title">Emergency Care Review</div>
+          <div class="success-box"><strong>Clinical priority:</strong> Immediate assessment and stabilisation take priority when delay could place the patient at risk.</div>
+          <table class="styled-table"><tr><th>Review Area</th><th>What to Capture</th></tr>
+          <tr><td>Presentation</td><td>Symptoms, triage category, vital signs, examination findings and the reason urgent care was required.</td></tr>
+          <tr><td>Stabilisation</td><td>Immediate treatment, investigations, clinical response and the point at which the patient could safely continue in the appropriate setting.</td></tr>
+          <tr><td>Administrative follow-up</td><td>Network status, notification timing and ongoing-care authorisation according to the applicable policy and regulator framework.</td></tr>
+          <tr><td>Transfer planning</td><td>Whether transfer is clinically safe and appropriate after stabilisation.</td></tr></table>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1545,19 +1439,14 @@ elif nav == "🏥  Inpatient & Emergency":
         st.markdown("""
         <div class="glass-card">
           <div class="card-title">DRG — Inpatient Payment Logic</div>
-          <p style="font-size:0.88rem;color:#9aa3b8;line-height:1.7;">
-            Diagnosis Related Groups are case-based categories for inpatient reimbursement. A grouper processes the coded encounter
-            and returns a DRG. The payment calculation then applies the relevant local tariff, relative weight, contract terms and any eligible adjustments.
-          </p>
-          <table class="styled-table">
-            <tr><th>Review Layer</th><th>What to Validate</th><th>Common Risk</th></tr>
-            <tr><td>Clinical</td><td>Reason for admission, inpatient necessity, course of treatment, LoS and discharge plan</td><td>Admission that could safely be outpatient; unsupported extension of stay</td></tr>
-            <tr><td>Coding</td><td>Principal diagnosis, secondary diagnoses, procedures, dates and discharge status</td><td>Unsupported CC/MCC, incorrect sequencing, missing or mismatched procedure code</td></tr>
-            <tr><td>Grouping</td><td>Correct local grouper version and expected DRG result</td><td>Using the wrong grouper version or overlooking a material edit</td></tr>
-            <tr><td>Payment</td><td>Relative weight, base rate, outlier logic, high-cost device rules and contracted adjustments</td><td>Unsupported add-on, incorrect outlier, unbundled line items</td></tr>
-            <tr><td>Audit trail</td><td>Discharge summary, operative report, lab/radiology evidence and coding-query history</td><td>Post-discharge documentation changes without a clear clinical basis</td></tr>
-          </table>
-          <div class="warning-box" style="margin-top:0.8rem;"><strong>Do not use this page as a tariff calculator.</strong> Current DOH, DHA and payer rules, grouper versions and contracts must be checked for live adjudication.</div>
+          <p style="font-size:.88rem;color:#9aa3b8;line-height:1.7;">Diagnosis Related Groups are case-based categories used for inpatient reimbursement. A grouper processes the coded encounter and returns a DRG. Payment then depends on the applicable local methodology, relative weight, base rate, contract terms and eligible adjustments.</p>
+          <table class="styled-table"><tr><th>Review Layer</th><th>What to Validate</th><th>Common Risk</th></tr>
+          <tr><td>Clinical</td><td>Reason for admission, course of treatment, length of stay and discharge plan.</td><td>Admission or continued stay not supported by the clinical record.</td></tr>
+          <tr><td>Coding</td><td>Principal diagnosis, secondary diagnoses, procedures, dates and discharge status.</td><td>Unsupported secondary diagnosis, incorrect sequencing or mismatched procedure coding.</td></tr>
+          <tr><td>Grouping</td><td>Correct local grouper version and expected DRG output.</td><td>Wrong grouper version or overlooked edit.</td></tr>
+          <tr><td>Payment</td><td>Relative weight, base rate, outlier logic and contracted adjustments.</td><td>Incorrect outlier or unsupported add-on.</td></tr>
+          <tr><td>Audit trail</td><td>Discharge summary, operative report, clinical evidence and coding-query history.</td><td>Code assignment not supported by contemporaneous documentation.</td></tr></table>
+          <div class="source-note">For Abu Dhabi, use the current <a href="https://www.doh.gov.ae/en/shafafiya" target="_blank">DOH Shafafiya</a> standards, claims and adjudication rules, coding manual and applicable updates. This page is a learning summary, not a tariff calculator.</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1567,89 +1456,56 @@ elif nav == "🏥  Inpatient & Emergency":
 elif nav == "🔎  Internal Audit":
     st.session_state.progress["audit"] = True
     st.markdown('<div class="section-title">Internal Audit in Health Insurance</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">Risk-based auditing, FWA detection, DRG audit, coding compliance, and documentation standards</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">Risk-based review, coding quality, utilisation patterns, FWA awareness, and defensible documentation</div>', unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs(["🔎 Audit Fundamentals", "⚠️ Fraud, Waste & Abuse", "📋 Audit Documentation"])
+    tab1, tab2, tab3 = st.tabs(["🔎 Audit Fundamentals", "⚠️ FWA Awareness", "📋 Audit Documentation"])
 
     with tab1:
         st.markdown("""
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Types of Health Insurance Audit</div>
-          <table class="styled-table">
-            <tr><th>Type</th><th>When Done</th><th>Focus</th></tr>
-            <tr><td><span class="badge badge-blue">Desk / Retrospective Review</span></td><td>Post-claim payment — random or triggered</td><td>Review of paid claims for coding accuracy, medical necessity, correct DRG assignment, UNPEC</td></tr>
-            <tr><td><span class="badge badge-cyan">Concurrent Review</span></td><td>During active inpatient admission</td><td>Ongoing LoS appropriateness, continued stay necessity, discharge planning</td></tr>
-            <tr><td><span class="badge badge-violet">Prospective Review</span></td><td>Before service — PA process</td><td>Is the requested service medically necessary and appropriate before approval?</td></tr>
-            <tr><td><span class="badge badge-amber">File Audit (FA)</span></td><td>Triggered by UNPEC suspicion or high value</td><td>Deep review of member's complete medical file for undeclared conditions, onset verification</td></tr>
-            <tr><td><span class="badge badge-coral">Provider Audit</span></td><td>Periodic or triggered by anomaly</td><td>Provider billing patterns, upcoding, unbundling, phantom services, outlier utilisation</td></tr>
-          </table>
-        </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Risk-Based Audit — High-Risk Indicators</div>
-          <p style="font-size:0.88rem;color:#9aa3b8;margin-bottom:0.8rem;">Audit resources are limited — risk-based approach focuses on highest-probability issues:</p>
-          <table class="styled-table">
-            <tr><th>Risk Indicator</th><th>Why It Matters</th><th>Audit Action</th></tr>
-            <tr><td>New member with chronic condition</td><td>High UNPEC probability</td><td>Trigger onset investigation. Cross-check with declaration form.</td></tr>
-            <tr><td>Frequent high-value imaging requests</td><td>Possible overutilisation or kickback arrangement</td><td>Review clinical justification trend for same member/provider</td></tr>
-            <tr><td>Same diagnosis repeated quickly</td><td>May indicate chronic/UNPEC or duplicate billing</td><td>Check approval history, DUPL-001 risk, MNEC-005</td></tr>
-            <tr><td>Outlier LoS vs DRG benchmark</td><td>Possible inappropriate admission or DRG upcoding</td><td>Concurrent review. Clinical documentation audit.</td></tr>
-            <tr><td>Provider billing pattern anomaly</td><td>Upcoding, unbundling, modifiers abuse</td><td>Comparative analysis vs peer providers. E&M level distribution review.</td></tr>
-            <tr><td>Multiple claims same day from different providers</td><td>Possible coordination of care issues or duplicate</td><td>Cross-claim review. DUPL-001 check.</td></tr>
-            <tr><td>High OP-to-IP conversion rate at single provider</td><td>Possible admissions manipulation for DRG revenue</td><td>Medical necessity review of admissions from that provider</td></tr>
-          </table>
-        </div>
+        <div class="glass-card"><div class="card-title">Types of Health-Insurance Review</div>
+        <table class="styled-table"><tr><th>Review Type</th><th>When It Happens</th><th>Focus</th></tr>
+        <tr><td><span class="badge badge-violet">Prospective</span></td><td>Before a planned service</td><td>Eligibility, benefit, medical necessity, setting and documentation.</td></tr>
+        <tr><td><span class="badge badge-cyan">Concurrent</span></td><td>During an active admission</td><td>Clinical progress, continued-stay need, complications and discharge planning.</td></tr>
+        <tr><td><span class="badge badge-blue">Retrospective</span></td><td>After claim submission or payment</td><td>Coding, billing, documentation, utilisation and payment accuracy.</td></tr>
+        <tr><td><span class="badge badge-amber">Focused provider review</span></td><td>After a pattern or outlier is identified</td><td>Peer comparison, claim sample review and evidence-based findings.</td></tr></table></div>
+        <div class="glass-card"><div class="card-title">A Simple Risk-Based Audit Cycle</div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:rgba(79,156,249,.2);color:#4f9cf9;">1</div><div><strong>Define the question</strong> — What pattern, risk or quality concern is being tested?</div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:rgba(34,211,197,.2);color:#22d3c5;">2</div><div><strong>Select a reproducible sample</strong> — Document the population, period, sampling method and inclusion criteria.</div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:rgba(167,139,250,.2);color:#a78bfa;">3</div><div><strong>Review against a defined standard</strong> — TOB, coding guideline, claims rule, contract term or clinical evidence standard.</div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:rgba(251,191,36,.2);color:#fbbf24;">4</div><div><strong>Quantify the finding</strong> — Frequency, severity, financial impact and whether the issue is isolated or systemic.</div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:rgba(52,211,153,.2);color:#34d399;">5</div><div><strong>Close the loop</strong> — Correct errors, provide feedback, track actions and measure whether the pattern improves.</div></div></div>
         """, unsafe_allow_html=True)
 
     with tab2:
         st.markdown("""
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Fraud, Waste & Abuse (FWA) — Definitions</div>
-          <table class="styled-table">
-            <tr><th>Category</th><th>Definition</th><th>Example</th></tr>
-            <tr><td><span class="badge badge-coral">Fraud</span></td><td>Intentional deception for financial gain. Criminal act.</td><td>Billing for services never rendered. Forging clinical notes. UNPEC concealment.</td></tr>
-            <tr><td><span class="badge badge-amber">Waste</span></td><td>Overutilisation or misuse without intentional deception. No criminal intent.</td><td>Ordering unnecessary tests. Admitting patients who could be managed OP.</td></tr>
-            <tr><td><span class="badge badge-blue">Abuse</span></td><td>Practices inconsistent with sound medical/billing practices. May involve deception.</td><td>Upcoding E&M levels. Unbundling procedures that should be bundled.</td></tr>
-          </table>
-        </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Common FWA Schemes in UAE Health Insurance</div>
-          <table class="styled-table">
-            <tr><th>Scheme</th><th>Description</th><th>Detection Method</th></tr>
-            <tr><td>Upcoding</td><td>Billing a more complex/expensive CPT or DRG than actually performed. E.g., billing E&M 99215 (complex) for a routine 99213 visit.</td><td>E&M distribution analysis. DRG CC/MCC rate outlier.</td></tr>
-            <tr><td>Unbundling</td><td>Billing components of a procedure separately when a comprehensive code exists that should cover all components. E.g., billing for each component of a panel test separately.</td><td>CCI (Correct Coding Initiative) edits review. Column 1/2 code analysis.</td></tr>
-            <tr><td>Phantom billing</td><td>Billing for services never rendered. Patient did not attend; no service given.</td><td>Member confirmation calls. Visit log cross-check. GPS verification.</td></tr>
-            <tr><td>Duplicate billing</td><td>Submitting the same claim multiple times to collect double payment.</td><td>DUPL-001 flags. Same date/same CPT/same provider cross-check.</td></tr>
-            <tr><td>Kickbacks</td><td>Provider receives financial incentive to refer to a specific facility or prescribe specific drugs.</td><td>Referral pattern analysis. Provider relationship investigation.</td></tr>
-            <tr><td>Unnecessary admissions</td><td>Admitting patient as IP for revenue when OP management is appropriate and safe.</td><td>LoS benchmarking. OP-to-IP rate analysis. Clinical review.</td></tr>
-            <tr><td>Modifier abuse</td><td>Using modifiers (like -25, -59) inappropriately to bypass bundling rules and get paid for additional procedures.</td><td>Modifier utilisation rate review. Supporting documentation audit.</td></tr>
-            <tr><td>UNPEC concealment</td><td>Member or provider deliberately conceals pre-existing condition to obtain coverage.</td><td>File audit. Onset investigation. Cross-facility medical history.</td></tr>
-          </table>
-        </div>
+        <div class="glass-card"><div class="card-title">Fraud, Waste and Abuse — Learning Definitions</div>
+        <table class="styled-table"><tr><th>Category</th><th>Meaning</th><th>Example Pattern</th></tr>
+        <tr><td><span class="badge badge-coral">Fraud</span></td><td>Intentional deception intended to obtain an improper benefit or payment.</td><td>Billing for a service that was not rendered or deliberately falsifying a record.</td></tr>
+        <tr><td><span class="badge badge-amber">Waste</span></td><td>Unnecessary expenditure or inefficient use of resources, even where deliberate deception is not established.</td><td>Repeated testing without a documented clinical reason.</td></tr>
+        <tr><td><span class="badge badge-blue">Abuse or misuse</span></td><td>A practice inconsistent with sound clinical, coding or billing standards.</td><td>Unsupported upcoding, unbundling or inappropriate modifier use.</td></tr></table></div>
+        <div class="glass-card"><div class="card-title">Signals That Justify Review — Not Automatic Conclusions</div>
+        <table class="styled-table"><tr><th>Signal</th><th>Why Review It</th><th>Next Step</th></tr>
+        <tr><td>Unusual code distribution</td><td>May indicate case-mix differences, documentation issues or coding inflation.</td><td>Compare peers, stratify by service type and review a sample of records.</td></tr>
+        <tr><td>Frequent duplicate-like claims</td><td>Could be a resubmission issue, split billing or duplicate payment risk.</td><td>Compare claim identifiers, dates, codes, units and remittance history.</td></tr>
+        <tr><td>High modifier usage</td><td>May signal bypass of bundling rules.</td><td>Review code pairs, documentation and the applicable coding rule.</td></tr>
+        <tr><td>Outlier length of stay or admission rate</td><td>Could reflect case mix or an avoidable-utilisation pattern.</td><td>Review clinical acuity, diagnoses, treatment course and peer comparison.</td></tr>
+        <tr><td>Unsupported CC/MCC coding</td><td>May alter DRG weight and payment.</td><td>Verify whether the diagnosis is documented and meets the applicable coding standard.</td></tr></table>
+        <div class="info-box" style="margin-top:.8rem;"><strong>Key lesson:</strong> A red flag starts an evidence-based review. It is not proof of wrongdoing.</div></div>
         """, unsafe_allow_html=True)
 
     with tab3:
         st.markdown("""
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Audit Documentation Standards</div>
-          <p style="font-size:0.88rem;color:#9aa3b8;margin-bottom:0.8rem;">A well-documented audit finding must include all of the following to be actionable and defensible:</p>
-          <table class="styled-table">
-            <tr><th>Element</th><th>What to Include</th></tr>
-            <tr><td>Member identification</td><td>Member name, card number, policy number, insurer, TPA reference</td></tr>
-            <tr><td>Claim details</td><td>Date(s) of service, claim reference, provider name, CPT/ICD-10 codes billed</td></tr>
-            <tr><td>Finding description</td><td>Specific issue identified — what was billed, what should have been billed, or what documentation is missing</td></tr>
-            <tr><td>Evidence</td><td>Clinical notes reviewed, reports received, date of onset evidence, billing records</td></tr>
-            <tr><td>Applicable standard</td><td>Which exclusion clause, coding guideline, medical necessity standard, or policy term was violated</td></tr>
-            <tr><td>Financial impact</td><td>Amount paid vs amount that should have been paid. Recovery amount if applicable.</td></tr>
-            <tr><td>Recommendation</td><td>Deny / Recoup / Education / Refer to compliance / Escalate to PIC</td></tr>
-            <tr><td>Audit trail</td><td>Who reviewed, date of review, approval chain for findings</td></tr>
-          </table>
-          <div class="info-box" style="margin-top:0.8rem;">
-            <strong>File Audit email format:</strong><br/>
-            To: MIU (Medical Investigation Unit) / Dr. Priyanka<br/>
-            CC: MCU, MedNet Approvals, Compliance Lead<br/>
-            Subject: <code>FILE AUDIT FOR [Member Name] – [Card No.] – [Insurance Company Name]</code>
-          </div>
-        </div>
+        <div class="glass-card"><div class="card-title">Audit Finding — Quality Checklist</div>
+        <table class="styled-table"><tr><th>Element</th><th>What a Strong Finding Includes</th></tr>
+        <tr><td>Audit objective</td><td>The question being tested and why it matters.</td></tr>
+        <tr><td>Scope and sample</td><td>Review period, population, sample method and records examined.</td></tr>
+        <tr><td>Evidence</td><td>Clinical notes, coded data, claim lines, reports, remittance records and relevant correspondence.</td></tr>
+        <tr><td>Applicable standard</td><td>TOB, claims rule, coding guideline, contract term or evidence standard used for comparison.</td></tr>
+        <tr><td>Finding</td><td>What happened, how often, and whether the issue is isolated or systemic.</td></tr>
+        <tr><td>Impact</td><td>Clinical, operational, quality and financial effect where measurable.</td></tr>
+        <tr><td>Action plan</td><td>Correction, education, process improvement, recovery review or further investigation, with an owner and target date.</td></tr>
+        <tr><td>Follow-up</td><td>How improvement will be measured and when re-audit will occur.</td></tr></table>
+        <div class="info-box" style="margin-top:.8rem;"><strong>Professional writing tip:</strong> Separate facts, criteria, analysis and recommendation. A reviewer should be able to reproduce the conclusion from the evidence cited.</div></div>
         """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1658,98 +1514,75 @@ elif nav == "🔎  Internal Audit":
 elif nav == "💊  Specialty Rules":
     st.session_state.progress["specialty"] = True
     st.markdown('<div class="section-title">Specialty Rules</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">Physiotherapy, pharmacy/Rx, maternity, dental — the rules that vary most between policies</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">General review frameworks for physiotherapy, pharmacy, maternity and dental benefits</div>', unsafe_allow_html=True)
 
     tab1, tab2, tab3, tab4 = st.tabs(["🦴 Physiotherapy", "💊 Pharmacy & Rx", "🤱 Maternity", "🦷 Dental"])
 
     with tab1:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Physiotherapy Rules by Policy Type</div>
+          <div class="card-title">Physiotherapy — General UAE Review Framework</div>
+          <div class="info-box">There is no single UAE-wide fixed session allowance that applies to every member. Review the regulator framework, product, member-specific TOB, network, referral route, prior-authorisation requirement and benefit balance.</div>
           <table class="styled-table">
-            <tr><th>Policy Type</th><th>Max Sessions / Request</th><th>Progress Report</th><th>Notes</th></tr>
-            <tr><td>Standard/Enhanced plans</td><td>5 sessions</td><td>After every 5 sessions</td><td>Progress report with pain scale, functional improvement, treatment plan. Update medical file.</td></tr>
-            <tr><td>EBP / Basic / Silk Road</td><td>3 sessions (from 6-session limit)</td><td>After every 3 sessions</td><td>Check TOB for session limit first. Most EBP plans have 6-session total limit.</td></tr>
-            <tr><td>Plans with session-based limits</td><td>Use the TOB session limit</td><td>Request progress notes at the interval defined in the workflow</td><td>Confirm the allowed number of sessions, site, complaint, policy year, and remaining balance.</td></tr>
-            <tr><td>Plans with monetary limits</td><td>Use the TOB monetary ceiling</td><td>Request clinical progress documentation before additional batches</td><td>Do not convert a monetary ceiling into a fixed session rule unless the payer workflow explicitly requires it.</td></tr>
-            <tr><td>Network-restricted plans</td><td>Use the contracted network and workflow</td><td>Follow the current TPA procedure</td><td>Check the member network, provider contract status, benefit balance, and the latest internal operating procedure.</td></tr>
+            <tr><th>Review Area</th><th>General Principle</th><th>What to Check</th></tr>
+            <tr><td>Clinical indication</td><td>Physiotherapy should address a documented impairment, activity limitation or participation restriction.</td><td>Diagnosis, reason for referral or direct-access assessment, baseline findings and functional goals.</td></tr>
+            <tr><td>Assessment and plan</td><td>Use an individualised treatment plan with milestones and regular reassessment.</td><td>Baseline assessment, treatment method, frequency or duration, site, progress and outcome measure.</td></tr>
+            <tr><td>Referral route</td><td>DHA standards recognise physician referral in inpatient care and direct access or self-referral in other settings. Insurance-payment rules may still require a referral.</td><td>Setting, product rules, network and member-specific TOB.</td></tr>
+            <tr><td>Prior approval</td><td>The Abu Dhabi Basic Product regulations state that physiotherapy treatment services require prior approval from the authorised insurer.</td><td>Regulator framework, product, authorisation status and contracted process.</td></tr>
+            <tr><td>Additional sessions</td><td>Do not assume that one fixed session batch applies to every UAE product.</td><td>Clinical progress, treatment milestones, remaining benefit and applicable TOB limits.</td></tr>
+            <tr><td>Coding</td><td>Bill only documented services using the applicable coding standard and tariff.</td><td>Evaluation or re-evaluation, timed services, duration, units and treatment note.</td></tr>
           </table>
-          <div class="warning-box" style="margin-top:0.8rem;"><strong>Rehab vs Treatment:</strong> Physiotherapy after surgery is NOT rehab — it's treatment and proceeds normally. Physiotherapy after stroke, amputation, or brain injury = rehab. Check TOB for rehab benefit separately.</div>
-        </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Mediclinic Physiotherapy CPT Protocol</div>
-          <table class="styled-table">
-            <tr><th>Session</th><th>CPT 97001</th><th>CPT 97140</th><th>CPT 97110</th></tr>
-            <tr><td>1st session</td><td>1 unit ✅</td><td>1 unit</td><td>1 unit</td></tr>
-            <tr><td>2nd–4th sessions</td><td>Not included ❌</td><td>2 units</td><td>1 unit</td></tr>
-            <tr><td>5th session</td><td>Not included ❌</td><td>2 units</td><td>Denied ❌ (included in session)</td></tr>
-            <tr><td>6th session onwards</td><td colspan="3" style="text-align:center;">Deny with "approved up to 5 sessions"</td></tr>
-          </table>
+          <div class="source-note">Official starting points: <a href="https://dha.gov.ae/uploads/062023/Standards%20Physiotherapy%20Service%20Final%202023625844.pdf" target="_blank">DHA Standards for Physiotherapy Services</a> and the <a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank">Abu Dhabi health-insurance regulations</a>. Always confirm the current product and TOB.</div>
         </div>
         """, unsafe_allow_html=True)
 
     with tab2:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Pharmacy & Prescription Drug Rules</div>
+          <div class="card-title">Pharmacy Benefit Review</div>
+          <div class="info-box">Medication coverage is product-specific. Formularies and exclusions vary by product, so use a consistent review sequence rather than assume that one list applies to every member.</div>
           <table class="styled-table">
-            <tr><th>Category</th><th>Coverage Status</th><th>Notes</th></tr>
-            <tr><td>Prescription medications (generic)</td><td><span class="badge badge-green">Generally covered</span></td><td>Must be prescribed by licensed physician. Related to covered diagnosis.</td></tr>
-            <tr><td>Brand vs generic</td><td><span class="badge badge-amber">Plan-dependent</span></td><td>Many policies cover generic only, or require step therapy (generic first). Check formulary tier.</td></tr>
-            <tr><td>Vitamins / minerals</td><td><span class="badge badge-coral">Excluded</span></td><td>Unless prescribed alongside antibiotics or as replacement therapy for documented deficiency.</td></tr>
-            <tr><td>Contraceptives</td><td><span class="badge badge-coral">Excluded</span></td><td>Standard exclusion across all plan types.</td></tr>
-            <tr><td>Psychiatric medications</td><td><span class="badge badge-coral">Excluded</span></td><td>Standard pharmaceutical exclusion (Northern Emirates/non-DHA). Under DHA/HAAD check TOB for mental health emergency coverage.</td></tr>
-            <tr><td>Hormonal replacement therapy (HRT)</td><td><span class="badge badge-coral">Excluded</span></td><td>Standard exclusion.</td></tr>
-            <tr><td>Acne medications</td><td><span class="badge badge-coral">Excluded</span></td><td>Cosmetic exclusion — included in pharmaceutical exclusion list.</td></tr>
-            <tr><td>Durable medical equipment (DME)</td><td><span class="badge badge-amber">TOB-dependent</span></td><td>Glucometers, nebulizers, blood pressure monitors. Check TOB for DME coverage. Some policies list as "Prescribed Medical Aids."</td></tr>
+            <tr><th>Review Area</th><th>What to Check</th></tr>
+            <tr><td>Prescription and diagnosis</td><td>Licensed prescriber, covered diagnosis, dose, duration, quantity and clinical indication.</td></tr>
+            <tr><td>Formulary status</td><td>Covered medicine, preferred alternative, generic substitution rule, step-therapy requirement and any prior-authorisation condition.</td></tr>
+            <tr><td>Safety</td><td>Duplicate therapy, allergy, contraindication, interaction, renal or hepatic adjustment and age-appropriate dosing where relevant.</td></tr>
+            <tr><td>Benefit limits</td><td>Co-pay, pharmacy network, chronic refill rule, quantity limit and any product-specific exclusion.</td></tr>
+            <tr><td>Documentation</td><td>Prescription, diagnosis, clinical note and supporting laboratory result where the medicine requires monitoring or documented deficiency.</td></tr>
           </table>
-        </div>
-        <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Vitamin D — Special Rules</div>
-          <div class="info-box">
-            Vitamin D testing is considered screening for reinsured and individual policies.<br/>
-            <strong>Criteria for approval:</strong><br/>
-            1. High-risk group (elderly, veiled, chronic malabsorption, osteoporosis) — evaluate for deficiency<br/>
-            2. Previous test showing insufficiency/deficiency + supplementation history required<br/>
-            3. Retesting: annual only if deficiency confirmed. Not approved if proper supplementation was not taken.<br/>
-            4. Denial if: no prior test, no supplementation history, or test within less than 12 months without new clinical reason.
-          </div>
+          <div class="source-note">The <a href="https://www.dha.gov.ae/uploads/112021/f6eb62ac-f666-4cce-9a2f-47788a25f565.pdf" target="_blank">DHA Pharmacy Guidelines</a> are an official starting point for safe pharmacy practice. Insurance coverage still depends on the member-specific TOB and formulary.</div>
         </div>
         """, unsafe_allow_html=True)
 
     with tab3:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Maternity Coverage Rules — UAE</div>
+          <div class="card-title">Maternity Benefit Review</div>
+          <div class="info-box">Separate the clinical-care question from the insurance-benefit question. Clinical timing follows current antenatal guidance; payment depends on the member-specific maternity benefit and TOB.</div>
           <table class="styled-table">
-            <tr><th>Service</th><th>Rule</th></tr>
-            <tr><td>Maternity package (IP)</td><td>Some policies offer a bundled maternity package (e.g., normal delivery package AED X). Member must apply for this package specifically — not itemised billing.</td></tr>
-            <tr><td>NT scan (Nuchal Translucency)</td><td>Covered only between <strong>11–13 weeks gestation</strong>. Outside this window: deny with NCOV-003 citing DHA maternity protocol.</td></tr>
-            <tr><td>Anomaly scan</td><td>Covered only between <strong>18–20 weeks gestation</strong>. Require ultrasound report showing gestational age + LMP to verify timing.</td></tr>
-            <tr><td>Routine antenatal consultations</td><td>Covered if maternity benefit is included in TOB. EBP may have limited antenatal visits.</td></tr>
-            <tr><td>C-section</td><td>Higher package/itemised cost. Medical necessity must be documented. Elective C-section may require additional justification.</td></tr>
-            <tr><td>Maternity for EBP members</td><td>Check TOB carefully. Basic EBP may cover only medically necessary maternity or emergency. Some exclude elective maternity entirely.</td></tr>
-            <tr><td>Gestational diabetes / hypertension</td><td>Generally covered as new medical conditions arising during pregnancy, subject to maternity benefit and TOB.</td></tr>
+            <tr><th>Review Area</th><th>What to Check</th></tr>
+            <tr><td>Maternity benefit</td><td>Whether maternity is included, waiting-period wording, network, co-pay, package structure and any sub-limit.</td></tr>
+            <tr><td>Antenatal consultation</td><td>Gestational age, risk category, care plan and whether the request is routine or related to a complication.</td></tr>
+            <tr><td>Ultrasound request</td><td>Gestational age, clinical indication, prior scan history and the type of scan requested. Use current official antenatal guidance for timing and indications.</td></tr>
+            <tr><td>Delivery planning</td><td>Expected delivery route, documented clinical indication for intervention, facility network and package or itemised-billing rules.</td></tr>
+            <tr><td>Pregnancy complication</td><td>Review the medical indication, severity, treatment plan and whether the service falls under maternity or another covered medical benefit.</td></tr>
           </table>
-          <div class="warning-box" style="margin-top:0.8rem;">Always request: ultrasound report with gestational age + LMP date before approving any maternity-timed scan. Without this, you cannot verify the coverage window.</div>
+          <div class="source-note">For Abu Dhabi clinical-care standards, see the <a href="https://www.doh.gov.ae/-/media/53DDEF165163450481481DE46FCA653C.ashx" target="_blank">DOH Antenatal Care Standard</a> and <a href="https://www.doh.gov.ae/-/media/Feature/Resources/Guidelines/antenatal-ultrasound-guideline.ashx" target="_blank">DOH Antenatal Ultrasound Guideline</a>. Use the current source and the member-specific TOB.</div>
         </div>
         """, unsafe_allow_html=True)
 
     with tab4:
         st.markdown("""
         <div class="glass-card">
-          <div style="font-weight:700;margin-bottom:0.8rem;">Dental Coverage — General Adjudication Principles</div>
+          <div class="card-title">Dental Coverage — General Adjudication Principles</div>
           <table class="styled-table">
             <tr><th>Check</th><th>What to Do</th></tr>
-            <tr><td>1. Confirm the applicable framework</td><td>Identify the emirate, policy type, network, and current TOB. Do not assume that a dental benefit exists merely because the medical policy is active.</td></tr>
-            <tr><td>2. Check the dental benefit wording</td><td>Read the TOB for covered categories, exclusions, annual or category limits, co-pay, waiting periods, frequency rules, age rules, and any pre-authorisation requirement.</td></tr>
+            <tr><td>1. Confirm the applicable framework</td><td>Identify the emirate, policy type, network and current TOB. Do not assume that a dental benefit exists merely because the medical policy is active.</td></tr>
+            <tr><td>2. Check the dental benefit wording</td><td>Read the TOB for covered categories, exclusions, annual or category limits, co-pay, waiting periods, frequency rules, age rules and any pre-authorisation requirement.</td></tr>
             <tr><td>3. Check network and provider eligibility</td><td>Verify that the requesting dental provider is eligible for the member's network and that the requested service is within the provider's licensed scope.</td></tr>
-            <tr><td>4. Review clinical documentation</td><td>Confirm tooth number, diagnosis, treatment plan, relevant radiographs or periodontal charting, service code, cost, and any previous treatment on the same tooth.</td></tr>
-            <tr><td>5. Apply only the member-specific benefit</td><td>Preventive, restorative, endodontic, periodontal, prosthodontic, orthodontic, implant, sedation, and emergency dental services must be assessed separately. Do not infer coverage for one category from another.</td></tr>
+            <tr><td>4. Review clinical documentation</td><td>Confirm tooth number, diagnosis, treatment plan, relevant radiographs or periodontal charting, service code, cost and previous treatment on the same tooth where relevant.</td></tr>
+            <tr><td>5. Assess categories separately</td><td>Preventive, restorative, endodontic, periodontal, prosthodontic, orthodontic, implant, sedation and emergency dental services may have different benefit rules.</td></tr>
           </table>
-          <div class="info-box" style="margin-top:0.8rem;">
-            <strong>Important:</strong> The Abu Dhabi Basic Product lists dental treatment, dental prostheses, and orthodontic treatment among excluded healthcare services. Enhanced products may extend coverage. For Dubai and other emirates, always confirm the current regulator framework and the member-specific TOB before adjudication.
-          </div>
+          <div class="info-box" style="margin-top:.8rem;"><strong>Important:</strong> The Abu Dhabi Basic Product lists dental treatment, dental prostheses and orthodontic treatment among excluded healthcare services. Enhanced products may extend coverage. For Dubai and other emirates, check the current framework and member-specific TOB.</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1759,162 +1592,39 @@ elif nav == "💊  Specialty Rules":
 elif nav == "🎯  Case Studies":
     st.session_state.progress["cases"] = True
     st.markdown('<div class="section-title">Case Study Simulator</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">10 real-world scenarios. Read the case, decide: Approve / Deny / Query / Escalate</div>', unsafe_allow_html=True)
-
-    st.markdown("""<div class="disclaimer">
-      These cases are fictional training scenarios inspired by common real-world patterns. They do not represent any real member or claim.
-      Decisions in practice must be based on the member's specific TOB, medical file, and applicable regulatory framework.
-    </div>""", unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">Fictional scenarios for practising structured review. Focus on the next best step, not a rule copied from another product.</div>', unsafe_allow_html=True)
+    st.markdown("""<div class="disclaimer">These scenarios are fictional. In live work, use the member-specific TOB, current official rules, clinical documentation and the configured claims workflow.</div>""", unsafe_allow_html=True)
 
     cases = [
-        {
-            "id": 1, "title": "MRI Lumbar Spine — EBP Member",
-            "scenario": """
-**Member:** 34-year-old male, EBP policy, enrolled 2 months ago.
-**Provider request:** MRI lumbar spine (CPT 72148), cost AED 950.
-**Diagnosis:** M54.5 — Low back pain.
-**Attachments:** Referral from GP. No X-ray. No physiotherapy records. Doctor notes: "Patient complains of low back pain x 3 weeks."
-""",
-            "options": ["✅ Approve — GP referred and it's medically necessary", "❌ Deny — Not medically justified", "📋 Query — Request X-ray and conservative management history", "📤 Escalate to PIC"],
-            "answer": 2,
-            "explanation": "MRI spine is NOT first-line. X-ray must precede, and conservative management (physiotherapy, analgesics) must be documented. 3 weeks of symptoms without prior management is insufficient. Send AUTH-012 requesting: X-ray report, details of conservative management (duration, response), and physiotherapy history if any. Also note: EBP member, only 2 months enrolled — check waiting period for any chronic spine condition."
-        },
-        {
-            "id": 2, "title": "Echocardiogram — Chest Pain",
-            "scenario": """
-**Member:** 55-year-old female, standard group plan, Dubai (DHA policy).
-**Provider request:** Echocardiogram (CPT 93306), cost AED 1,200.
-**Diagnosis:** R07.9 — Chest pain, unspecified.
-**Attachments:** None provided.
-""",
-            "options": ["✅ Approve — Echo is standard cardiac workup", "❌ Deny — Not medically necessary", "📋 Query — Request ECG, TMT, and cardiac enzyme results", "📤 Escalate"],
-            "answer": 2,
-            "explanation": "Echo is NOT first-line for chest pain without structural cardiac evidence. Protocol requires ECG, TMT (treadmill test), and cardiac enzymes first. If these show abnormalities (ST changes, positive troponin, pathological ECG), then echo is justified. Send AUTH-012 requesting: ECG report, TMT results, cardiac enzyme results, and details of chest pain (onset, character, radiation)."
-        },
-        {
-            "id": 3, "title": "Physiotherapy — Progress Report Needed",
-            "scenario": """
-**Member:** 28-year-old female, standard plan, non-EBP.
-**Provider request:** 5 physiotherapy sessions (CPT 97110 x5), cost AED 750. Diagnosis: M75.1 — Rotator cuff syndrome.
-**Attachments:** Referral letter from orthopaedic surgeon. Medical file shows: 5 physiotherapy sessions already approved 4 weeks ago for same condition.
-""",
-            "options": ["✅ Approve — Referral attached and condition ongoing", "❌ Deny — Already approved 5 sessions", "📋 Query — Request physiotherapy progress report from previous sessions", "📤 Escalate — High-value case"],
-            "answer": 2,
-            "explanation": "A progress report is mandatory before approving the next batch of sessions when a previous batch has been given. The progress report should show: current pain scale (VAS score), functional improvement, treatment plan for next sessions, and whether goals have been met. Approve next 5 sessions only after reviewing the progress report confirming continued need and measurable improvement."
-        },
-        {
-            "id": 4, "title": "UNPEC Suspicion — New Member with DM",
-            "scenario": """
-**Member:** 45-year-old male, enrolled 6 weeks ago, enhanced plan (no waiting period stated in TOB).
-**Provider request:** Follow-up consultation for Type 2 Diabetes Mellitus (E11.9) + renewal of medications (Metformin, Sitagliptin), cost AED 650.
-**Attachments:** Doctor note mentions patient has been on diabetic medications "for several years."
-""",
-            "options": ["✅ Approve — No waiting period on this plan", "❌ Deny — Pre-existing condition", "📋 Query — Request onset date, declaration form review, previous records", "📤 Escalate to PIC immediately"],
-            "answer": 2,
-            "explanation": "Even with no waiting period, an UNDECLARED pre-existing condition can be denied (NCOV-002). The phrase 'on medications for several years' is a red flag. You must: (1) Check the MAF/declaration form for DM declaration. (2) Query onset: when was DM first diagnosed? Who prescribed the medications? Any prior hospitalisation? (3) If DM onset predates enrollment and was not declared, this is UNPEC. Check the current payer escalation matrix and escalate to PIC before denying whenever the authorised workflow requires it. Approve initial investigations while investigating."
-        },
-        {
-            "id": 5, "title": "Vitamin D Test — Annual Repeat",
-            "scenario": """
-**Member:** 32-year-old female, individual reinsured policy, Dubai.
-**Provider request:** Vitamin D 25-OH test (CPT 82306), cost AED 185. Doctor note: "Patient requests vitamin D check."
-**Attachments:** Previous test from 8 months ago (result: 42 nmol/L — insufficient).
-""",
-            "options": ["✅ Approve — Patient had deficiency last time", "❌ Deny — Vitamin D tested within 12 months", "📋 Query — Request supplementation history before deciding", "📤 Escalate"],
-            "answer": 2,
-            "explanation": "Vitamin D retesting is denied if: (a) less than 12 months since last test, AND (b) adequate supplementation has not been demonstrated. 8 months is less than the annual repeat interval. Send AUTH-012: 'Regret to inform you that the test is denied in view of absence of proper vitamin D supplementation AND test done within 12 months. Please provide supplementation history and previous prescriptions.' If supplementation history is provided and the period is appropriate, reassess."
-        },
-        {
-            "id": 6, "title": "Emergency — Out-of-Network Hospital",
-            "scenario": """
-**Member:** 40-year-old male, EBP policy. Was involved in a fall with head injury.
-**Provider request:** Emergency admission at a hospital NOT in the member's EBP network. CT brain requested + 24-hour observation. Total cost AED 7,800.
-**Triage level:** Triage 2 (Emergent).
-""",
-            "options": ["✅ Approve in full — Emergency overrides network restrictions", "❌ Deny — Out of network", "📋 Approve to stabilisation point only, then transfer to network", "📤 Escalate to PIC for high value"],
-            "answer": 2,
-            "explanation": "Emergency care must be covered regardless of network — this is a DHA/HAAD regulatory requirement. Approve to stabilisation. CT brain with head injury + Triage 2 = genuine emergency. Stabilisation = once medically stable (head CT reviewed, no surgical intervention needed, observation period for monitoring). Once stabilised: advise transfer to network facility for ongoing care if needed. EBP rule: emergency covered to stabilisation even out-of-network. Mark approval with emergency reference. Notify PIC given value (AED 7,800 triggers escalation matrix)."
-        },
-        {
-            "id": 7, "title": "Circumcision — HAAD Policy",
-            "scenario": """
-**Member:** 8-year-old child, HAAD (Abu Dhabi) policy.
-**Provider request:** Circumcision (CPT 54161), elective/ritual, cost AED 2,200.
-**Attachments:** Parent consent form. No medical indication documented.
-""",
-            "options": ["✅ Approve — Child is under 18", "❌ Deny — Standard HAAD exclusion", "📋 Query — Request medical necessity documentation", "📤 Escalate to PIC"],
-            "answer": 1,
-            "explanation": "Circumcision is a STANDARD EXCLUSION under HAAD policies — Exclusion clause 36. This applies regardless of age. Under DHA policies: covered 0–2 years, and medically necessary cases beyond 2 years. This is a HAAD policy — deny with NCOV-003 citing: 'Excluded under HAAD Exclusion Clause 36: Circumcision healthcare services.' If the provider claims medical necessity (phimosis, recurrent infections), query for documentation, but the standard HAAD position remains exclusion without medical indication documented by a urologist/surgeon."
-        },
-        {
-            "id": 8, "title": "STD Coverage — DHA vs HAAD",
-            "scenario": """
-**Scenario A:** Member with DHA policy presents with HPV infection. Provider requests consultation + treatment, AED 850.
-**Scenario B:** Member with HAAD policy presents with HPV infection. Same request, AED 850.
-""",
-            "options": ["Approve both — STD coverage is the same across UAE", "Approve DHA, Deny HAAD — Different exclusion rules", "Deny both — STDs excluded everywhere", "Query both — Need more clinical detail"],
-            "answer": 1,
-            "explanation": "This is one of the most important DHA vs HAAD differences. Under DHA: HPV infection is covered as per medical necessity — it is NOT a standard exclusion (updated DHA guidance). Under HAAD: all sexually transmitted diseases/venereal diseases are a standard exclusion (Clause 56). Therefore: Approve DHA member. Deny HAAD member with NCOV-001: 'Excluded under HAAD Exclusion Clause 56: Venereal/sexually transmitted diseases.'"
-        },
-        {
-            "id": 9, "title": "Colonoscopy — Without Adequate Criteria",
-            "scenario": """
-**Member:** 38-year-old male, standard plan. No prior GI history in medical file.
-**Provider request:** Colonoscopy (CPT 45378), cost AED 3,500.
-**Diagnosis:** K57.30 — Diverticulosis. Doctor note: "Patient complains of occasional bloating and gas for 1 month."
-**Attachments:** None.
-""",
-            "options": ["✅ Approve — Colonoscopy appropriate for diverticulosis", "❌ Deny — Not medically necessary", "📋 Query — Request prior investigations and clinical history", "📤 Escalate — High value over AED 3,000"],
-            "answer": 2,
-            "explanation": "Colonoscopy requires significant clinical justification. 1 month of bloating and gas WITHOUT: prior GI investigations (calprotectin, FOB, H. pylori test), history of chronic GI condition, or emergency indication (bleeding PR with Hb drop) is insufficient. Send AUTH-012 requesting: history of any prior GI conditions, previous prescriptions/medications for GI complaints, results of calprotectin/stool tests/FOB, duration and exact nature of symptoms, any previous colonoscopy reports. A 38-year-old with non-specific symptoms for 1 month should have conservative management and baseline labs first."
-        },
-        {
-            "id": 10, "title": "Internal Audit — DRG Upcoding",
-            "scenario": """
-**Audit finding:** Retrospective review of 50 paid IP claims from Hospital X shows:
-- 85% of claims have MCC (Major Complication/Comorbidity) codes
-- Peer benchmark for similar hospital: 35% MCC rate
-- Medical records reviewed: several MCC diagnoses (e.g., malnutrition, pressure ulcer stage 3) found in billing codes but NOT documented in clinical notes
-""",
-            "options": ["No action needed — hospital may just have sicker patients", "Flag for provider education only", "Initiate formal provider audit — possible DRG upcoding/fraud", "Automatically recoup all claims with MCC"],
-            "answer": 2,
-            "explanation": "An MCC rate of 85% vs 35% benchmark is a major statistical outlier. Combined with MCC codes appearing in billing without supporting clinical documentation, this is a textbook DRG upcoding red flag. Initiate formal provider audit: (1) Pull complete medical records for 20% of MCC claims. (2) Verify each MCC diagnosis against clinical notes — is it documented, was it treated, does it meet coding criteria? (3) If confirmed upcoding: recoup overpaid DRG weight differential, issue findings report, consider referral to regulatory authority. Never automatically recoup all claims — audit must be individual and evidence-based."
-        }
+        {"id":1,"title":"MRI Lumbar Spine — Missing Clinical Detail","scenario":"""**Request:** MRI lumbar spine for low-back pain. **Documentation:** short symptom history; no red-flag assessment or examination findings attached.""","options":["Approve automatically","Deny automatically","Request the missing clinical assessment, symptom chronology, red flags and relevant prior management","Assume an exclusion"],"answer":2,"explanation":"The best next step is a focused information request. Imaging appropriateness depends on the scenario; avoid a blanket rule that every patient needs the same prerequisite."},
+        {"id":2,"title":"Physiotherapy — Additional Sessions","scenario":"""**Request:** Additional physiotherapy sessions for a shoulder condition. **Documentation:** previous sessions are visible, but the progress note is not attached.""","options":["Approve every request","Deny because a fixed session maximum has been reached","Review the TOB and request progress against baseline findings and functional goals","Ignore previous treatment"],"answer":2,"explanation":"There is no single UAE-wide session batch for every product. Review the benefit and request functional-progress documentation."},
+        {"id":3,"title":"Possible Pre-existing Condition","scenario":"""**Request:** Chronic-condition follow-up shortly after enrolment. **Documentation:** note mentions treatment before the policy date; declaration history is not attached.""","options":["Deny immediately","Approve without review","Request declaration records, documented onset and relevant previous history","Assume fraud"],"answer":2,"explanation":"Possible earlier onset is a reason to review evidence, not an automatic decision. Compare documented chronology with the applicable policy wording."},
+        {"id":4,"title":"Emergency — Out-of-Network Presentation","scenario":"""**Presentation:** Acute symptoms at an out-of-network facility. Immediate assessment and stabilisation are underway.""","options":["Delay care until network status is confirmed","Treat the urgent clinical need first and review administrative requirements for ongoing care","Reject automatically","Transfer before the patient is stable"],"answer":1,"explanation":"Clinical stabilisation takes priority. The ongoing-care route, notification and transfer plan should then follow the applicable framework."},
+        {"id":5,"title":"DRG Audit — Unsupported Secondary Diagnosis","scenario":"""**Audit sample:** A secondary diagnosis increases DRG severity, but the discharge summary and progress notes do not clearly support it.""","options":["Accept the code automatically","Remove every secondary diagnosis","Query the documentation and apply the coding standard before finalising the finding","Assume fraud immediately"],"answer":2,"explanation":"A DRG audit must be evidence-based. Verify whether the secondary diagnosis is documented and meets the applicable coding standard."},
+        {"id":6,"title":"Duplicate-Like Claim","scenario":"""**Audit signal:** Two similar claim lines appear for the same member, provider and date.""","options":["Recoup automatically","Ignore the second line","Compare claim identifiers, codes, units, remittance history and whether one line is a corrected resubmission","Report fraud without review"],"answer":2,"explanation":"A duplicate-like signal needs validation. Resubmissions and corrected claims can resemble duplicates."},
+        {"id":7,"title":"Dental Crown — Benefit Check","scenario":"""**Request:** Crown with tooth number and treatment plan. The member's dental benefit details are not attached.""","options":["Approve because crowns are always covered","Deny because crowns are always excluded","Check the TOB, network, dental category, limits and supporting documentation","Apply a fixed limit from another product"],"answer":2,"explanation":"Dental benefits are product-specific. Review the exact member benefit rather than applying a remembered company rule."},
+        {"id":8,"title":"Vaccination — Routine Schedule Question","scenario":"""**Request:** Childhood vaccination dose. The child has an incomplete record.""","options":["Create a schedule from memory","Use the current emirate schedule and official catch-up guidance","Deny the request","Apply an adult schedule"],"answer":1,"explanation":"Use the current official DHA or DOH schedule and catch-up guidance, including minimum intervals and special-risk instructions."},
+        {"id":9,"title":"Provider Outlier — High Modifier Use","scenario":"""**Audit signal:** One provider uses a billing modifier far more often than peers.""","options":["Conclude fraud immediately","Review a reproducible sample against the coding rule and documentation","Recoup every modified claim","Ignore peer comparison"],"answer":1,"explanation":"An outlier is a review trigger. Compare peers, select a defensible sample and assess supporting documentation."},
+        {"id":10,"title":"Elective Admission — Setting Review","scenario":"""**Request:** Elective inpatient admission for a planned procedure. The note does not explain why outpatient or day-case care is unsuitable.""","options":["Approve every admission","Request the clinical rationale for the proposed setting and expected length of stay","Reject every inpatient request","Use cost alone"],"answer":1,"explanation":"Admission review should assess whether the proposed setting is clinically appropriate and supported by the record."},
     ]
-
     if "case_answers" not in st.session_state:
         st.session_state.case_answers = {}
-
     case_num = st.selectbox("Select Case:", [f"Case {c['id']}: {c['title']}" for c in cases])
     case_idx = int(case_num.split(":")[0].replace("Case ", "")) - 1
     case = cases[case_idx]
-
-    st.markdown(f"""
-    <div class="glass-card">
-      <div style="font-weight:700;font-size:1rem;margin-bottom:0.8rem;">
-        📋 Case {case['id']}: {case['title']}
-      </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f'<div class="glass-card"><div style="font-weight:700;font-size:1rem;margin-bottom:.8rem;">📋 Case {case["id"]}: {case["title"]}</div>', unsafe_allow_html=True)
     st.markdown(case["scenario"])
-    st.markdown("</div>", unsafe_allow_html=True)
-
+    st.markdown('</div>', unsafe_allow_html=True)
     choice = st.radio("Your decision:", case["options"], key=f"case_{case['id']}")
     chosen_idx = case["options"].index(choice)
-
     if st.button("Submit Decision", key=f"submit_{case['id']}"):
         st.session_state.case_answers[case['id']] = chosen_idx
         if chosen_idx == case["answer"]:
-            st.markdown(f'<div class="success-box">✅ <strong>Correct!</strong><br/>{case["explanation"]}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="success-box">✅ <strong>Correct.</strong><br/>{case["explanation"]}</div>', unsafe_allow_html=True)
         else:
-            st.markdown(f'<div class="warning-box">❌ <strong>Incorrect.</strong> Correct answer: <strong>{case["options"][case["answer"]]}</strong><br/><br/>{case["explanation"]}</div>', unsafe_allow_html=True)
-
-    correct = sum(1 for cid, ans in st.session_state.case_answers.items()
-                  if ans == cases[cid-1]["answer"])
-    st.markdown(f"""
-    <div class="metric-card" style="margin-top:1rem;">
-      <div class="metric-val" style="color:#22d3c5;">{correct}/{len(st.session_state.case_answers)}</div>
-      <div class="metric-lbl">Cases Correct So Far</div>
-    </div>""", unsafe_allow_html=True)
+            st.markdown(f'<div class="warning-box">Review the principle again. Suggested answer: <strong>{case["options"][case["answer"]]}</strong><br/><br/>{case["explanation"]}</div>', unsafe_allow_html=True)
+    correct = sum(1 for cid, ans in st.session_state.case_answers.items() if cid <= len(cases) and ans == cases[cid-1]["answer"])
+    st.markdown(f'<div class="metric-card" style="margin-top:1rem;"><div class="metric-val" style="color:#22d3c5;">{correct}/{len(st.session_state.case_answers)}</div><div class="metric-lbl">Cases Correct So Far</div></div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # PAGE 11 — QUIZ
@@ -1925,26 +1635,21 @@ elif nav == "📝  Knowledge Quiz":
     st.markdown('<div class="section-sub">Test your understanding across all modules. 80% required to pass each section.</div>', unsafe_allow_html=True)
 
     all_questions = [
-        {"q": "Under DHA regulations, what is the maximum number of years after which a pre-existing condition CANNOT be established?", "opts": ["3 years", "5 years", "7 years", "10 years"], "a": 1, "module": "Pre-existing"},
-        {"q": "Which denial code is used when a service was already approved and performed recently, making a repeat not medically justified?", "opts": ["Auth-001", "DUPL-001", "MNEC-005", "NCOV-002"], "a": 2, "module": "Claims"},
-        {"q": "An EBP member visits a specialist at a hospital at 11pm without a GP referral. The complaint is a routine follow-up for a chronic condition. What is the correct action?", "opts": ["Approve — it's after 10pm so hospital access is allowed", "Deny — specialist access requires GP referral regardless of time", "Approve if they have IP coverage at that facility and the consultation is with a GP", "Escalate to PIC"], "a": 2, "module": "Policy"},
-        {"q": "HPV infection treatment: under which regulatory framework is it covered?", "opts": ["Both DHA and HAAD", "HAAD only", "DHA only — not an exclusion per updated DHA guidance", "Neither — STDs are universally excluded in UAE"], "a": 2, "module": "Exclusions"},
-        {"q": "What does DRG stand for and what does it primarily determine?", "opts": ["Drug Reimbursement Group — medication payment", "Diagnosis Related Group — inpatient payment bundle", "Diagnostic Review Guide — outpatient necessity", "Document Review Guidelines — audit framework"], "a": 1, "module": "Coding"},
-        {"q": "For an MRI spine request with no X-ray attached and 3 weeks of symptoms, the correct action is:", "opts": ["Approve — MRI is first-line for back pain", "Deny — patient not eligible", "Query AUTH-012: request X-ray and conservative management history", "Escalate to PIC"], "a": 2, "module": "Claims"},
-        {"q": "Under HAAD regulations, which hepatitis types are covered?", "opts": ["Hepatitis A, B, and C all covered", "Hepatitis A only", "Hepatitis B and C only", "All excluded"], "a": 1, "module": "Exclusions"},
-        {"q": "What is the maximum number of physiotherapy sessions per request for a standard (non-EBP) plan?", "opts": ["3", "5", "7", "10"], "a": 1, "module": "Specialty"},
-        {"q": "CPT codes 97001, 97110, and 97140 are all associated with:", "opts": ["Cardiology procedures", "Physiotherapy and rehabilitation", "Radiology imaging", "Laboratory tests"], "a": 1, "module": "Coding"},
-        {"q": "A TPA (Third Party Administrator) in UAE health insurance:", "opts": ["Holds the insurance risk and sets the premium", "Processes claims on behalf of the PIC but does not hold the risk", "Is the same as the insurance company (PIC)", "Only handles dental and optical claims"], "a": 1, "module": "Foundations"},
-        {"q": "An UNPEC (Undeclared Pre-existing Condition) case that meets the escalation criteria in the current payer workflow should:", "opts": ["Be denied immediately without documentation", "Be approved automatically", "Be escalated to the authorised PIC or senior-review route before the final denial", "Be escalated to MOH for routine adjudication"], "a": 2, "module": "Pre-existing"},
-        {"q": "The NT scan (Nuchal Translucency) is only covered between:", "opts": ["8–10 weeks gestation", "11–13 weeks gestation", "16–18 weeks gestation", "18–20 weeks gestation"], "a": 1, "module": "Specialty"},
-        {"q": "Which of the following is a standard exclusion under BOTH DHA and HAAD?", "opts": ["Hepatitis C treatment", "Circumcision for newborns", "IVF and embryo transfer", "HPV infection treatment"], "a": 2, "module": "Exclusions"},
-        {"q": "Upcoding in the context of DRG billing means:", "opts": ["Coding a less complex diagnosis to reduce payment", "Adding CC/MCC diagnosis codes without clinical documentation to increase DRG payment", "Failing to code secondary diagnoses", "Using outdated ICD-9 codes instead of ICD-10"], "a": 1, "module": "Audit"},
-        {"q": "For a file audit (FA) ticket to be raised, which of these must be confirmed FIRST?", "opts": ["The claim must exceed AED 10,000", "The provider must have specified the exact onset date of the condition", "The member must have been enrolled for less than 1 year", "The PIC must pre-approve the audit"], "a": 1, "module": "Pre-existing"},
-        {"q": "Under hazardous sports exclusion, DHA and HAAD differ how?", "opts": ["DHA excludes all sports; HAAD only excludes professional sports", "DHA only excludes professional sports; HAAD has a broader exclusion including recreational hazardous activities", "Both have identical hazardous sports exclusions", "Neither covers sports injuries"], "a": 1, "module": "Exclusions"},
-        {"q": "Which coding system is used for diagnosis coding in both UAE and international insurance?", "opts": ["CPT", "HCPCS Level II", "ICD-10", "DRG"], "a": 2, "module": "Coding"},
-        {"q": "Emergency treatment in UAE health insurance is covered up to:", "opts": ["The first AED 5,000 regardless of outcome", "The point of stabilisation, regardless of network", "24 hours of admission only", "Whatever is in the TOB sub-limit for emergency"], "a": 1, "module": "Inpatient"},
-        {"q": "What is the standard waiting period for pre-existing and chronic conditions under an EBP policy?", "opts": ["3 months", "6 months", "12 months", "24 months"], "a": 1, "module": "Pre-existing"},
-        {"q": "RAF score in HCC risk adjustment models is:", "opts": ["A quality score for healthcare providers", "A risk adjustment factor reflecting a member's predicted healthcare cost based on diagnoses", "A reimbursement formula for pharmacy claims", "A fraud detection algorithm"], "a": 1, "module": "Coding"},
+        {"q":"What is the best first step when a prior-authorisation request is missing important clinical detail?","opts":["Approve automatically","Deny automatically","Request the specific missing information","Apply a rule from another product"],"a":2,"module":"Claims"},
+        {"q":"Which document should be checked for member-specific coverage, limits and co-pay?","opts":["The TOB","A previous member's approval","A general internet article","A provider price list only"],"a":0,"module":"Foundations"},
+        {"q":"What does DRG stand for?","opts":["Drug Reimbursement Guide","Diagnosis Related Group","Diagnostic Referral Grade","Documentation Review Grid"],"a":1,"module":"Coding"},
+        {"q":"Which item can change an inpatient DRG result?","opts":["Principal diagnosis and supported secondary diagnoses","The colour of the insurance card","The reviewer name","The day of the week alone"],"a":0,"module":"Coding"},
+        {"q":"A physiotherapy request for additional sessions should be reviewed using:","opts":["One fixed UAE-wide session maximum","The TOB, clinical progress and functional goals","The provider name only","The member age only"],"a":1,"module":"Specialty"},
+        {"q":"A possible undeclared pre-existing condition should first trigger:","opts":["Automatic denial","Evidence review and comparison with policy wording","Automatic fraud referral","Deletion of the claim"],"a":1,"module":"Pre-existing"},
+        {"q":"What is the purpose of a risk-based audit sample?","opts":["To prove wrongdoing before review","To test a defined concern using a reproducible method","To review only the most expensive claim","To avoid documentation"],"a":1,"module":"Audit"},
+        {"q":"A red flag in an audit is:","opts":["Proof of fraud","A signal that justifies evidence-based review","Always a billing error","A reason to recoup every claim"],"a":1,"module":"Audit"},
+        {"q":"Which is a core element of an audit finding?","opts":["A vague statement without evidence","Evidence and the applicable standard","A copied conclusion without analysis","A copied template without analysis"],"a":1,"module":"Audit"},
+        {"q":"For an emergency presentation, the first priority is:","opts":["Administrative paperwork","Immediate clinical assessment and stabilisation","Waiting for network transfer","Cost negotiation"],"a":1,"module":"Inpatient"},
+        {"q":"Dental coverage should be assessed using:","opts":["One fixed UAE-wide dental limit","The member-specific TOB and clinical documentation","A previous product's rule","The provider name alone"],"a":1,"module":"Specialty"},
+        {"q":"For a childhood catch-up vaccination schedule, use:","opts":["A schedule created from memory","The current official emirate guidance","An adult schedule","A rule from another product"],"a":1,"module":"Specialty"},
+        {"q":"A TPA generally:","opts":["Processes claims on behalf of the insurer","Always holds the insurance risk","Is the same as the regulator","Only handles dental claims"],"a":0,"module":"Foundations"},
+        {"q":"Why should the grouper version be checked in DRG review?","opts":["Because the output can depend on the applicable version","Because it changes the member name","Because it replaces clinical documentation","Because it removes the need for coding"],"a":0,"module":"Coding"},
+        {"q":"When an imaging request is reviewed, the most useful question is:","opts":["Is this always approved?","What clinical question should the imaging answer?","Did another member receive it?","Is it expensive?"],"a":1,"module":"Claims"},
     ]
 
     module_filter = st.selectbox("Filter by module:", ["All Modules", "Foundations", "Exclusions", "Claims", "Coding", "Pre-existing", "Specialty", "Inpatient", "Audit"])
@@ -2032,6 +1737,7 @@ elif nav == "📝  Knowledge Quiz":
 # PAGE 12 — RESOURCES
 # ══════════════════════════════════════════════════════════════════════════════
 elif nav == "📚  Resources":
+    st.session_state.progress["resources"] = True
     st.markdown('<div class="section-title">Resources</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-sub">Official references and glossary</div>', unsafe_allow_html=True)
 
@@ -2044,6 +1750,10 @@ elif nav == "📚  Resources":
           <table class="styled-table">
             <tr><th>Source</th><th>Topic</th><th>Link</th></tr>
             <tr><td>DHA — Dubai Health Authority</td><td>DHA health insurance regulations, exclusions, circulars</td><td><a href="https://www.dha.gov.ae" target="_blank" style="color:#4f9cf9;">dha.gov.ae</a></td></tr>
+            <tr><td>DHA Standards for Physiotherapy Services</td><td>Dubai physiotherapy service requirements, referral, assessment, treatment planning, reassessment and documentation</td><td><a href="https://dha.gov.ae/uploads/062023/Standards%20Physiotherapy%20Service%20Final%202023625844.pdf" target="_blank" style="color:#4f9cf9;">DHA physiotherapy standard PDF</a></td></tr>
+            <tr><td>DHA Pharmacy Guidelines</td><td>Dubai pharmacy practice, medication safety, prescribing and dispensing guidance</td><td><a href="https://www.dha.gov.ae/uploads/112021/f6eb62ac-f666-4cce-9a2f-47788a25f565.pdf" target="_blank" style="color:#4f9cf9;">DHA pharmacy guideline PDF</a></td></tr>
+            <tr><td>DOH Antenatal Care Standard</td><td>Abu Dhabi antenatal-care service specifications and minimum requirements</td><td><a href="https://www.doh.gov.ae/-/media/53DDEF165163450481481DE46FCA653C.ashx" target="_blank" style="color:#4f9cf9;">DOH antenatal standard PDF</a></td></tr>
+            <tr><td>DOH Antenatal Ultrasound Guideline</td><td>Abu Dhabi ultrasound guidance for pregnancy</td><td><a href="https://www.doh.gov.ae/-/media/Feature/Resources/Guidelines/antenatal-ultrasound-guideline.ashx" target="_blank" style="color:#4f9cf9;">DOH ultrasound guideline PDF</a></td></tr>
             <tr><td>DHA Immunisation Guideline — Issue 4</td><td>Current Dubai / UAE NIP childhood schedule, school-age schedule, minimum intervals, catch-up guidance, RSV and PCV updates</td><td><a href="https://dha.gov.ae/uploads/102024/Clinical%20Guideline%20for%20Best%20Practice%20in%20Immunization20241028945.pdf" target="_blank" style="color:#4f9cf9;">DHA guideline PDF</a></td></tr>
             <tr><td>DOH Circular 77/2026</td><td>Abu Dhabi childhood and school vaccination schedule update, effective from issuance</td><td><a href="https://www.doh.gov.ae/-/media/950546F00B64465CA91D7729996B3487.ashx" target="_blank" style="color:#4f9cf9;">DOH circular PDF</a></td></tr>
             <tr><td>Abu Dhabi Health Insurance Law and Regulations</td><td>Basic Product benefits and exclusion schedule, including dental exclusions</td><td><a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank" style="color:#4f9cf9;">DOH regulations PDF</a></td></tr>
@@ -2075,7 +1785,7 @@ elif nav == "📚  Resources":
             ("DOH", "Department of Health Abu Dhabi — successor to HAAD"),
             ("DRG", "Diagnosis Related Group — inpatient payment grouping system"),
             ("EBP", "Essential Benefits Plan — minimum mandatory DHA health coverage plan"),
-            ("FA", "File Audit — deep review of member medical file to verify onset and UNPEC"),
+            ("Additional review", "Documented review of the member medical file where permitted by the applicable review process"),
             ("FWA", "Fraud, Waste and Abuse — improper billing or utilisation practices"),
             ("HAAD", "Health Authority Abu Dhabi — predecessor to DOH, rules still referred to as HAAD regulations"),
             ("HCC", "Hierarchical Condition Category — ICD-10 code groupings used in risk adjustment models"),
@@ -2085,8 +1795,6 @@ elif nav == "📚  Resources":
             ("LoS", "Length of Stay — number of days in hospital"),
             ("MAF", "Medical Application Form — health declaration form for underwriting"),
             ("MCC", "Major Complication/Comorbidity — serious secondary diagnosis increasing DRG weight"),
-            ("MCU", "Medical Clinical Unit — internal team managing complex case reviews"),
-            ("MIU", "Medical Investigation Unit — handles file audit and UNPEC investigation"),
             ("MOH", "Ministry of Health and Prevention UAE — federal health authority"),
             ("OP", "Outpatient — medical services without hospital admission"),
             ("PA", "Prior Authorisation — pre-approval required before service"),
@@ -2119,8 +1827,7 @@ elif nav == "📚  Resources":
       <strong style="color:#9aa3b8;">Legal Disclaimer:</strong> This application is an educational training tool created by Rana Musab Bin Tariq.
       All content is for learning purposes only and does not constitute medical, legal, or insurance advice.
       Coverage and clinical decisions must always be based on the member complete medical file, specific TOB, and applicable regulatory framework.
-      No internal company documents, proprietary data, or confidential information are disclosed. Regulatory content is derived from publicly available
-      DHA, HAAD/DOH, and MOH frameworks. The creator assumes no liability for decisions made based on content in this application.
+      Regulatory content is summarised from publicly available sources. Always check the current official publication and the member-specific TOB before applying a rule in practice. The creator assumes no liability for decisions made based on content in this application.
     </div>
     """, unsafe_allow_html=True)
 
@@ -2128,243 +1835,50 @@ elif nav == "📚  Resources":
 # PAGE  PROCEDURES, DENTAL & VACCINES
 # 
 elif nav == "🩺  Procedures, Dental & Vaccines":
-    st.session_state.progress["cases"] = True
+    st.session_state.progress["procedures"] = True
     st.markdown('<div class="section-title">Procedures, Dental & Vaccines</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">First-line investigations  What to request when something isn\'t first-line  Dental terms & rules  UAE vaccination coverage  High-value escalation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">Procedure review prompts · Dental benefit checks · UAE vaccination schedules · Complex-case documentation</div>', unsafe_allow_html=True)
     st.markdown("""
     <div class="disclaimer">
       These pathways are educational review prompts, not automatic approval or denial rules.
-      The treating clinician's judgment, red flags, current official guidance, your TPA's internal protocol,
-      and the member's specific TOB always take precedence. Verify live cases against current sources.
+      The treating clinician's judgment, red flags, current official guidance and the member's specific TOB always take precedence. Verify live cases against current sources.
     </div>
     """, unsafe_allow_html=True)
 
     t1, t5, t2, t3, t4 = st.tabs(["🧪 First-Line & Procedures", "🧭 Common Indications", "🦷 Dental Rules", "💉 Vaccinations UAE", "📈 Escalation & High-Value"])
 
-    #  TAB 1: FIRST LINE 
+    #  TAB 1: FIRST LINE
     with t1:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">What "First-Line" Means in Claims Adjudication</div>
-          <p style="font-size:.87rem;color:#9aa3b8;line-height:1.7;">
-            A <strong style="color:#f0f2f8;">first-line investigation</strong> is one that is clinically appropriate as the
-            initial step in evaluating a condition  no prior tests or conservative management are required before approving it.
-            A <strong style="color:#f0f2f8;">non-first-line investigation</strong> requires you to confirm that earlier,
-            simpler steps have already been taken before the more advanced test is justified.
-            This is the heart of medical necessity assessment.
-          </p>
+          <div class="card-title">How to Review a Procedure Request</div>
+          <p style="font-size:.87rem;color:#9aa3b8;line-height:1.7;">A procedure is not approved or declined merely because it appears on a memorised list. Start with the clinical question, then review the applicable evidence, member-specific benefit and the requested setting.</p>
+          <table class="styled-table"><tr><th>Step</th><th>Questions</th></tr>
+          <tr><td>1. Define the clinical question</td><td>What diagnosis or symptom is being evaluated or treated? What decision will the test or procedure inform?</td></tr>
+          <tr><td>2. Check urgency and red flags</td><td>Would delay create risk? Is the request part of emergency assessment, elective workup or follow-up?</td></tr>
+          <tr><td>3. Review prior assessment</td><td>Which relevant examinations, laboratory results, imaging, treatment attempts or specialist recommendations are available?</td></tr>
+          <tr><td>4. Check the benefit</td><td>Is the service covered under the TOB? Are network, co-pay, limit, referral or authorisation rules relevant?</td></tr>
+          <tr><td>5. Document the rationale</td><td>Record what was reviewed, what is missing and why the selected outcome is reasonable.</td></tr></table>
         </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
         <div class="glass-card">
-          <div class="card-title"> Investigations That Are Always First-Line  No Prerequisites Needed</div>
-          <p style="font-size:.84rem;color:#9aa3b8;margin-bottom:.8rem;">
-            These can be approved based on clinical diagnosis alone  no prior imaging, no management history required:
-          </p>
-          <table class="styled-table">
-            <tr><th>Investigation</th><th>Common Indications</th><th>Notes</th></tr>
-            <tr><td><strong>X-Ray</strong></td><td>Orthopaedic pain, chest symptoms, fracture query, dental</td><td>First-line for almost all structural and chest assessments. No prerequisites.</td></tr>
-            <tr><td><strong>ECG</strong></td><td>Chest pain, palpitations, pre-op, cardiac symptoms</td><td>Always first-line. Must be done before echo in most cardiac workups.</td></tr>
-            <tr><td><strong>Ultrasound (most indications)</strong></td><td>Abdomen, pelvis, thyroid, varicose veins, TMJ, soft tissue masses</td><td>First-line for most soft-tissue and abdominal queries. Exception: UTI (urine test first).</td></tr>
-            <tr><td><strong>Mammography (age 40)</strong></td><td>Breast lump, screening in symptomatic women 40</td><td>First-line modality for women 40 and above.</td></tr>
-            <tr><td><strong>Breast Ultrasound (age &lt;40)</strong></td><td>Palpable breast lump in women under 40</td><td>First-line for under-40. Dense breast tissue makes mammogram less effective in this age group.</td></tr>
-            <tr><td><strong>EEG</strong></td><td>Seizure, epilepsy workup</td><td>First-line for all seizure investigations. No prerequisites.</td></tr>
-            <tr><td><strong>Nerve Conduction Study (NCS) / EMG</strong></td><td>Carpal tunnel syndrome, peripheral neuropathy, radiculopathy</td><td>First-line for nerve-related symptoms. No X-ray or physio required first.</td></tr>
-            <tr><td><strong>Doppler (vascular)</strong></td><td>Deep vein thrombosis, peripheral arterial disease, varicose veins</td><td>First-line vascular assessment. No prerequisites.</td></tr>
-            <tr><td><strong>TMT (Treadmill Test)</strong></td><td>Chest pain, ischaemic heart disease workup</td><td>First-line functional cardiac test. Required before echo in most non-emergency cardiac workups.</td></tr>
-            <tr><td><strong>MCV / FBC (Full Blood Count)</strong></td><td>Anaemia, infection, general workup</td><td>First-line haematology. No prerequisites.</td></tr>
-            <tr><td><strong>Physiotherapy</strong></td><td>Most musculoskeletal conditions</td><td>Considered first-line for MSK. Referral letter required. No imaging prerequisite for standard plans.</td></tr>
-            <tr><td><strong>MRI  Multiple Sclerosis</strong></td><td>Clinical MS workup</td><td>MRI brain and spine is first-line in suspected MS. Neurologist referral confirms indication.</td></tr>
-            <tr><td><strong>MRI  TMJ</strong></td><td>Temporomandibular joint disorder</td><td>MRI is first-line for TMJ. CT also acceptable for TMJ. X-ray can complement.</td></tr>
-            <tr><td><strong>CT Brain  Head Trauma</strong></td><td>Fall with head injury, GCS change, focal neurology</td><td>CT brain is first-line for acute trauma (faster than MRI for detecting acute bleeds). Approve if documented fall/trauma.</td></tr>
-            <tr><td><strong>USG Kidney / Urinary tract</strong></td><td>Kidney stones, hydronephrosis, renal colic</td><td>First-line for urinary tract. CT KUB is second-line to confirm stone size and location.</td></tr>
-          </table>
+          <div class="card-title">Common Procedure Review Areas</div>
+          <table class="styled-table"><tr><th>Area</th><th>Useful Review Questions</th></tr>
+          <tr><td>Advanced imaging</td><td>What condition is being assessed? Are there red flags? How will the requested modality change management?</td></tr>
+          <tr><td>Endoscopy</td><td>What symptoms, duration, alarm features, prior management and specialist rationale are documented?</td></tr>
+          <tr><td>Cardiac testing</td><td>What symptoms, examination findings, ECG or other relevant evidence support the test requested?</td></tr>
+          <tr><td>Rehabilitation</td><td>What impairment, functional goal, baseline assessment, treatment plan and progress measure are documented?</td></tr>
+          <tr><td>Interventional procedures</td><td>What diagnosis, imaging or examination findings, alternatives, risks and treatment plan are documented?</td></tr>
+          <tr><td>Laboratory monitoring</td><td>What clinical question is being answered, and is repeat testing supported by the patient's current situation and relevant guidance?</td></tr></table>
+          <div class="source-note">Use current clinical guidance for the relevant scenario. The <a href="https://www.acr.org/Clinical-Resources/ACR-Appropriateness-Criteria" target="_blank">ACR Appropriateness Criteria</a> provide a useful imaging reference library.</div>
         </div>
         """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="glass-card">
-          <div class="card-title"> Non-First-Line Investigations  What to Request Before Approving</div>
-          <table class="styled-table">
-            <tr><th>Investigation</th><th>Condition</th><th>What Must Come First</th><th>Decision Logic</th></tr>
-            <tr>
-              <td><strong>MRI Spine / Joint</strong></td><td>Back pain, joint pain, orthopaedic</td>
-              <td>X-ray + conservative management (physiotherapy, analgesics)</td>
-              <td>
-                <strong>A.</strong> X-ray attached + shows abnormality + no physio history ' <span style="color:#34d399;">Approve MRI</span><br/>
-                <strong>B.</strong> X-ray attached + shows abnormality + physio done ' Request physio progress notes ' approve if physio insufficient<br/>
-                <strong>C.</strong> X-ray attached + normal + no conservative management ' <span style="color:#ff6b6b;">Deny / request conservative management first</span><br/>
-                <strong>D.</strong> No X-ray attached ' <span style="color:#fbbf24;">Query: request X-ray, conservative management history, initial investigations</span>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>MRI Brain</strong></td><td>Headache, neurological symptoms</td>
-              <td>Clinical neurological assessment; ENT, ophthalmology opinion for chronic headache</td>
-              <td>
-                Approve if: seizures (EEG done first), MS workup, focal neurological deficit, trauma with clinical signs.<br/>
-                Query if: headache only, no neurological signs, no conservative management.<br/>
-                Always ask: duration of symptoms, any neurological signs, preliminary investigations done, what condition is being ruled out.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>MRI Brain  Seizures</strong></td><td>Epilepsy, first seizure</td>
-              <td>EEG must be done first</td>
-              <td>EEG is the first-line investigation for seizures. Once EEG is done and raises concern for structural cause, MRI brain is then justified.</td>
-            </tr>
-            <tr>
-              <td><strong>MRI Breast</strong></td><td>Breast mass or abnormality</td>
-              <td>Ultrasound (under 40) or Mammogram (40+) must come first</td>
-              <td>MRI breast is only justified after primary modality shows an abnormality that needs further characterisation. Not a screening tool in standard insurance context.</td>
-            </tr>
-            <tr>
-              <td><strong>MRI for Haemorrhoids</strong></td><td>Haemorrhoidal disease</td>
-              <td>Clinical examination, basic investigations</td>
-              <td>MRI is only justified to rule out malignancy in complicated or atypical presentations. Simple haemorrhoids do not warrant MRI.</td>
-            </tr>
-            <tr>
-              <td><strong>Echocardiogram</strong></td><td>Chest pain, palpitations, cardiac workup</td>
-              <td>ECG + TMT + cardiac enzymes (troponin)</td>
-              <td>
-                Echo is not first-line for non-specific chest pain.<br/>
-                Approve only if: structural evidence on ECG, positive troponin, audible murmur, or confirmed cardiac structural diagnosis.<br/>
-                Do not approve for chest pain with normal ECG and no enzymes.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>CT PNS (Sinuses)</strong></td><td>Sinusitis, nasal symptoms</td>
-              <td>X-ray PNS or nasal endoscopy must be done first</td>
-              <td>CT is not first-line for sinus symptoms. X-ray or endoscopy first. If findings are inconclusive and CT is needed for surgical planning, then approve.</td>
-            </tr>
-            <tr>
-              <td><strong>Colonoscopy</strong></td><td>GI symptoms, colorectal query</td>
-              <td>Calprotectin / FOB / H. pylori test / stool analysis; conservative management documented</td>
-              <td>
-                Approve if: chronic GI history documented + baseline labs done, or emergency indication (PR bleeding with Hb drop).<br/>
-                Always ask: onset and duration of symptoms, prior GI investigations, prior medications, any alarm symptoms (weight loss, rectal bleeding, family history colorectal cancer).
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Upper GIT Endoscopy</strong></td><td>GERD, dyspepsia, epigastric pain</td>
-              <td>48 weeks of conservative medical management (PPI therapy); H. pylori / urea breath test</td>
-              <td>
-                Approve if: failed conservative management documented, H. pylori positive, prior endoscopy history with progression, or emergency (haematemesis).<br/>
-                Always ask: duration of symptoms, medications tried and duration, H. pylori test result, previous endoscopy reports.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Ultrasound  UTI</strong></td><td>Urinary tract infection</td>
-              <td>Urine analysis / urine culture must be done first</td>
-              <td>Ultrasound is not first-line for simple UTI. Urine analysis is the first step. Ultrasound is appropriate if there is suspected complication (abscess, structural anomaly, recurrent UTI).</td>
-            </tr>
-            <tr>
-              <td><strong>Vitamin D Test</strong></td><td>Vitamin D deficiency screening</td>
-              <td>Prior test result + supplementation history</td>
-              <td>
-                Not a routine first-line test for all members. Approve for high-risk groups (elderly, chronic malabsorption, veiled women, osteoporosis).<br/>
-                For repeat: require supplementation history (36 months minimum) and minimum 12-month interval from last test.<br/>
-                Deny if: no prior deficiency, no supplementation, or repeat within 12 months without clinical change.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>DEXA Scan</strong></td><td>Osteoporosis</td>
-              <td>X-ray showing osteopenia</td>
-              <td>Approve if X-ray reports confirm osteopenia or bone loss. Deny if X-ray is normal or not attached. DEXA is a quantification tool  it requires prior clinical suspicion from imaging.</td>
-            </tr>
-            <tr>
-              <td><strong>Liver Elastography (Fibroscan)</strong></td><td>Liver fibrosis, hepatic disease</td>
-              <td>Liver function profile + ultrasound abdomen + viral hepatitis labs</td>
-              <td>Not first-line. Requires: detailed medical history with management plan, LFTs, ultrasound abdomen, hepatitis viral serology (HBsAg, HCV Ab), future treatment plan.</td>
-            </tr>
-            <tr>
-              <td><strong>Arthrocentesis</strong></td><td>Joint aspiration / injection</td>
-              <td>X-ray of affected joint + MRI if available + conservative management history</td>
-              <td>Not first-line. Must confirm joint pathology on imaging and document failed conservative management before proceeding to joint aspiration or injection.</td>
-            </tr>
-            <tr>
-              <td><strong>Sclerotherapy</strong></td><td>Varicose veins</td>
-              <td>Doppler scan of affected vessels + conservative management (compression stockings) documented</td>
-              <td>Doppler confirms venous reflux and suitability for sclerotherapy. Conservative management (compression) must have been tried. Document indication clearly.</td>
-            </tr>
-            <tr>
-              <td><strong>Photochemotherapy (PUVA/UVB)</strong></td><td>Skin conditions (psoriasis, vitiligo, eczema)</td>
-              <td>Previous topical treatments tried and failed; duration of disease and prior management documented</td>
-              <td>Ask for: duration of condition, all previous topical treatments tried, duration and response to each, current clinical severity. Phototherapy is typically a second or third-line option.</td>
-            </tr>
-            <tr>
-              <td><strong>Ureteroscopy (URS)</strong></td><td>Kidney / ureteric stones</td>
-              <td>Radiology confirmation (CT KUB) of stone size + urine analysis</td>
-              <td>
-                Stone &lt;0.5 cm ' Conservative management (hydration, analgesia, alpha-blockers) first.<br/>
-                Stone 0.51 cm ' ESWL or URS if hydronephrosis or back-pressure present.<br/>
-                Stone &gt;1 cm ' URS + ESWL appropriate. Confirm with radiology report + urine analysis (haematuria, infection).
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Circumcision (DHA policies)</strong></td><td>Phimosis, recurrent balanitis, religious/ritual</td>
-              <td>Age and medical indication determine coverage</td>
-              <td>
-                <strong>DHA:</strong> Age 02 years ' covered (newborn circumcision). Over 2 years ' medical necessity must be documented by surgeon (phimosis, recurrent infection).<br/>
-                <strong>HAAD:</strong> Standard exclusion regardless of age and indication.<br/>
-                Always check if the TOB has specific wording.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Dramatic Falls  Alcohol Query</strong></td><td>Injury following a fall</td>
-              <td>Clarify circumstances of fall</td>
-              <td>
-                Always ask: When did the fall happen? Where? How did it happen?<br/>
-                If there is any clinical indication or documentation that the member was under the influence of alcohol or substances at the time of the fall ' deny (alcohol/substance exclusion).<br/>
-                If the doctor confirms the member was NOT intoxicated and the fall was accidental ' approve.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Audiometry</strong></td><td>Hearing assessment</td>
-              <td>N/A  it is a standard exclusion</td>
-              <td>Standard exclusion under DHA, HAAD, and Northern Emirates. Covered only if the TOB explicitly includes hearing tests or hearing aids as a benefit. Always check TOB first before denying.</td>
-            </tr>
-            <tr>
-              <td><strong>Allergy Testing</strong></td><td>Allergic conditions</td>
-              <td>N/A  standard exclusion for most</td>
-              <td>Standard exclusion for most policies. Exception: allergy testing specifically to determine allergy to a medication being used in treatment may be approved. Some international plans cover it upon medical necessity  check TOB.</td>
-            </tr>
-            <tr>
-              <td><strong>Keratoconus workup (Pentacam)</strong></td><td>Keratoconus / refractive error</td>
-              <td>N/A  classified as refractive error</td>
-              <td>Keratoconus investigations and management fall under refractive error correction  standard exclusion for outpatient. Only covered if TOB explicitly includes vision correction or keratoconus as a named benefit.</td>
-            </tr>
-            <tr>
-              <td><strong>Deviated Nasal Septum (DNS)</strong></td><td>Nasal obstruction</td>
-              <td>Depends on service type</td>
-              <td>
-                <strong>OP investigations</strong> (scans, X-rays for DNS) ' Covered under DHA and most standard plans.<br/>
-                <strong>Septoplasty (surgical correction)</strong> ' Standard exclusion under most policies unless TOB specifically covers it. Always check TOB before approving surgical DNS correction.
-              </td>
-            </tr>
-          </table>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="glass-card">
-          <div class="card-title">Preoperative & Infectious Disease Testing Rules</div>
-          <table class="styled-table">
-            <tr><th>Test</th><th>Indication</th><th>Coverage Rule</th></tr>
-            <tr><td>COVID-19 PCR  Pre-operative</td><td>Before any elective surgery</td><td><strong>DHA policies only:</strong> covered as mandatory pre-op screening per DHA circular. Not covered for HAAD or Northern Emirates policies through insurance.</td></tr>
-            <tr><td>Hepatitis B, C / HIV  Pre-op (non-dialysis)</td><td>Before elective surgery</td><td>Coverage varies by payer and TOB. Some plans include, many exclude. Always check TOB. Hepatitis A is not an exclusion unless TOB states otherwise.</td></tr>
-            <tr><td>Hepatitis B, C / HIV  Pre-dialysis</td><td>Before starting haemodialysis when clinically indicated</td><td>Confirm clinical indication, applicable regulator requirements, and the member-specific TOB. Do not infer coverage from provider name.</td></tr>
-            <tr><td>Cryo / Electro sessions (dermatology)</td><td>Skin lesion treatment</td><td>Cryotherapy: typically up to 2 sessions. Electrocautery: up to 5 sessions. Beyond this, query for clinical justification and progress.</td></tr>
-          </table>
-        </div>
-        """, unsafe_allow_html=True)
-
 
     #  TAB 1B: COMMON INDICATION REVIEW PROMPTS
     with t5:
         st.markdown("""
         <div class="glass-card">
           <div class="card-title">Common Indications — Educational Review Prompts</div>
-          <div class="warning-box"><strong>Use as a learning checklist, not an automatic approval rule.</strong> The treating clinician's judgment, red flags, age, pregnancy status, comorbidities, official guidelines, the member's TOB and your current TPA protocol take precedence.</div>
+          <div class="warning-box"><strong>Use as a learning checklist, not an automatic approval rule.</strong> The treating clinician's judgment, red flags, age, pregnancy status, comorbidities, official guidelines, the member's TOB and the current applicable review process take precedence.</div>
           <table class="styled-table">
             <tr><th>Presentation</th><th>Common Initial Work-up Considerations</th><th>When a More Advanced Test May Need Review</th><th>Useful Notes to Request</th></tr>
             <tr><td><strong>Low-back pain</strong></td><td>Clinical assessment; consider conservative management when there are no red flags. Imaging choice depends on the scenario.</td><td>MRI may be appropriate for red flags, suspected serious pathology, or persistent/progressive symptoms when intervention is being considered.</td><td>Duration, neurological deficit, trauma, fever, cancer history, bladder/bowel symptoms, prior management and specialist plan.</td></tr>
@@ -2393,7 +1907,7 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
         <div class="glass-card">
           <div class="card-title">Dental Coverage — General, TOB-Based Adjudication</div>
           <div class="warning-box">
-            Dental coverage is not a single UAE-wide package. Use the regulator framework, the member-specific TOB, the contracted network, and the clinical documentation. Do not publish or apply legacy company-specific rules, fixed company limits, or named payer exceptions.
+            Dental coverage is not a single UAE-wide package. Use the regulator framework, the member-specific TOB, the contracted network, and the clinical documentation. Do not assume that a remembered limit applies to every product.
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#4f9cf922;color:#4f9cf9;">1</div>
@@ -2405,7 +1919,7 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#a78bfa22;color:#a78bfa;">3</div>
-            <div><strong>Verify limit, co-pay, and frequency</strong> — Use only the member's stated TOB. Limits may be annual, per category, per tooth, per visit, or frequency-based. Never hard-code a company-specific amount.</div>
+            <div><strong>Verify limit, co-pay, and frequency</strong> — Use only the member's stated TOB. Limits may be annual, per category, per tooth, per visit, or frequency-based. Never hard-code a product-specific amount.</div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#fbbf2422;color:#fbbf24;">4</div>
@@ -2413,7 +1927,7 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#34d39922;color:#34d399;">5</div>
-            <div><strong>Apply the contract and escalate grey zones</strong> — Adjudicate only within the TOB and current workflow. Escalate unclear, high-cost, or clinically complex cases through the authorised route.</div>
+            <div><strong>Apply the contract and escalate grey zones</strong> — Adjudicate only within the TOB and current workflow. Escalate unclear, high-cost, or clinically complex cases through the applicable review process.</div>
           </div>
         </div>
         """, unsafe_allow_html=True)
@@ -2461,7 +1975,7 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
             <strong>Do not mix two different questions:</strong><br/>
             1) Which vaccines are included in the current public-health immunisation schedule?<br/>
             2) Is a particular vaccine payable under this member's insurance policy?<br/><br/>
-            Use the current DHA or DOH immunisation schedule for timing. Use the member-specific TOB, regulator framework, network, and live payer workflow for insurance coverage. Do not apply a blanket rule from an old company SOP.
+            Use the current DHA or DOH immunisation schedule for timing. Use the member-specific TOB, regulator framework, network and current applicable review process for insurance coverage. Confirm the current benefit route for the member and emirate.
           </div>
           <table class="styled-table">
             <tr><th>Framework</th><th>Training Rule</th></tr>
@@ -2541,100 +2055,24 @@ elif nav == "🩺  Procedures, Dental & Vaccines":
         </div>
         """, unsafe_allow_html=True)
 
-    #  TAB 4: ESCALATION & HIGH VALUE 
+    #  TAB 4: COMPLEX CASE REVIEW
     with t4:
         st.markdown("""
-        <div class="glass-card">
-          <div class="card-title">When to Escalate  The General Principle</div>
-          <p style="font-size:.87rem;color:#9aa3b8;line-height:1.7;">
-            As a TPA adjudicator, you have authority to approve and deny within defined limits.
-            Escalation means sending the case to your Team Leader (TL), the Primary Insurance Company (PIC),
-            or the Medical Investigation Unit (MIU) before you make a final decision.
-            Escalating when you should not wastes time. Not escalating when you should = a compliance breach.
-          </p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="glass-card">
-          <div class="card-title">Escalation Triggers  When You Must Escalate</div>
-          <table class="styled-table">
-            <tr><th>Trigger</th><th>Escalate To</th><th>Why</th></tr>
-            <tr>
-              <td><strong>Cost exceeds payer escalation threshold</strong></td>
-              <td>PIC (Primary Insurance Company)</td>
-              <td>Each payer has a defined AED threshold above which all approvals require PIC written authorisation before the TPA can approve. This protects the PIC from large unexpected liabilities. Thresholds vary by payer  check your TPA's payer escalation matrix.</td>
-            </tr>
-            <tr>
-              <td><strong>Undeclared Pre-existing Condition (UNPEC) suspected</strong></td>
-              <td>PIC (for designated payers) or MIU</td>
-              <td>Some payer workflows require written PIC authorisation before a final UNPEC denial. Check the current payer escalation matrix and document the approval trail. Do not rely on a legacy company list.</td>
-            </tr>
-            <tr>
-              <td><strong>File Audit required</strong></td>
-              <td>MIU (Medical Investigation Unit)</td>
-              <td>When UNPEC is suspected, onset is documented, and case meets FA threshold. Raise FA ticket with all reports to MIU for deep investigation.</td>
-            </tr>
-            <tr>
-              <td><strong>Grey-zone medical necessity</strong></td>
-              <td>Team Leader (TL) / Senior Medical Reviewer</td>
-              <td>Cases where clinical justification is borderline  not clearly approvable or deniable. Discuss with TL before deciding. Document the discussion.</td>
-            </tr>
-            <tr>
-              <td><strong>Work-related injury (Enhanced plan)</strong></td>
-              <td>PIC  notify by email immediately</td>
-              <td>For non-EBP plans with WRI covered: approve and notify the PIC immediately by email, asking for details of their Workmen's Compensation Policy coverage. This allows the PIC to subrogate against the employer's WCP.</td>
-            </tr>
-            <tr>
-              <td><strong>Suspected fraud or billing irregularity</strong></td>
-              <td>Compliance / TL / PIC</td>
-              <td>If you identify phantom billing, upcoding, or provider-member collusion  do not proceed. Flag to your TL and compliance team immediately. Document everything before taking any action.</td>
-            </tr>
-            <tr>
-              <td><strong>Case under internal discussion / pending PIC response</strong></td>
-              <td>PIC</td>
-              <td>Use AUTH-012 internal discussion template: "Please note that the case is currently under internal discussion and assessment and final decision will be conveyed shortly." Update the provider while the escalation is being resolved.</td>
-            </tr>
-          </table>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="glass-card">
-          <div class="card-title">High-Value Claims  General Thresholds and Process</div>
-          <div class="info-box">
-            <strong>Important:</strong> Exact escalation thresholds are set by each PIC and are confidential to your TPA contract.
-            The values below are illustrative of the types of thresholds that exist  your TPA will have its own
-            payer escalation matrix which is the authoritative reference. Always use your internal matrix.
-          </div>
-          <table class="styled-table">
-            <tr><th>Claim Value Category</th><th>Typical Action</th></tr>
-            <tr><td>Below internal TPA approval limit</td><td>TPA medical reviewer approves or denies independently within their authority.</td></tr>
-            <tr><td>Above TPA authority limit  below PIC threshold</td><td>Escalate to TL for approval. TL signs off before authorisation is issued to provider.</td></tr>
-            <tr><td>Above PIC escalation threshold</td><td>Email sent to PIC with full clinical summary, all reports, and cost breakdown. Await PIC written approval. Do NOT authorise until PIC responds. Use the standard escalation email template with member details, payer, group, underwriting status, diagnosis, estimated cost, and TPA recommendation.</td></tr>
-            <tr><td>File audit cases (suspected UNPEC &gt; AED 4,0005,000)</td><td>Raise FA ticket to MIU even below PIC threshold if UNPEC is suspected. Approve initial diagnostics while FA is pending.</td></tr>
-          </table>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="glass-card">
-          <div class="card-title">Escalation Email  What to Include</div>
-          <p style="font-size:.84rem;color:#9aa3b8;margin-bottom:.8rem;">When escalating a high-value case or UNPEC case to PIC, your email must include:</p>
-          <table class="styled-table">
-            <tr><th>Field</th><th>Detail Required</th></tr>
-            <tr><td>Member name</td><td>Full name as per policy</td></tr>
-            <tr><td>Member card number</td><td>Policy card / ID number</td></tr>
-            <tr><td>Payer (PIC)</td><td>Insurance company name</td></tr>
-            <tr><td>Group / employer</td><td>Employer or group name</td></tr>
-            <tr><td>Underwriting status</td><td>Is the member subject to underwriting? MAF attached? Any declared conditions?</td></tr>
-            <tr><td>Enrollment / effective date</td><td>When did the member join? Policy start and expiry date.</td></tr>
-            <tr><td>Provider name</td><td>Hospital or clinic requesting the service</td></tr>
-            <tr><td>Case summary</td><td>Brief clinical summary  diagnosis, requested service, clinical justification</td></tr>
-            <tr><td>Diagnosis (ICD-10)</td><td>Diagnosis code and description</td></tr>
-            <tr><td>Estimated cost</td><td>Total estimated cost of requested service(s)</td></tr>
-            <tr><td>TPA recommendation</td><td>Your medical opinion  approve, deny, or undecided with reason</td></tr>
-            <tr><td>Attachments</td><td>All clinical reports received, prior approval history, investigation results</td></tr>
-          </table>
-        </div>
+        <div class="glass-card"><div class="card-title">Complex-Case Review</div>
+        <p style="font-size:.87rem;color:#9aa3b8;line-height:1.7;">Some requests need a more detailed review because the clinical picture, policy wording or documentation is incomplete. The goal is a clear, reproducible decision trail.</p></div>
+        <div class="glass-card"><div class="card-title">When to Request a More Detailed Review</div>
+        <table class="styled-table"><tr><th>Scenario</th><th>Documentation Focus</th></tr>
+        <tr><td>Complex elective request</td><td>Clinical summary, diagnosis, service code, reports, treatment plan, alternative options, setting and TOB.</td></tr>
+        <tr><td>Possible pre-existing condition</td><td>Effective date, policy wording, declaration record where applicable, documented onset and treatment chronology.</td></tr>
+        <tr><td>Unclear medical necessity</td><td>Symptoms, duration, examination findings, red flags, prior management, relevant results and specialist rationale.</td></tr>
+        <tr><td>Potential coding or billing issue</td><td>Diagnosis, procedure code, units, dates, site, notes and applicable coding standard.</td></tr>
+        <tr><td>Possible FWA pattern</td><td>Claims pattern, peer comparison, reproducible sample, records reviewed and evidence-based finding.</td></tr></table></div>
+        <div class="glass-card"><div class="card-title">Decision-Trail Checklist</div>
+        <table class="styled-table"><tr><th>Field</th><th>What to Record</th></tr>
+        <tr><td>Request</td><td>Member identifier, provider, diagnosis, service, code, date and cost estimate.</td></tr>
+        <tr><td>Coverage context</td><td>Eligibility, network, TOB, limits, exclusions, waiting period and authorisation status.</td></tr>
+        <tr><td>Clinical evidence</td><td>Symptoms, duration, findings, results, prior management and treatment plan.</td></tr>
+        <tr><td>Outcome</td><td>Approval, targeted information request, benefit clarification or documented reason for decline.</td></tr>
+        <tr><td>Rationale</td><td>The evidence and policy wording that support the outcome.</td></tr></table>
+        <div class="info-box" style="margin-top:.8rem;"><strong>Learning objective:</strong> A second reviewer should be able to understand and reproduce the reasoning from the record.</div></div>
         """, unsafe_allow_html=True)
