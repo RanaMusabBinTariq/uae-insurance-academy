@@ -403,6 +403,34 @@ html[data-app-theme="light"], html[data-app-theme="light"] body { background:#f4
 .light-ui .stTextInput input, .light-ui .stSelectbox select {background:rgba(255,255,255,.7)!important;color:#24324b!important;border-color:rgba(80,103,146,.16)!important;}
 .light-ui .brand-card {background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(238,247,255,.62),rgba(255,242,249,.55));border-color:rgba(91,111,155,.14);}
 
+
+/* Light-mode contrast hardening: override inline dark-theme colours inside educational content. */
+.light-ui [style*="color:#f0f2f8"],
+.light-ui [style*="color: #f0f2f8"],
+.light-ui [style*="color:#ffffff"],
+.light-ui [style*="color: #ffffff"],
+.light-ui [style*="color:white"],
+.light-ui [style*="color: white"] { color:#1e2d47!important; }
+.light-ui [style*="color:#9aa3b8"],
+.light-ui [style*="color: #9aa3b8"],
+.light-ui [style*="color:#5c6480"],
+.light-ui [style*="color: #5c6480"] { color:#60708d!important; }
+.light-ui .glass-card strong,
+.light-ui .info-box strong,
+.light-ui .warning-box strong,
+.light-ui .success-box strong,
+.light-ui .disclaimer strong { color:#20304c!important; }
+.light-ui code {
+  background:rgba(37,99,235,.08)!important;
+  border:1px solid rgba(37,99,235,.12)!important;
+  color:#145c9e!important;
+  border-radius:5px; padding:1px 4px;
+}
+.light-ui .styled-table a,
+.light-ui .source-note a { color:#1769aa!important; font-weight:650; }
+.light-ui .styled-table tr:hover td { background:rgba(79,156,249,.055)!important; }
+.light-ui .timeline-dot { box-shadow:0 5px 15px rgba(80,100,145,.10); }
+
 </style>
 
 <div class="bg-orbs">
@@ -553,6 +581,21 @@ p, li, span, h1, h2, h3, h4, .stMarkdown {color:#1f2b43!important;}
 .stTabs [aria-selected="true"] {background:rgba(79,156,249,.13)!important;color:#236ab1!important;}
 .stTextInput input, .stSelectbox select {background:rgba(255,255,255,.7)!important;color:#24324b!important;border-color:rgba(80,103,146,.16)!important;}
 .brand-card {background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(238,247,255,.62),rgba(255,242,249,.55))!important;border-color:rgba(91,111,155,.14)!important;}
+/* Contrast hardening for light-glass mode. Inline dark-theme colours are overridden where needed. */
+.stApp [style*="color:#f0f2f8"], .stApp [style*="color: #f0f2f8"],
+.stApp [style*="color:#ffffff"], .stApp [style*="color: #ffffff"],
+.stApp [style*="color:white"], .stApp [style*="color: white"] {
+  color:#1e2d47!important; -webkit-text-fill-color:#1e2d47!important;
+}
+.stApp [style*="color:#9aa3b8"], .stApp [style*="color: #9aa3b8"],
+.stApp [style*="color:#5c6480"], .stApp [style*="color: #5c6480"] {
+  color:#60708d!important; -webkit-text-fill-color:#60708d!important;
+}
+.glass-card strong, .metric-card strong, .info-box strong, .warning-box strong,
+.success-box strong, .disclaimer strong, .styled-table td strong {color:#20304c!important;}
+.styled-table td, .styled-table td span, .styled-table td li, .styled-table td p {color:#27344d!important;}
+.source-note, .source-note span {color:#66738c!important;}
+code {background:rgba(37,99,235,.08)!important;border:1px solid rgba(37,99,235,.12)!important;color:#145c9e!important;border-radius:5px;padding:1px 4px;}
 </style>
 """ if st.session_state.ui_theme == "Light" else ""
 st.markdown(light_theme_css, unsafe_allow_html=True)
@@ -580,7 +623,7 @@ if not st.session_state.disclaimer_accepted:
 - All content is provided for learning purposes and does not constitute medical, legal, or insurance advice.
 - Clinical and coverage decisions must always be based on the treating physician's medical judgment, the patient's complete medical file, and the applicable policy terms and conditions (TOB).
 - DHA, HAAD/DOH, MOH, and other regulatory rules referenced are generalised summaries. Always verify with the current official circulars before applying in practice.
-- The material focuses on general learning principles. Where policy wording or local rules differ, the current official source and the member-specific TOB take precedence.
+- The material focuses on general learning principles. For every live request, verify the member-specific TOB, the current official source, and your organisation's authorised internal SOP before deciding.
 - The creator assumes no liability for decisions made based on content presented in this app.
 
 **By continuing, you acknowledge this is a training tool and not a clinical or legal decision-making system.**
@@ -1521,18 +1564,35 @@ elif nav == "💊  Specialty Rules":
     with tab1:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Physiotherapy — General UAE Review Framework</div>
-          <div class="info-box">There is no single UAE-wide fixed session allowance that applies to every member. Review the regulator framework, product, member-specific TOB, network, referral route, prior-authorisation requirement and benefit balance.</div>
+          <div class="card-title">Physiotherapy — Practical UAE Review Framework</div>
+          <div class="info-box">
+            Physiotherapy is commonly an early treatment option for many musculoskeletal conditions, but there is no single UAE-wide session batch that applies to every member.
+            For each live request, check the member-specific TOB, network, remaining benefit, referral route, prior-authorisation rule and your organisation's authorised internal SOP.
+          </div>
           <table class="styled-table">
-            <tr><th>Review Area</th><th>General Principle</th><th>What to Check</th></tr>
-            <tr><td>Clinical indication</td><td>Physiotherapy should address a documented impairment, activity limitation or participation restriction.</td><td>Diagnosis, reason for referral or direct-access assessment, baseline findings and functional goals.</td></tr>
-            <tr><td>Assessment and plan</td><td>Use an individualised treatment plan with milestones and regular reassessment.</td><td>Baseline assessment, treatment method, frequency or duration, site, progress and outcome measure.</td></tr>
-            <tr><td>Referral route</td><td>DHA standards recognise physician referral in inpatient care and direct access or self-referral in other settings. Insurance-payment rules may still require a referral.</td><td>Setting, product rules, network and member-specific TOB.</td></tr>
-            <tr><td>Prior approval</td><td>The Abu Dhabi Basic Product regulations state that physiotherapy treatment services require prior approval from the authorised insurer.</td><td>Regulator framework, product, authorisation status and contracted process.</td></tr>
-            <tr><td>Additional sessions</td><td>Do not assume that one fixed session batch applies to every UAE product.</td><td>Clinical progress, treatment milestones, remaining benefit and applicable TOB limits.</td></tr>
-            <tr><td>Coding</td><td>Bill only documented services using the applicable coding standard and tariff.</td><td>Evaluation or re-evaluation, timed services, duration, units and treatment note.</td></tr>
+            <tr><th>Review Area</th><th>What Must Be Present</th><th>How to Review It</th></tr>
+            <tr><td><strong>Clinical indication</strong></td><td>Diagnosis or working diagnosis, affected site, symptom duration, functional problem and relevant examination findings.</td><td>Confirm that physiotherapy addresses a documented impairment, activity limitation or participation restriction.</td></tr>
+            <tr><td><strong>Baseline assessment</strong></td><td>Pain score where relevant, range of motion, strength, mobility, gait, activity limitation or another suitable outcome measure.</td><td>A baseline allows later sessions to be assessed against measurable progress.</td></tr>
+            <tr><td><strong>Treatment plan</strong></td><td>Goals, planned modalities or exercises, frequency, expected duration and review point.</td><td>Approve only documented services that fit the treatment plan and benefit wording.</td></tr>
+            <tr><td><strong>Referral and access</strong></td><td>Referral or direct-access assessment, depending on setting and applicable rules.</td><td>DHA standards recognise direct access in some settings, but insurance-payment rules may still require a referral.</td></tr>
+            <tr><td><strong>Additional sessions</strong></td><td>Progress report, sessions already used, response to treatment, updated goals and reason for extension.</td><td>Do not apply a fixed session number from another product. Check TOB limits and the authorised internal SOP.</td></tr>
+            <tr><td><strong>Rehabilitation benefit</strong></td><td>Reason for rehabilitation, functional deficit and whether the request is post-operative, post-stroke, post-injury or related to another condition.</td><td>Some products separate routine physiotherapy from rehabilitation. Read the TOB before allocating the benefit.</td></tr>
+            <tr><td><strong>Coding and units</strong></td><td>Evaluation or re-evaluation, treatment code, timed-service duration, units and treatment note.</td><td>Bill only documented services using the applicable coding standard and tariff.</td></tr>
           </table>
-          <div class="source-note">Official starting points: <a href="https://dha.gov.ae/uploads/062023/Standards%20Physiotherapy%20Service%20Final%202023625844.pdf" target="_blank">DHA Standards for Physiotherapy Services</a> and the <a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank">Abu Dhabi health-insurance regulations</a>. Always confirm the current product and TOB.</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Worked Physiotherapy Review Examples</div>
+          <table class="styled-table">
+            <tr><th>Scenario</th><th>What to Check</th><th>Training Outcome</th></tr>
+            <tr><td>New low-back-pain referral</td><td>Onset, red flags, examination, functional limitation, referral or assessment and proposed plan.</td><td>Approve when the benefit is available and the plan is clinically documented; request missing clinical details when the submission is incomplete.</td></tr>
+            <tr><td>Extension request after an initial course</td><td>Sessions used, pain or function change, objective reassessment, adherence, revised goals and remaining benefit.</td><td>Approve a supported extension within TOB limits; otherwise ask for a targeted progress report.</td></tr>
+            <tr><td>Post-operative rehabilitation</td><td>Operation date, surgeon plan, precautions, functional deficit and rehabilitation benefit wording.</td><td>Use the correct benefit category and document the expected rehabilitation goal.</td></tr>
+            <tr><td>Repeated modalities without measurable progress</td><td>Outcome measures, attendance, adherence, revised plan and clinical reason for continuing the same approach.</td><td>Request reassessment rather than automatically repeating an unchanged course.</td></tr>
+          </table>
+          <div class="source-note">Official starting points: <a href="https://dha.gov.ae/uploads/062023/Standards%20Physiotherapy%20Service%20Final%202023625844.pdf" target="_blank">DHA Standards for Physiotherapy Services</a> and the <a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank">Abu Dhabi health-insurance regulations</a>. Always confirm the live TOB and your organisation's authorised internal SOP.</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1650,9 +1710,25 @@ elif nav == "📝  Knowledge Quiz":
         {"q":"A TPA generally:","opts":["Processes claims on behalf of the insurer","Always holds the insurance risk","Is the same as the regulator","Only handles dental claims"],"a":0,"module":"Foundations"},
         {"q":"Why should the grouper version be checked in DRG review?","opts":["Because the output can depend on the applicable version","Because it changes the member name","Because it replaces clinical documentation","Because it removes the need for coding"],"a":0,"module":"Coding"},
         {"q":"When an imaging request is reviewed, the most useful question is:","opts":["Is this always approved?","What clinical question should the imaging answer?","Did another member receive it?","Is it expensive?"],"a":1,"module":"Claims"},
+        {"q":"For a live approval decision, which sources should be checked together?","opts":["The member-specific TOB, current official source and authorised internal SOP","Only the training app","Only a previous approval","Only the provider's verbal request"],"a":0,"module":"Procedures"},
+        {"q":"For acute head trauma when imaging is clinically indicated, which modality is commonly used early?","opts":["CT head","Routine skull X-ray only","DEXA scan","Mammography"],"a":0,"module":"Procedures"},
+        {"q":"For right-upper-quadrant pain with suspected biliary disease, which imaging test is commonly an initial choice?","opts":["Abdominal ultrasound","MRI brain","DEXA scan","Audiometry"],"a":0,"module":"Procedures"},
+        {"q":"For recurrent urinary symptoms, what is a useful first laboratory step before choosing imaging?","opts":["Urinalysis and culture","Troponin only","EEG","Pachymetry"],"a":0,"module":"Procedures"},
+        {"q":"For an MRI lumbar-spine request, what should be checked before applying a routine pathway?","opts":["Red flags, symptom duration, examination, prior management and the clinical question","Only the patient's age","Only the provider name","Only the requested cost"],"a":0,"module":"Procedures"},
+        {"q":"A repeat advanced-imaging request should include:","opts":["Previous result and the reason the repeat study changes management","Only a copied previous request","Only the member card","No additional information"],"a":0,"module":"Procedures"},
+        {"q":"A colonoscopy request should be reviewed for:","opts":["Symptoms, duration, alarm features, prior investigations and specialist plan","The provider name only","The colour of the insurance card","A previous patient's outcome"],"a":0,"module":"Procedures"},
+        {"q":"A ureteroscopy request should be reviewed for:","opts":["Stone size and location, obstruction, infection, renal function, imaging and urology plan","Only a urine dipstick","Only age","Only the invoice"],"a":0,"module":"Procedures"},
+        {"q":"Which is the safest way to use a first-line example in training?","opts":["Treat it as a universal automatic rule","Use it as a structured prompt and check the live clinical context, TOB and SOP","Ignore red flags","Copy another insurer's rule"],"a":1,"module":"Procedures"},
+        {"q":"For a physiotherapy extension request, which item is most useful?","opts":["A progress report with measurable reassessment and revised goals","A copied initial note only","A blank referral","A previous member's approval"],"a":0,"module":"Specialty"},
+        {"q":"When dental coverage exists, a crown request should be checked for:","opts":["Tooth number, diagnosis, treatment plan, supporting radiograph where relevant and TOB wording","Only the provider name","Only the annual limit","No documentation"],"a":0,"module":"Specialty"},
+        {"q":"For vaccinations, which two questions should be separated?","opts":["Clinical schedule and payment route","Provider name and reviewer name","Card colour and invoice colour","Age and network only"],"a":0,"module":"Specialty"},
+        {"q":"A red-flag headache review should consider:","opts":["Neurological deficit, increasing severity, fever, cancer or immunocompromise, older-age onset and post-traumatic onset","Only the cost of MRI","Only the day of the week","No clinical history"],"a":0,"module":"Procedures"},
+        {"q":"Why is documentation of laterality important?","opts":["It helps confirm the requested site and coding accuracy","It changes the member name","It replaces the diagnosis","It removes the need for notes"],"a":0,"module":"Coding"},
+        {"q":"When a service is clinically reasonable but the benefit is unclear, the best next step is:","opts":["Benefit clarification using the TOB and authorised workflow","Automatic approval","Automatic denial","Ignore the request"],"a":0,"module":"Claims"},
+        {"q":"What should happen when the training example conflicts with a live TOB or authorised SOP?","opts":["The live TOB and authorised SOP take precedence","The example always wins","Use the oldest rule","Ask another member"],"a":0,"module":"Procedures"},
     ]
 
-    module_filter = st.selectbox("Filter by module:", ["All Modules", "Foundations", "Exclusions", "Claims", "Coding", "Pre-existing", "Specialty", "Inpatient", "Audit"])
+    module_filter = st.selectbox("Filter by module:", ["All Modules", "Foundations", "Exclusions", "Claims", "Coding", "Pre-existing", "Specialty", "Procedures", "Inpatient", "Audit"])
     if module_filter != "All Modules":
         filtered_q = [q for q in all_questions if q["module"].lower() in module_filter.lower()]
     else:
@@ -1833,246 +1909,335 @@ elif nav == "📚  Resources":
 
 # 
 # PAGE  PROCEDURES, DENTAL & VACCINES
-# 
+# ══════════════════════════════════════════════════════════════════════════════
 elif nav == "🩺  Procedures, Dental & Vaccines":
     st.session_state.progress["procedures"] = True
     st.markdown('<div class="section-title">Procedures, Dental & Vaccines</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-sub">Procedure review prompts · Dental benefit checks · UAE vaccination schedules · Complex-case documentation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-sub">First-line thinking · Procedure documentation · Practical approval examples · Dental benefit review · UAE vaccination schedules</div>', unsafe_allow_html=True)
     st.markdown("""
     <div class="disclaimer">
-      These pathways are educational review prompts, not automatic approval or denial rules.
-      The treating clinician's judgment, red flags, current official guidance and the member's specific TOB always take precedence. Verify live cases against current sources.
+      <strong>Educational use:</strong> This section converts common medical-review patterns into reusable learning examples.
+      It does not create universal automatic approval or denial rules. For every live request, check the treating clinician's judgment,
+      red flags, current clinical guidance, member-specific TOB, network, applicable emirate framework and your organisation's authorised internal SOP.
     </div>
     """, unsafe_allow_html=True)
 
-    t1, t5, t2, t3, t4 = st.tabs(["🧪 First-Line & Procedures", "🧭 Common Indications", "🦷 Dental Rules", "💉 Vaccinations UAE", "📈 Escalation & High-Value"])
+    t1, t2, t3, t4, t5, t6, t7, t8 = st.tabs([
+        "✅ Approval Framework",
+        "🧪 First-Line Examples",
+        "🧠 Imaging Library",
+        "🫀 GI & Cardiac",
+        "🩻 Urology & Other",
+        "🦷 Dental Rules",
+        "💉 Vaccinations UAE",
+        "📈 Complex Review",
+    ])
 
-    #  TAB 1: FIRST LINE
+    # TAB 1: APPROVAL FRAMEWORK
     with t1:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">How to Review a Procedure Request</div>
-          <p style="font-size:.87rem;color:#9aa3b8;line-height:1.7;">A procedure is not approved or declined merely because it appears on a memorised list. Start with the clinical question, then review the applicable evidence, member-specific benefit and the requested setting.</p>
-          <table class="styled-table"><tr><th>Step</th><th>Questions</th></tr>
-          <tr><td>1. Define the clinical question</td><td>What diagnosis or symptom is being evaluated or treated? What decision will the test or procedure inform?</td></tr>
-          <tr><td>2. Check urgency and red flags</td><td>Would delay create risk? Is the request part of emergency assessment, elective workup or follow-up?</td></tr>
-          <tr><td>3. Review prior assessment</td><td>Which relevant examinations, laboratory results, imaging, treatment attempts or specialist recommendations are available?</td></tr>
-          <tr><td>4. Check the benefit</td><td>Is the service covered under the TOB? Are network, co-pay, limit, referral or authorisation rules relevant?</td></tr>
-          <tr><td>5. Document the rationale</td><td>Record what was reviewed, what is missing and why the selected outcome is reasonable.</td></tr></table>
-        </div>
-        <div class="glass-card">
-          <div class="card-title">Common Procedure Review Areas</div>
-          <table class="styled-table"><tr><th>Area</th><th>Useful Review Questions</th></tr>
-          <tr><td>Advanced imaging</td><td>What condition is being assessed? Are there red flags? How will the requested modality change management?</td></tr>
-          <tr><td>Endoscopy</td><td>What symptoms, duration, alarm features, prior management and specialist rationale are documented?</td></tr>
-          <tr><td>Cardiac testing</td><td>What symptoms, examination findings, ECG or other relevant evidence support the test requested?</td></tr>
-          <tr><td>Rehabilitation</td><td>What impairment, functional goal, baseline assessment, treatment plan and progress measure are documented?</td></tr>
-          <tr><td>Interventional procedures</td><td>What diagnosis, imaging or examination findings, alternatives, risks and treatment plan are documented?</td></tr>
-          <tr><td>Laboratory monitoring</td><td>What clinical question is being answered, and is repeat testing supported by the patient's current situation and relevant guidance?</td></tr></table>
-          <div class="source-note">Use current clinical guidance for the relevant scenario. The <a href="https://www.acr.org/Clinical-Resources/ACR-Appropriateness-Criteria" target="_blank">ACR Appropriateness Criteria</a> provide a useful imaging reference library.</div>
+          <div class="card-title">How to Review and Approve a Request</div>
+          <p style="font-size:.87rem;color:#9aa3b8;line-height:1.75;">
+            A strong adjudication decision is reproducible. Another reviewer should be able to understand what was requested,
+            which evidence was present, which benefit wording applied, and why the recorded outcome was reasonable.
+          </p>
+          <table class="styled-table">
+            <tr><th>Step</th><th>What to Confirm</th><th>What Must Be Present</th></tr>
+            <tr><td><strong>1. Eligibility and benefit</strong></td><td>Active policy, network, TOB, exclusions, limits, referral and prior-authorisation rules.</td><td>Member identifier, policy dates, product, TOB and requested provider.</td></tr>
+            <tr><td><strong>2. Clinical question</strong></td><td>The symptom, diagnosis or treatment goal and how the requested service may change management.</td><td>Diagnosis, symptoms, duration, clinician assessment and requested service.</td></tr>
+            <tr><td><strong>3. Urgency and red flags</strong></td><td>Whether delay creates risk or an emergency pathway applies.</td><td>Relevant red flags, vital signs, examination findings and emergency status.</td></tr>
+            <tr><td><strong>4. Evidence and sequence</strong></td><td>Relevant prior tests, treatment attempts, results and specialist recommendations. Earlier steps are not required when current guidance supports direct escalation.</td><td>Reports, notes, previous treatment and the clinician's rationale.</td></tr>
+            <tr><td><strong>5. Coding and setting</strong></td><td>Diagnosis code, procedure code, units, laterality, site and requested setting.</td><td>ICD-10, CPT/HCPCS or local code, units, estimated cost and OP/day-case/IP setting.</td></tr>
+            <tr><td><strong>6. Live-rule check</strong></td><td>Whether the training example matches the member's actual benefit and the current authorised workflow.</td><td>Member-specific TOB, current official source and your organisation's authorised internal SOP.</td></tr>
+            <tr><td><strong>7. Outcome and rationale</strong></td><td>Approve, request targeted information, clarify the benefit, redirect to the applicable pathway, or decline with a documented reason.</td><td>A concise note linking evidence, TOB wording and the final outcome.</td></tr>
+          </table>
         </div>
         """, unsafe_allow_html=True)
 
-    #  TAB 1B: COMMON INDICATION REVIEW PROMPTS
-    with t5:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Common Indications — Educational Review Prompts</div>
-          <div class="warning-box"><strong>Use as a learning checklist, not an automatic approval rule.</strong> The treating clinician's judgment, red flags, age, pregnancy status, comorbidities, official guidelines, the member's TOB and the current applicable review process take precedence.</div>
+          <div class="card-title">Outcome Language That Teaches Good Practice</div>
           <table class="styled-table">
-            <tr><th>Presentation</th><th>Common Initial Work-up Considerations</th><th>When a More Advanced Test May Need Review</th><th>Useful Notes to Request</th></tr>
-            <tr><td><strong>Low-back pain</strong></td><td>Clinical assessment; consider conservative management when there are no red flags. Imaging choice depends on the scenario.</td><td>MRI may be appropriate for red flags, suspected serious pathology, or persistent/progressive symptoms when intervention is being considered.</td><td>Duration, neurological deficit, trauma, fever, cancer history, bladder/bowel symptoms, prior management and specialist plan.</td></tr>
-            <tr><td><strong>Acute head injury</strong></td><td>Clinical assessment and red-flag review. CT is commonly used when acute intracranial injury is suspected.</td><td>MRI may be considered for selected neurological questions after initial assessment.</td><td>Mechanism, loss of consciousness, GCS, vomiting, anticoagulants, focal deficit and clinician rationale.</td></tr>
-            <tr><td><strong>Headache</strong></td><td>History and neurological examination. Identify thunderclap onset, focal deficit, fever, pregnancy, cancer or other red flags.</td><td>Advanced imaging depends on red flags and suspected pathology; headache alone does not establish a single pathway.</td><td>Onset, pattern, severity, red flags, neurological findings, prior treatment and specialist assessment.</td></tr>
-            <tr><td><strong>Breast lump or symptoms</strong></td><td>Clinical examination and age-appropriate breast imaging. Ultrasound and mammography can be complementary.</td><td>Additional imaging or biopsy depends on imaging findings and specialist recommendation.</td><td>Age, symptoms, examination, pregnancy/lactation status, prior imaging and family history.</td></tr>
-            <tr><td><strong>Abdominal pain</strong></td><td>Clinical assessment, targeted labs and ultrasound where clinically appropriate.</td><td>CT or MRI depends on location, suspected diagnosis, severity, red flags and initial results.</td><td>Location, onset, fever, vomiting, pregnancy status, surgical history, labs and ultrasound findings.</td></tr>
-            <tr><td><strong>Suspected renal colic</strong></td><td>Urinalysis, renal function and imaging selected by clinical context. Ultrasound may be useful; CT KUB is often considered when clarification is needed.</td><td>Advanced imaging depends on severity, uncertainty, obstruction, infection risk and local pathway.</td><td>Stone history, fever, renal function, urinalysis, hydronephrosis, pain severity and previous imaging.</td></tr>
-            <tr><td><strong>Chest pain</strong></td><td>Urgent clinical triage, ECG and biomarkers as clinically indicated. Emergency pathways supersede routine authorisation logic.</td><td>Echo, stress testing, coronary imaging or CT pulmonary angiography depend on the suspected diagnosis.</td><td>Vital signs, ECG, troponin, risk factors, dyspnoea, hypoxia, D-dimer where relevant and physician impression.</td></tr>
-            <tr><td><strong>Suspected DVT</strong></td><td>Clinical risk assessment and venous Doppler ultrasound when indicated.</td><td>Additional imaging depends on initial result and specialist assessment.</td><td>Laterality, swelling, pain, recent travel/surgery, pregnancy, cancer and prior thrombosis.</td></tr>
-            <tr><td><strong>Dyspepsia or GERD symptoms</strong></td><td>Clinical assessment, medication history and testing strategy based on age, alarm symptoms and guideline context.</td><td>Upper endoscopy may be considered for alarm symptoms, bleeding, persistent symptoms or specialist plan.</td><td>Duration, weight loss, anaemia, bleeding, dysphagia, medications, H. pylori testing and prior treatment.</td></tr>
-            <tr><td><strong>Lower-GI symptoms</strong></td><td>History, examination and targeted labs or stool tests based on symptoms.</td><td>Colonoscopy may be considered for bleeding, anaemia, alarm features, screening context or specialist indication.</td><td>Duration, rectal bleeding, weight loss, family history, Hb, stool tests and prior endoscopy.</td></tr>
-            <tr><td><strong>Recurrent UTI</strong></td><td>Urinalysis and culture. Imaging is selected when recurrence, obstruction, stones or structural issues are suspected.</td><td>Ultrasound or further imaging depends on complexity and clinician rationale.</td><td>Culture results, recurrence pattern, fever, pregnancy, stone history and previous treatment.</td></tr>
-            <tr><td><strong>Thyroid symptoms or nodule</strong></td><td>Clinical review, thyroid-function tests and ultrasound for a nodule where appropriate.</td><td>Further imaging or biopsy depends on ultrasound risk features and specialist recommendation.</td><td>TSH, examination, ultrasound category, compressive symptoms, family history and endocrinology plan.</td></tr>
-            <tr><td><strong>Joint pain after injury</strong></td><td>Clinical assessment and plain radiography where fracture or structural injury is suspected.</td><td>MRI may be considered for persistent symptoms, suspected internal derangement or a specialist plan.</td><td>Mechanism, examination, X-ray result, duration, conservative care and orthopaedic assessment.</td></tr>
-            <tr><td><strong>Hearing symptoms</strong></td><td>ENT review and audiology pathway as clinically indicated.</td><td>Coverage is TOB-dependent even when clinically indicated.</td><td>Laterality, duration, ENT findings, otoscopy and benefit wording.</td></tr>
-            <tr><td><strong>Dental pain</strong></td><td>Dental examination and targeted dental radiography where indicated.</td><td>Coverage depends on dental benefit, exclusions, annual limit and network rules.</td><td>Dental benefit, emergency status, tooth number, diagnosis, treatment plan and cost.</td></tr>
+            <tr><th>Outcome</th><th>When It Fits</th><th>Example Wording</th></tr>
+            <tr><td><span class="badge badge-green">Approve</span></td><td>The benefit is available and the evidence supports the requested service.</td><td>Approved based on active benefit, documented indication and attached supporting report. Apply the current internal workflow.</td></tr>
+            <tr><td><span class="badge badge-blue">Targeted information request</span></td><td>A specific missing item prevents a safe or evidence-based decision.</td><td>Please provide symptom duration, examination findings, prior management and the relevant report.</td></tr>
+            <tr><td><span class="badge badge-amber">Benefit clarification</span></td><td>The indication may be reasonable but the applicable benefit, network or limit is unclear.</td><td>Please confirm the member-specific TOB, available balance and authorised network route.</td></tr>
+            <tr><td><span class="badge badge-violet">Additional clinical review</span></td><td>The request is complex, high-risk or requires specialist interpretation.</td><td>Refer through the organisation's authorised clinical-review SOP with the complete clinical summary and reports.</td></tr>
+            <tr><td><span class="badge badge-coral">Decline with rationale</span></td><td>The request is outside the applicable benefit, or the evidence remains insufficient after clarification.</td><td>Document the exact TOB wording or the unresolved clinical gap. Avoid vague phrases such as “not justified”.</td></tr>
           </table>
-          <div class="source-note">For imaging decisions, use current clinical guidance and local protocols. A useful official reference library is the <a href="https://acsearch.acr.org/list" target="_blank">American College of Radiology Appropriateness Criteria</a>. These prompts intentionally avoid claiming that one pathway fits every patient.</div>
         </div>
         """, unsafe_allow_html=True)
 
-    #  TAB 2: DENTAL 
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Minimum Submission Checklist</div>
+          <div class="metric-row">
+            <div class="metric-card"><div class="metric-lbl">Member</div><div style="font-size:.82rem;margin-top:6px;">ID · product · TOB · policy dates</div></div>
+            <div class="metric-card"><div class="metric-lbl">Clinical</div><div style="font-size:.82rem;margin-top:6px;">diagnosis · symptoms · duration · findings</div></div>
+            <div class="metric-card"><div class="metric-lbl">Service</div><div style="font-size:.82rem;margin-top:6px;">code · units · site · laterality · setting</div></div>
+            <div class="metric-card"><div class="metric-lbl">Evidence</div><div style="font-size:.82rem;margin-top:6px;">reports · prior care · specialist rationale</div></div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # TAB 2: FIRST-LINE EXAMPLES
     with t2:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Dental Coverage — General, TOB-Based Adjudication</div>
-          <div class="warning-box">
-            Dental coverage is not a single UAE-wide package. Use the regulator framework, the member-specific TOB, the contracted network, and the clinical documentation. Do not assume that a remembered limit applies to every product.
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:#4f9cf922;color:#4f9cf9;">1</div>
-            <div><strong>Identify the policy framework</strong> — Confirm emirate, Basic or Enhanced Product, member network, dental add-on status, and current TOB.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:#22d3c522;color:#22d3c5;">2</div>
-            <div><strong>Verify benefit categories</strong> — Read the TOB separately for preventive, restorative, endodontic, periodontal, prosthodontic, orthodontic, implant, sedation, and emergency dental services.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:#a78bfa22;color:#a78bfa;">3</div>
-            <div><strong>Verify limit, co-pay, and frequency</strong> — Use only the member's stated TOB. Limits may be annual, per category, per tooth, per visit, or frequency-based. Never hard-code a product-specific amount.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:#fbbf2422;color:#fbbf24;">4</div>
-            <div><strong>Review clinical records</strong> — Confirm tooth number, diagnosis, treatment plan, service code, cost, radiographs where clinically relevant, periodontal charting where relevant, and previous treatment on the same tooth.</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background:#34d39922;color:#34d399;">5</div>
-            <div><strong>Apply the contract and escalate grey zones</strong> — Adjudicate only within the TOB and current workflow. Escalate unclear, high-cost, or clinically complex cases through the applicable review process.</div>
-          </div>
+          <div class="card-title">What “First-Line” Means</div>
+          <p style="font-size:.87rem;color:#9aa3b8;line-height:1.75;">
+            “First-line” means a service is commonly considered early in the evaluation of a defined clinical scenario.
+            It does <strong>not</strong> mean every request should be approved without documentation. The right first test changes with age,
+            pregnancy, trauma, red flags, comorbidities, suspected diagnosis and current clinical guidance.
+          </p>
+          <div class="info-box"><strong>Live-work rule:</strong> Use these as learning prompts only. Always verify the member-specific TOB and your organisation's authorised internal SOP.</div>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Dental Services — Neutral Reference Guide</div>
+          <div class="card-title">Common Initial Investigation Examples</div>
           <table class="styled-table">
-            <tr><th>Service</th><th>What It Is</th><th>Adjudication Review</th></tr>
-            <tr><td><strong>Dental consultation</strong></td><td>Clinical assessment of oral symptoms and treatment needs.</td><td>Check dental benefit, network eligibility, diagnosis, and any consultation-frequency rule in the TOB.</td></tr>
-            <tr><td><strong>Dental radiography</strong></td><td>Targeted periapical, bitewing, panoramic, or other dental imaging used for diagnosis and treatment planning.</td><td>Confirm clinical indication and whether the requested imaging is proportionate to the treatment plan.</td></tr>
-            <tr><td><strong>Scaling and polishing</strong></td><td>Professional removal of plaque, calculus, and surface stains.</td><td>Check whether preventive dental is covered and whether the TOB applies a frequency limit.</td></tr>
-            <tr><td><strong>Periodontal treatment</strong></td><td>Treatment of gum disease, which may include deep scaling or root planing.</td><td>Check periodontal benefit wording, diagnosis, charting, and the requested quadrant or site.</td></tr>
-            <tr><td><strong>Filling / restoration</strong></td><td>Restoration of a tooth affected by caries or structural loss.</td><td>Check restorative benefit wording, tooth number, surfaces, material rule if specified, and previous restoration history.</td></tr>
-            <tr><td><strong>Root canal treatment</strong></td><td>Endodontic treatment of infected or inflamed pulp tissue.</td><td>Check endodontic coverage, tooth number, diagnosis, radiographic support where clinically relevant, and any crown-related plan wording.</td></tr>
-            <tr><td><strong>Crown</strong></td><td>A restoration placed over a damaged tooth to restore structure and function.</td><td>Check prosthodontic coverage, clinical justification, tooth number, prior restoration history, and any waiting-period or frequency rule.</td></tr>
-            <tr><td><strong>Bridge / denture</strong></td><td>Prosthetic replacement of missing teeth.</td><td>Check whether prostheses are expressly covered. Do not infer bridge or denture coverage from crown coverage.</td></tr>
-            <tr><td><strong>Simple extraction</strong></td><td>Removal of an erupted tooth without a complex surgical approach.</td><td>Check extraction benefit, tooth number, diagnosis, and clinical note.</td></tr>
-            <tr><td><strong>Surgical extraction</strong></td><td>Removal requiring a surgical approach, such as impacted or complex teeth.</td><td>Check surgical dental wording, imaging, clinical indication, and any pre-authorisation requirement.</td></tr>
-            <tr><td><strong>Orthodontics</strong></td><td>Correction of tooth or jaw alignment using appliances.</td><td>Do not assume coverage. Check for an explicit orthodontic benefit, age rule, waiting period, lifetime limit, and pre-authorisation requirement.</td></tr>
-            <tr><td><strong>Implant dentistry</strong></td><td>Surgical and prosthetic replacement of missing teeth using implants.</td><td>Do not assume coverage. Check explicit implant wording, clinical plan, imaging, licensed scope, and any high-value escalation rule.</td></tr>
-            <tr><td><strong>Dental sedation or GA</strong></td><td>Sedation or general anaesthesia used to support dental treatment in selected cases.</td><td>Check medical necessity, setting, licensed scope, TOB wording, and whether inpatient or day-case handling is required.</td></tr>
-            <tr><td><strong>Emergency dental care</strong></td><td>Urgent assessment and treatment for acute pain, trauma, bleeding, or infection.</td><td>Check the emergency definition, immediate treatment need, TOB, and any post-treatment notification workflow.</td></tr>
+            <tr><th>Clinical Scenario</th><th>Common Initial Approach</th><th>What Must Be Present</th><th>Teaching Note</th></tr>
+            <tr><td><strong>Suspected fracture or structural injury</strong></td><td>Plain radiography is commonly an initial imaging test.</td><td>Mechanism, site, laterality, examination and trauma history.</td><td>Advanced imaging may follow when radiographs are negative but suspicion remains, or when internal derangement is suspected.</td></tr>
+            <tr><td><strong>Chest pain or palpitations</strong></td><td>Clinical triage and ECG; biomarkers when clinically indicated.</td><td>Urgency, vital signs, ECG findings, troponin where relevant and physician impression.</td><td>Emergency pathways take priority. Echocardiography, stress testing and coronary imaging answer different questions.</td></tr>
+            <tr><td><strong>Suspected lower-extremity DVT</strong></td><td>Clinical risk assessment and venous Doppler ultrasound when indicated.</td><td>Laterality, swelling, pain, recent surgery or travel, pregnancy, cancer and previous thrombosis.</td><td>Use the clinical question to select the correct vascular study.</td></tr>
+            <tr><td><strong>Right-upper-quadrant pain</strong></td><td>Abdominal ultrasound is commonly an initial imaging choice for suspected biliary disease.</td><td>Location, fever, WBC, liver tests, vomiting, pregnancy status and clinician impression.</td><td>When ultrasound is negative or equivocal, the next test depends on the clinical scenario.</td></tr>
+            <tr><td><strong>Thyroid nodule</strong></td><td>Clinical assessment, thyroid-function tests and thyroid ultrasound where appropriate.</td><td>TSH, nodule size, compressive symptoms, examination and prior imaging.</td><td>Biopsy decisions depend on ultrasound risk features and specialist recommendation.</td></tr>
+            <tr><td><strong>Recurrent urinary symptoms</strong></td><td>Urinalysis and culture; imaging when recurrence, obstruction, stones or structural issues are suspected.</td><td>Culture results, fever, pregnancy, stone history, renal function and prior treatment.</td><td>Do not request imaging solely because of uncomplicated symptoms without a supporting clinical question.</td></tr>
+            <tr><td><strong>Breast lump or focal breast symptom</strong></td><td>Clinical examination and age-appropriate breast imaging; ultrasound and mammography can be complementary.</td><td>Age, pregnancy or lactation, site, prior imaging, family history and examination.</td><td>Do not treat one modality as universally interchangeable with the other.</td></tr>
+            <tr><td><strong>Acute head injury</strong></td><td>Clinical decision rule and red-flag assessment; CT head is commonly used when acute intracranial injury is suspected.</td><td>Mechanism, GCS, loss of consciousness, vomiting, anticoagulants and focal deficit.</td><td>Emergency assessment takes priority. MRI may answer selected later neurological questions.</td></tr>
+            <tr><td><strong>Seizure evaluation</strong></td><td>Clinical neurological assessment and EEG; imaging depends on the scenario.</td><td>Seizure description, onset, neurological findings, EEG where available and specialist plan.</td><td>EEG and MRI answer different questions; one does not automatically replace the other.</td></tr>
+            <tr><td><strong>Neuropathy or suspected carpal tunnel syndrome</strong></td><td>Nerve-conduction study and/or EMG when clinically indicated.</td><td>Symptoms, distribution, examination, laterality and specialist assessment.</td><td>Document the clinical question and requested study clearly.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("""
-        <div class="info-box">
-          <strong>Regulatory context:</strong> Abu Dhabi's Basic Product exclusion schedule lists all expenses relating to dental treatment, dental prostheses, and orthodontic treatment as excluded healthcare services. The regulations allow authorised insurers to extend cover for excluded services under an enhanced product. For Dubai, use the member's current TOB and the current Dubai Health Insurance Corporation framework. This page is a training summary, not a substitute for the live contract or regulator circular.
-        </div>
-        <div class="source-note">
-          Official references: <a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank">Abu Dhabi Health Insurance Law and Regulations</a> ·
-          <a href="https://www.dha.gov.ae/en/dubai-health-insurance-corporation" target="_blank">Dubai Health Insurance Corporation</a> ·
-          <a href="https://www.dha.gov.ae/en/licensing-regulations-dental" target="_blank">DHA Dental Policies and Regulations</a>
-        </div>
-        """, unsafe_allow_html=True)
-
-    #  TAB 3: VACCINATIONS 
+    # TAB 3: IMAGING LIBRARY
     with t3:
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Vaccination Coverage and Public-Health Schedule — Keep These Separate</div>
-          <div class="warning-box">
-            <strong>Do not mix two different questions:</strong><br/>
-            1) Which vaccines are included in the current public-health immunisation schedule?<br/>
-            2) Is a particular vaccine payable under this member's insurance policy?<br/><br/>
-            Use the current DHA or DOH immunisation schedule for timing. Use the member-specific TOB, regulator framework, network and current applicable review process for insurance coverage. Confirm the current benefit route for the member and emirate.
+          <div class="card-title">Imaging Review Library — How to Approve, Query or Redirect</div>
+          <div class="info-box">Imaging review is not a price-only decision. Identify the clinical question, red flags, previous tests and why the requested modality is appropriate now.</div>
+          <table class="styled-table">
+            <tr><th>Request</th><th>What Must Be Present</th><th>Example Review Approach</th></tr>
+            <tr><td><strong>MRI lumbar spine</strong></td><td>Symptoms, duration, neurological findings, red flags, trauma, prior management, prior imaging and reason MRI changes management.</td><td>Approve when the scenario supports MRI; request targeted information when the clinical note is incomplete. Do not require one identical prerequisite for every case.</td></tr>
+            <tr><td><strong>MRI cervical spine</strong></td><td>Pain pattern, radiculopathy or myelopathy features, neurological examination, trauma, red flags and prior imaging or management.</td><td>Differentiate uncomplicated neck pain from radiculopathy, myelopathy, trauma or postoperative review.</td></tr>
+            <tr><td><strong>MRI brain — headache</strong></td><td>Headache pattern, duration, neurological examination, red flags, pregnancy or peripartum status, cancer or immunocompromise, and prior assessment.</td><td>Approve or escalate when red flags or a defined neurological question are documented; clarify when the submission only states “headache”.</td></tr>
+            <tr><td><strong>MRI brain — seizure or demyelinating disease</strong></td><td>Seizure history or neurological findings, EEG where relevant, specialist impression and previous imaging.</td><td>Confirm the clinical question: structural lesion, demyelination, epilepsy work-up or follow-up.</td></tr>
+            <tr><td><strong>CT head after trauma</strong></td><td>Mechanism, timing, GCS, loss of consciousness, vomiting, anticoagulants, focal deficit and decision-rule indication.</td><td>Use urgent pathways where indicated. CT is commonly an early study for acute intracranial injury.</td></tr>
+            <tr><td><strong>CT paranasal sinuses</strong></td><td>Symptoms, duration, ENT assessment, treatment response, endoscopy findings where available and reason imaging is needed.</td><td>Clarify whether the goal is complication assessment, chronic disease evaluation or preoperative planning.</td></tr>
+            <tr><td><strong>Breast ultrasound or mammography</strong></td><td>Age, symptom type, location, examination, pregnancy or lactation, prior imaging and risk factors.</td><td>Use age-appropriate breast-imaging guidance. Ultrasound and mammography can be complementary.</td></tr>
+            <tr><td><strong>Abdominal ultrasound</strong></td><td>Clinical region, suspected diagnosis, laboratory findings, pregnancy status and examination.</td><td>Commonly useful for biliary disease, pelvic or renal questions, depending on the scenario.</td></tr>
+            <tr><td><strong>CT for flank pain or suspected stones</strong></td><td>Symptoms, pregnancy status, stone history, urinalysis, renal function, ultrasound where relevant and urgency.</td><td>Select ultrasound or non-contrast CT according to the clinical scenario and current guidance.</td></tr>
+            <tr><td><strong>DEXA scan</strong></td><td>Risk factors, age, fracture history, medication history and reason bone-density assessment changes management.</td><td>Use a risk-based osteoporosis pathway rather than a blanket approval rule.</td></tr>
+          </table>
+          <div class="source-note">Useful evidence library: <a href="https://www.acr.org/Clinical-Resources/Clinical-Tools-and-Reference/Appropriateness-Criteria" target="_blank">ACR Appropriateness Criteria</a>, including <a href="https://acsearch.acr.org/docs/69483/narrative/" target="_blank">low-back pain</a>, <a href="https://acsearch.acr.org/docs/69482/Narrative/" target="_blank">headache</a>, <a href="https://acsearch.acr.org/docs/69481/Narrative/" target="_blank">head trauma</a>, <a href="https://acsearch.acr.org/docs/69474/Narrative" target="_blank">right-upper-quadrant pain</a> and <a href="https://acsearch.acr.org/docs/69362/narrative/" target="_blank">suspected stone disease</a>. Apply live TOB and internal SOP rules as well.</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Repeat Imaging — What Changes the Decision?</div>
+          <table class="styled-table">
+            <tr><th>Question</th><th>What to Look For</th></tr>
+            <tr><td>Was the same study performed recently?</td><td>Date, prior result and whether the new request is a duplicate, follow-up or a genuinely new clinical question.</td></tr>
+            <tr><td>Has the clinical picture changed?</td><td>New symptoms, new red flags, deterioration, new examination findings or treatment response.</td></tr>
+            <tr><td>Will the repeat study alter management?</td><td>Planned intervention, specialist recommendation or follow-up pathway.</td></tr>
+            <tr><td>Is a different modality more suitable?</td><td>The clinical question, radiation exposure, pregnancy, contrast considerations and previous imaging.</td></tr>
+          </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # TAB 4: GI & CARDIAC
+    with t4:
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Gastrointestinal and Cardiac Procedure Review</div>
+          <table class="styled-table">
+            <tr><th>Procedure</th><th>What Must Be Present</th><th>Example Training Approach</th></tr>
+            <tr><td><strong>Upper-GI endoscopy</strong></td><td>Symptoms, duration, alarm features, prior medication trial where relevant, prior investigations, previous endoscopy and specialist plan.</td><td>Approve when the documented scenario supports endoscopy and the benefit applies. Clarify when the request lacks indication, chronology or previous management.</td></tr>
+            <tr><td><strong>Colonoscopy</strong></td><td>Bleeding, anaemia, bowel-pattern change, weight loss, inflammatory-bowel-disease history, family history, stool or laboratory findings, previous colonoscopy and specialist plan.</td><td>Separate screening, surveillance and symptom-driven requests. Check the correct benefit route and live SOP.</td></tr>
+            <tr><td><strong>MRCP or biliary imaging</strong></td><td>Symptoms, liver tests, ultrasound result, suspected obstruction or pancreatobiliary condition and specialist plan.</td><td>Use ultrasound as a common initial step for biliary questions, then select additional imaging according to the scenario.</td></tr>
+            <tr><td><strong>Liver elastography</strong></td><td>Chronic liver-disease context, liver profile, viral-hepatitis work-up where relevant, ultrasound or prior imaging, treatment plan and specialist assessment.</td><td>Clarify the reason for fibrosis assessment and how the result changes management.</td></tr>
+            <tr><td><strong>Echocardiography</strong></td><td>Symptoms, examination, murmur, ECG, suspected structural disease, heart-failure features or specialist assessment.</td><td>Do not treat every chest-pain request as an echocardiography indication. Confirm the structural question the study should answer.</td></tr>
+            <tr><td><strong>Stress test or functional cardiac testing</strong></td><td>Symptoms, cardiovascular risk, baseline ECG, contraindications and clinician plan.</td><td>Confirm the specific question and whether another emergency or diagnostic pathway applies first.</td></tr>
+            <tr><td><strong>CT pulmonary angiography</strong></td><td>Symptoms, oxygenation, clinical probability, D-dimer where relevant, pregnancy status, renal function and emergency assessment.</td><td>Use the applicable emergency pathway and clinical decision process; do not treat it as a routine scan.</td></tr>
+          </table>
+          <div class="source-note">Abu Dhabi Basic Product regulations state that prior approval is required for MRI, CT scans and endoscopies in non-emergency cases. Live benefit wording and authorised workflows still need to be checked.</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # TAB 5: UROLOGY & OTHER
+    with t5:
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Urology, Neurology, Ophthalmology and Other Common Requests</div>
+          <table class="styled-table">
+            <tr><th>Request</th><th>What Must Be Present</th><th>Example Review Approach</th></tr>
+            <tr><td><strong>Ureteroscopy ± stent</strong></td><td>Stone size and location, obstruction or hydronephrosis, infection, urinalysis, renal function, imaging, symptom severity, prior management and urology plan.</td><td>Use the urologist's plan and current guideline. Do not apply a single stone-size rule without considering location, obstruction, infection and clinical urgency.</td></tr>
+            <tr><td><strong>Arthrocentesis</strong></td><td>Joint involved, effusion, pain, fever, suspected septic or crystal arthritis, examination, laboratory findings and imaging where relevant.</td><td>Urgent diagnostic aspiration may be appropriate when infection is suspected. For other cases, confirm the clinical question.</td></tr>
+            <tr><td><strong>EEG</strong></td><td>Seizure description, frequency, precipitating factors, neurological findings and specialist assessment.</td><td>EEG is commonly part of seizure evaluation; confirm whether the request is diagnostic, follow-up or monitoring.</td></tr>
+            <tr><td><strong>Nerve-conduction study / EMG</strong></td><td>Symptoms, distribution, laterality, examination, duration and suspected neuropathy or entrapment syndrome.</td><td>Confirm the clinical question and requested study components.</td></tr>
+            <tr><td><strong>Pachymetry</strong></td><td>Ophthalmology assessment, glaucoma or corneal indication and related examination findings.</td><td>Approve when the benefit is available and the ophthalmic indication is documented.</td></tr>
+            <tr><td><strong>Audiometry</strong></td><td>Symptoms, ENT assessment, age, occupational or diagnostic context and TOB wording.</td><td>Check the benefit carefully because hearing tests and aids may have product-specific limitations or exclusions.</td></tr>
+            <tr><td><strong>Sclerotherapy for varicose veins</strong></td><td>Symptoms, Doppler findings, prior conservative management, clinical grade and treatment plan.</td><td>Differentiate medical treatment from cosmetic treatment and check the applicable benefit wording.</td></tr>
+            <tr><td><strong>Phototherapy / photochemotherapy</strong></td><td>Dermatological diagnosis, extent, duration, previous treatment, response and specialist plan.</td><td>Confirm medical necessity and the proposed treatment course.</td></tr>
+            <tr><td><strong>Circumcision</strong></td><td>Age, clinical indication, newborn or ritual context, TOB and applicable emirate framework.</td><td>Coverage varies. Check TOB and authorised SOP instead of applying one rule to every member.</td></tr>
+            <tr><td><strong>Durable medical equipment</strong></td><td>Prescription, diagnosis, functional need, product specification, duration and TOB.</td><td>Check whether the item is covered, rented, purchased, capped or excluded under the live product.</td></tr>
+          </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # TAB 6: DENTAL
+    with t6:
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Dental Coverage — General Adjudication Principles</div>
+          <div class="info-box">Dental benefits are highly product-specific. Dental benefits are highly product-specific. Do not apply a fixed limit across different policies or products. Check the live TOB and the organisation's authorised internal SOP.</div>
+          <table class="styled-table">
+            <tr><th>Step</th><th>What to Do</th></tr>
+            <tr><td><strong>1. Confirm the applicable framework</strong></td><td>Identify the emirate, policy type, network and current TOB. Do not assume that a dental benefit exists merely because the medical policy is active.</td></tr>
+            <tr><td><strong>2. Check dental benefit wording</strong></td><td>Read covered categories, exclusions, annual or category limits, co-pay, waiting periods, frequency rules, age rules and any pre-authorisation requirement.</td></tr>
+            <tr><td><strong>3. Check network and provider eligibility</strong></td><td>Verify that the dental provider is eligible for the member's network and that the service is within the provider's licensed scope.</td></tr>
+            <tr><td><strong>4. Review clinical documentation</strong></td><td>Confirm tooth number, diagnosis, treatment plan, relevant radiographs or periodontal charting, service code, cost and prior treatment on the same tooth where relevant.</td></tr>
+            <tr><td><strong>5. Use category-specific limits</strong></td><td>Preventive, restorative, endodontic, periodontal, prosthodontic, orthodontic, implant, sedation and emergency dental services may draw from different limits.</td></tr>
+            <tr><td><strong>6. Record the outcome</strong></td><td>Document the approved or queried service, tooth number, amount, remaining benefit where applicable and the TOB clause used.</td></tr>
+          </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Dental Procedure Examples</div>
+          <table class="styled-table">
+            <tr><th>Category</th><th>What to Check</th><th>Teaching Note</th></tr>
+            <tr><td><strong>Consultation and radiographs</strong></td><td>Presenting complaint, tooth number or region, requested radiograph and clinical reason.</td><td>Targeted radiography should answer a documented dental question.</td></tr>
+            <tr><td><strong>Scaling and polishing</strong></td><td>Preventive benefit, frequency rule, periodontal diagnosis and remaining limit.</td><td>Routine prophylaxis and periodontal treatment are different categories.</td></tr>
+            <tr><td><strong>Root planing or periodontal treatment</strong></td><td>Periodontal charting, diagnosis, quadrants or teeth involved, radiographs where relevant and periodontal benefit.</td><td>Do not treat deep scaling as routine prophylaxis.</td></tr>
+            <tr><td><strong>Fillings</strong></td><td>Tooth number, surface, diagnosis, material and restorative benefit.</td><td>Check whether the TOB distinguishes composite, amalgam or other materials.</td></tr>
+            <tr><td><strong>Root-canal treatment</strong></td><td>Tooth number, diagnosis, radiograph and endodontic plan.</td><td>Assess endodontic coverage separately from crown coverage.</td></tr>
+            <tr><td><strong>Crown or post-and-core</strong></td><td>Tooth number, diagnosis, restorative plan, radiograph where relevant and major-restorative benefit.</td><td>Do not assume a crown is always preceded by root-canal treatment; review the clinical reason and TOB wording.</td></tr>
+            <tr><td><strong>Bridge, pontic or denture</strong></td><td>Missing teeth, abutment teeth, treatment plan, prosthodontic benefit and category limit.</td><td>A crown benefit does not automatically mean bridgework is covered.</td></tr>
+            <tr><td><strong>Simple or surgical extraction</strong></td><td>Tooth number, diagnosis, radiograph, impaction or surgical need and applicable benefit.</td><td>Simple and surgical extractions may be treated differently by the TOB.</td></tr>
+            <tr><td><strong>Orthodontics</strong></td><td>Age, waiting period, orthodontic benefit, treatment plan, itemised codes, duration and instalment structure.</td><td>Request an itemised plan rather than one unexplained package amount.</td></tr>
+            <tr><td><strong>Sedation or general anaesthesia</strong></td><td>Age, clinical reason, behavioural or medical need, setting, anaesthesia benefit and room or board charges where relevant.</td><td>Review the anaesthesia component and the dental procedure separately.</td></tr>
+            <tr><td><strong>Emergency dental care or trauma</strong></td><td>Accident details, timing, affected teeth, emergency treatment and TOB wording.</td><td>Accident-related dental coverage may follow a separate benefit route.</td></tr>
+          </table>
+          <div class="source-note">Official references: <a href="https://www.dha.gov.ae/en/circulars/details/CIR-2026-00000050" target="_blank">DHA Updated Dubai Dental Guidelines — Version 2</a> and the <a href="https://www.doh.gov.ae/-/media/0BE585B5E6814D81913697DD6E644C02.ashx" target="_blank">Abu Dhabi Health Insurance Law and Regulations</a>. For live coverage, check the member-specific TOB and internal SOP.</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # TAB 7: VACCINES
+    with t7:
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Vaccinations — Separate the Clinical Schedule from the Insurance Benefit</div>
+          <div class="info-box">
+            A vaccine can be clinically recommended under a public-health schedule while the payment route may be a public programme,
+            funded pathway or member-specific insurance benefit. Confirm both questions separately and follow your organisation's authorised internal SOP.
           </div>
           <table class="styled-table">
             <tr><th>Framework</th><th>Training Rule</th></tr>
-            <tr><td><strong>Dubai</strong></td><td>Use the current DHA immunisation guideline and the current Dubai Health Insurance Corporation framework. Confirm whether the requested vaccine is delivered through the public programme, a funded pathway, or an insurance benefit.</td></tr>
-            <tr><td><strong>Abu Dhabi</strong></td><td>Use current DOH / ADPHC circulars and the member-specific product. DOH Circular 77/2026 updated the childhood and school vaccination schedule and is effective from its date of issuance.</td></tr>
-            <tr><td><strong>Insurance adjudication</strong></td><td>Check the TOB for preventive care, vaccination, occupational-health, travel, school, age, network, and pre-authorisation wording. Do not infer coverage solely from the vaccine name.</td></tr>
-            <tr><td><strong>Catch-up or special-risk schedule</strong></td><td>Refer to the current official schedule and clinical guideline. High-risk, delayed, preterm, immunocompromised, travel, pregnancy, and adult schedules require the applicable official guidance.</td></tr>
+            <tr><td><strong>Dubai</strong></td><td>Use the current DHA immunisation guideline and confirm whether the dose is delivered through a public programme, a funded pathway or an insurance benefit.</td></tr>
+            <tr><td><strong>Abu Dhabi</strong></td><td>Use the latest DOH circulars and member-specific product. Confirm the current childhood, school-age, catch-up and special-risk schedule.</td></tr>
+            <tr><td><strong>Insurance review</strong></td><td>Check preventive-care, vaccination, occupational-health, travel, school, age, network and prior-authorisation wording. Do not infer coverage only from the vaccine name.</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Dubai / UAE NIP — Routine Childhood Schedule (DHA Guideline, effective 27 Jan 2026)</div>
+          <div class="card-title">Dubai Routine Childhood Schedule — Summary</div>
           <table class="styled-table">
-            <tr><th>Timing</th><th>Routine schedule summary</th></tr>
-            <tr><td><strong>Birth — within 24 hours</strong></td><td>BCG; Hepatitis B dose 1; long-acting RSV monoclonal antibody at birth only for newborns in the defined RSV-season pathway, unless the maternal-vaccination exception applies.</td></tr>
-            <tr><td><strong>2 months</strong></td><td>Hexavalent vaccine: DTaP, Hib, IPV dose 1, Hepatitis B dose 2; PCV dose 1; rotavirus dose 1.</td></tr>
-            <tr><td><strong>4 months</strong></td><td>Hexavalent vaccine: DTaP, Hib, IPV dose 2, Hepatitis B dose 3; PCV dose 2; rotavirus dose 2.</td></tr>
-            <tr><td><strong>6 months</strong></td><td>Pentavalent vaccine: DTP, Hib dose 3, Hepatitis B dose 4; OPV; seasonal influenza vaccine.</td></tr>
-            <tr><td><strong>12 months</strong></td><td>MMR dose 1; varicella dose 1; meningococcal ACWY conjugate vaccine.</td></tr>
-            <tr><td><strong>18 months</strong></td><td>Combined DTaP, Hib, IPV; OPV booster; PCV dose 3; MMR dose 2.</td></tr>
-            <tr><td><strong>5–6 years</strong></td><td>Combined DTaP, IPV; OPV booster; varicella dose 2.</td></tr>
+            <tr><th>Timing</th><th>Routine Schedule Summary</th></tr>
+            <tr><td><strong>Birth</strong></td><td>BCG and Hepatitis B; follow the live guideline for any applicable RSV-season newborn pathway.</td></tr>
+            <tr><td><strong>2 months</strong></td><td>Hexavalent vaccine, pneumococcal conjugate vaccine and rotavirus vaccine.</td></tr>
+            <tr><td><strong>4 months</strong></td><td>Hexavalent vaccine, pneumococcal conjugate vaccine and rotavirus vaccine.</td></tr>
+            <tr><td><strong>6 months</strong></td><td>Routine infant vaccine doses including polio; seasonal influenza guidance applies from the eligible age.</td></tr>
+            <tr><td><strong>12 months</strong></td><td>MMR, varicella and meningococcal ACWY according to the current schedule.</td></tr>
+            <tr><td><strong>18 months</strong></td><td>Booster doses according to the current schedule.</td></tr>
+            <tr><td><strong>5–6 years</strong></td><td>School-entry booster doses according to the current schedule.</td></tr>
           </table>
-          <div class="source-note">Use the live guideline for exceptions, minimum ages, minimum intervals, catch-up schedules, and special-risk pathways.</div>
+          <div class="source-note">Use the live DHA guideline for exact products, dose numbers, minimum ages, minimum intervals, catch-up schedules and special-risk pathways.</div>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Dubai — School-Age Routine Schedule Summary</div>
+          <div class="card-title">Abu Dhabi Childhood and School Schedule — Summary</div>
           <table class="styled-table">
-            <tr><th>Age / school stage</th><th>Routine schedule summary</th></tr>
-            <tr><td><strong>5–6 years</strong></td><td>OPV booster; varicella second dose; combined DTaP-IPV booster.</td></tr>
-            <tr><td><strong>10–11 years</strong></td><td>HPV first dose for girls and boys, with second dose after 6–12 months; meningococcal ACWY dose.</td></tr>
-            <tr><td><strong>15–18 years</strong></td><td>Tdap booster; meningococcal ACWY dose.</td></tr>
-            <tr><td><strong>From 6 months onward</strong></td><td>Seasonal influenza: one annual dose at the beginning of each influenza season, typically September–October. Children receiving influenza vaccine for the first time may require the schedule specified in the guideline.</td></tr>
+            <tr><th>Timing</th><th>Routine Schedule Summary</th></tr>
+            <tr><td><strong>Birth</strong></td><td>BCG and Hepatitis B; follow the current DOH circular for any applicable RSV newborn pathway.</td></tr>
+            <tr><td><strong>End of month 2</strong></td><td>Hexavalent vaccine, pneumococcal conjugate vaccine and rotavirus vaccine.</td></tr>
+            <tr><td><strong>End of month 4</strong></td><td>Hexavalent vaccine, pneumococcal conjugate vaccine and rotavirus vaccine.</td></tr>
+            <tr><td><strong>End of month 6</strong></td><td>Hexavalent vaccine and oral polio vaccine according to the current schedule.</td></tr>
+            <tr><td><strong>End of month 12</strong></td><td>MMR, varicella and meningococcal conjugate vaccine according to the current schedule.</td></tr>
+            <tr><td><strong>End of month 18</strong></td><td>Booster doses according to the current schedule.</td></tr>
+            <tr><td><strong>School programme</strong></td><td>Use the current DOH circular for Grade 1, Grade 5, Grade 8 and Grade 11 doses, including HPV and meningococcal updates.</td></tr>
           </table>
+          <div class="source-note">Use the latest DOH circular appendix for exact products, delayed schedules, catch-up pathways and high-risk children.</div>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="glass-card">
-          <div class="card-title">Abu Dhabi — Childhood and School Schedule (DOH Circular 77/2026)</div>
-          <table class="styled-table">
-            <tr><th>Timing</th><th>Routine schedule summary</th></tr>
-            <tr><td><strong>Birth</strong></td><td>BCG; Hepatitis B; RSV long-acting monoclonal antibodies for the defined newborn pathway.</td></tr>
-            <tr><td><strong>End of month 2</strong></td><td>Hexavalent vaccine: diphtheria, tetanus, acellular pertussis, Hib, Hepatitis B, IPV; PCV20; RV1.</td></tr>
-            <tr><td><strong>End of month 4</strong></td><td>Hexavalent vaccine; PCV20; RV1.</td></tr>
-            <tr><td><strong>End of month 6</strong></td><td>Hexavalent vaccine; bOPV.</td></tr>
-            <tr><td><strong>End of month 12</strong></td><td>MMR; varicella; MCV4 meningococcal ACYW135 conjugate vaccine.</td></tr>
-            <tr><td><strong>End of month 18</strong></td><td>DTaP-Hib-IPV; bOPV; MMR; PCV20.</td></tr>
-            <tr><td><strong>Grade 1</strong></td><td>DTaP-IPV; bOPV; varicella.</td></tr>
-            <tr><td><strong>Grade 5</strong></td><td>MCV4 meningococcal ACYW135 conjugate vaccine, starting from the 2026–2027 academic year.</td></tr>
-            <tr><td><strong>Grade 8</strong></td><td>HPV9 for females and males — two doses. The circular includes age-dependent HPV catch-up instructions.</td></tr>
-            <tr><td><strong>Grade 11</strong></td><td>Tdap; MCV4 meningococcal ACYW135 conjugate vaccine.</td></tr>
-          </table>
-          <div class="source-note">DOH Circular 77/2026 also updates pneumococcal products and catch-up rules. Use the circular appendix for delayed schedules, high-risk children, and product-specific details.</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="glass-card">
-          <div class="card-title">Vaccination Adjudication Checklist</div>
+          <div class="card-title">Vaccination Review Checklist</div>
           <table class="styled-table">
             <tr><th>Question</th><th>What to Check</th></tr>
-            <tr><td>Is this a routine public-health dose?</td><td>Use the current emirate schedule and confirm where the dose should be delivered.</td></tr>
-            <tr><td>Is the request an insurance claim?</td><td>Read the TOB for vaccination or preventive-care benefits, exclusions, funded pathways, age rules, network restrictions, and pre-authorisation requirements.</td></tr>
-            <tr><td>Is this a catch-up dose?</td><td>Use the current official catch-up schedule and minimum-interval guidance. Do not create a schedule manually.</td></tr>
-            <tr><td>Is this a special-risk case?</td><td>Check the applicable official guidance for preterm children, immunocompromised patients, RSV season, travel, occupational health, pregnancy, or adult vaccination.</td></tr>
-            <tr><td>Is the information current?</td><td>Check the latest DHA and DOH circulars before applying the training summary in practice.</td></tr>
+            <tr><td>Routine or catch-up?</td><td>Use the current official schedule and minimum-interval guidance. Do not create a catch-up schedule manually.</td></tr>
+            <tr><td>Public programme or insurance claim?</td><td>Confirm the delivery and payment route for the applicable emirate and member product.</td></tr>
+            <tr><td>Special-risk case?</td><td>Check the live guideline for preterm infants, immunocompromised patients, pregnancy, travel, occupational health and adult vaccination.</td></tr>
+            <tr><td>Documentation present?</td><td>Age, prior doses, date of previous dose, clinical risk factor where relevant, product and requested dose.</td></tr>
+            <tr><td>Information current?</td><td>Check the latest DHA and DOH circulars, member-specific TOB and authorised SOP before applying this summary to a live request.</td></tr>
           </table>
         </div>
         <div class="source-note">
-          Official references: <a href="https://dha.gov.ae/uploads/102024/Clinical%20Guideline%20for%20Best%20Practice%20in%20Immunization20241028945.pdf" target="_blank">DHA Clinical Guideline for Best Practice in Immunization — Issue 4, effective 27 Jan 2026</a> ·
-          <a href="https://www.doh.gov.ae/-/media/950546F00B64465CA91D7729996B3487.ashx" target="_blank">DOH Circular 77/2026 — Updates to the Immunization Program</a>
+          Official references: <a href="https://services.dha.gov.ae/sheryan/wps/portal/home/circular-details?circularRefNo=CIR-2026-00000027&fromHome=true&isPublicCircular=1" target="_blank">DHA Updated Clinical Guidelines for Best Practice in Immunization — Version 4</a> ·
+          <a href="https://www.doh.gov.ae/en/resources/Circulars" target="_blank">DOH Circulars</a>
         </div>
         """, unsafe_allow_html=True)
 
-    #  TAB 4: COMPLEX CASE REVIEW
-    with t4:
+    # TAB 8: COMPLEX REVIEW
+    with t8:
         st.markdown("""
-        <div class="glass-card"><div class="card-title">Complex-Case Review</div>
-        <p style="font-size:.87rem;color:#9aa3b8;line-height:1.7;">Some requests need a more detailed review because the clinical picture, policy wording or documentation is incomplete. The goal is a clear, reproducible decision trail.</p></div>
-        <div class="glass-card"><div class="card-title">When to Request a More Detailed Review</div>
-        <table class="styled-table"><tr><th>Scenario</th><th>Documentation Focus</th></tr>
-        <tr><td>Complex elective request</td><td>Clinical summary, diagnosis, service code, reports, treatment plan, alternative options, setting and TOB.</td></tr>
-        <tr><td>Possible pre-existing condition</td><td>Effective date, policy wording, declaration record where applicable, documented onset and treatment chronology.</td></tr>
-        <tr><td>Unclear medical necessity</td><td>Symptoms, duration, examination findings, red flags, prior management, relevant results and specialist rationale.</td></tr>
-        <tr><td>Potential coding or billing issue</td><td>Diagnosis, procedure code, units, dates, site, notes and applicable coding standard.</td></tr>
-        <tr><td>Possible FWA pattern</td><td>Claims pattern, peer comparison, reproducible sample, records reviewed and evidence-based finding.</td></tr></table></div>
-        <div class="glass-card"><div class="card-title">Decision-Trail Checklist</div>
-        <table class="styled-table"><tr><th>Field</th><th>What to Record</th></tr>
-        <tr><td>Request</td><td>Member identifier, provider, diagnosis, service, code, date and cost estimate.</td></tr>
-        <tr><td>Coverage context</td><td>Eligibility, network, TOB, limits, exclusions, waiting period and authorisation status.</td></tr>
-        <tr><td>Clinical evidence</td><td>Symptoms, duration, findings, results, prior management and treatment plan.</td></tr>
-        <tr><td>Outcome</td><td>Approval, targeted information request, benefit clarification or documented reason for decline.</td></tr>
-        <tr><td>Rationale</td><td>The evidence and policy wording that support the outcome.</td></tr></table>
-        <div class="info-box" style="margin-top:.8rem;"><strong>Learning objective:</strong> A second reviewer should be able to understand and reproduce the reasoning from the record.</div></div>
+        <div class="glass-card">
+          <div class="card-title">Complex-Case Review</div>
+          <p style="font-size:.87rem;color:#9aa3b8;line-height:1.75;">
+            Some requests need a deeper review because the clinical picture, requested setting, policy wording or documentation is incomplete.
+            The learning goal is a clear, reproducible decision trail — not a vague approval or denial.
+          </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Worked Review Examples</div>
+          <table class="styled-table">
+            <tr><th>Scenario</th><th>What to Review</th><th>Possible Outcome</th></tr>
+            <tr><td>Advanced imaging request with minimal notes</td><td>Clinical question, red flags, examination, prior reports and why the requested modality is appropriate.</td><td>Request targeted information rather than issuing a generic rejection.</td></tr>
+            <tr><td>Repeat procedure within a short interval</td><td>Previous date, previous result, interval change, new symptoms and reason for repeating the service.</td><td>Approve when the new rationale is documented; otherwise request clarification.</td></tr>
+            <tr><td>Elective inpatient request</td><td>Procedure, comorbidities, anaesthesia, expected length of stay and why OP or day-case care is not suitable.</td><td>Approve the supported setting or request a setting clarification.</td></tr>
+            <tr><td>Possible undeclared pre-existing condition</td><td>Policy effective date, declaration record where applicable, documented onset and treatment chronology.</td><td>Apply the member-specific policy wording and the authorised review SOP.</td></tr>
+            <tr><td>Potential billing issue</td><td>Diagnosis, procedure code, units, laterality, date, notes and coding standard.</td><td>Clarify the coding discrepancy and document the evidence.</td></tr>
+            <tr><td>Training example conflicts with live workflow</td><td>Official source, TOB, benefit configuration and authorised internal SOP.</td><td>Follow the current live rule. Record why the training example does not apply.</td></tr>
+          </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-card">
+          <div class="card-title">Decision-Trail Checklist</div>
+          <table class="styled-table">
+            <tr><th>Field</th><th>What to Record</th></tr>
+            <tr><td>Request</td><td>Member identifier, provider, diagnosis, service, code, date, units, site and estimated cost.</td></tr>
+            <tr><td>Coverage context</td><td>Eligibility, network, TOB, exclusions, limits, waiting period and authorisation status.</td></tr>
+            <tr><td>Clinical evidence</td><td>Symptoms, duration, findings, red flags, results, prior management and treatment plan.</td></tr>
+            <tr><td>Workflow check</td><td>Current official source, live TOB and your organisation's authorised internal SOP.</td></tr>
+            <tr><td>Outcome</td><td>Approval, targeted information request, benefit clarification, additional review or documented reason for decline.</td></tr>
+            <tr><td>Rationale</td><td>The evidence and policy wording that support the outcome.</td></tr>
+          </table>
+          <div class="info-box" style="margin-top:.8rem;"><strong>Learning objective:</strong> A second reviewer should be able to understand and reproduce the reasoning from the record.</div>
+        </div>
         """, unsafe_allow_html=True)
